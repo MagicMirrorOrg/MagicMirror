@@ -1,7 +1,15 @@
+import { spawn } from "node:child_process";
 import { mkdtempSync, mkdirSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("node:child_process", async (importOriginal) => {
+	const actual = await importOriginal();
+	return { ...actual, spawn: vi.fn(() => ({ unref: vi.fn() })) };
+});
+
+const spawnMock = vi.mocked(spawn);
 
 describe("UpdateHelper", () => {
 	const originalEnv = { ...process.env };
@@ -12,6 +20,7 @@ describe("UpdateHelper", () => {
 		process.env = { ...originalEnv };
 		global.version = "test";
 		global.root_path = process.cwd();
+		spawnMock.mockClear();
 	});
 
 	afterEach(() => {
@@ -43,7 +52,7 @@ describe("UpdateHelper", () => {
 	 * @returns {Promise<object>} Resolved UpdateHelper instance.
 	 */
 	const createUpdater = async (config = {}) => {
-		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper");
+		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper.mjs");
 		const UpdateHelper = updateHelperModule.default || updateHelperModule;
 		return new UpdateHelper({ updates: [], updateTimeout: 1000, updateAutorestart: false, ...config });
 	};
@@ -94,12 +103,11 @@ describe("UpdateHelper", () => {
 
 			const updater = await createUpdater();
 			const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-			const spawnSpy = vi.spyOn(updater, "_spawnDetachedSelf").mockImplementation(() => {});
 
 			updater.nodeRestart();
 
 			expect(exitSpy).toHaveBeenCalledWith(0);
-			expect(spawnSpy).not.toHaveBeenCalled();
+			expect(spawnMock).not.toHaveBeenCalled();
 		});
 
 		it("spawns a detached child process when not running under PM2", async () => {
@@ -107,11 +115,10 @@ describe("UpdateHelper", () => {
 
 			const updater = await createUpdater();
 			const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-			const spawnSpy = vi.spyOn(updater, "_spawnDetachedSelf").mockImplementation(() => {});
 
 			updater.nodeRestart();
 
-			expect(spawnSpy).toHaveBeenCalledOnce();
+			expect(spawnMock).toHaveBeenCalledOnce();
 			expect(exitSpy).toHaveBeenCalledOnce();
 			expect(exitSpy).not.toHaveBeenCalledWith(0);
 		});

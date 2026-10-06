@@ -4,7 +4,6 @@ const NodeHelper = require("node_helper");
 
 const defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 const GitHelper = require("./git_helper");
-const UpdateHelper = require("./update_helper");
 
 const ONE_MINUTE = 60 * 1000;
 
@@ -15,7 +14,7 @@ module.exports = NodeHelper.create({
 	updateProcessStarted: false,
 
 	gitHelper: new GitHelper(),
-	updateHelper: null,
+	updateHelperPromise: null,
 
 	getModules (modules) {
 		if (this.config.useModulesFromConfig) {
@@ -54,7 +53,8 @@ module.exports = NodeHelper.create({
 					// Never accept update commands from the client.
 					updates: serverConfig.updates ?? []
 				};
-				this.updateHelper = new UpdateHelper(this.config);
+				this.updateHelperPromise = this.loadUpdateHelper(this.config);
+				await this.updateHelperPromise;
 				break;
 			}
 			case "MODULES":
@@ -75,6 +75,11 @@ module.exports = NodeHelper.create({
 		}
 	},
 
+	async loadUpdateHelper (config) {
+		const { default: UpdateHelper } = await import("./update_helper.mjs");
+		return new UpdateHelper(config);
+	},
+
 	async performFetch () {
 		const repos = await this.gitHelper.getRepos();
 
@@ -88,8 +93,9 @@ module.exports = NodeHelper.create({
 			this.sendSocketNotification("UPDATES", updates);
 		}
 
-		if (updates.length) {
-			const updateResult = await this.updateHelper.parse(updates);
+		if (updates.length && this.updateHelperPromise) {
+			const updateHelper = await this.updateHelperPromise;
+			const updateResult = await updateHelper.parse(updates);
 			for (const update of updateResult) {
 				if (update.inProgress) {
 					this.sendSocketNotification("UPDATE_STATUS", update);

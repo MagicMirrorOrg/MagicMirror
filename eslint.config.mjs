@@ -72,7 +72,6 @@ export default defineConfig([
 			"dot-notation": "error",
 			eqeqeq: ["error", "always", {null: "ignore"}],
 			"func-style": ["error", "expression"],
-			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",
 			"import-x/order": "error",
 			"max-lines-per-function": ["warn", 400],
@@ -127,7 +126,7 @@ export default defineConfig([
 			},
 			sourceType: "module"
 		},
-		extends: [importX.recommended, js.configs.all, stylistic.configs.all],
+		extends: [importX.recommended, js.configs.all, jsdocConfigs["flat/recommended"], stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/function-call-argument-newline": ["error", "consistent"],
@@ -137,6 +136,7 @@ export default defineConfig([
 			"@stylistic/quote-props": ["error", "as-needed"],
 			"capitalized-comments": "off",
 			"no-magic-numbers": "off",
+			"one-var": "off",
 			"sort-keys": "off"
 		}
 	},
