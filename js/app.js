@@ -102,7 +102,7 @@ class App {
 	 * Loads a specific module.
 	 * @param {string} module The name of the module (including subpath).
 	 */
-	#loadModule (module) {
+	async #loadModule (module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = path.resolve(`${global.root_path}/${this.#env.modulesDir}`, module);
@@ -139,18 +139,18 @@ class App {
 
 		// if the helper was found
 		if (loadHelper) {
-			let Module;
+			const { loadNodeHelper } = await import("./module_helper_loader.mjs");
+			let helper;
 			try {
-				Module = require(helperPath);
+				helper = await loadNodeHelper(helperPath);
 			} catch (e) {
 				Log.error(`Error when loading ${moduleName}:`, e.message);
 				return;
 			}
-			const m = new Module();
 
-			if (m.requiresVersion) {
-				Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
-				if (this.#cmpVersions(global.version, m.requiresVersion) >= 0) {
+			if (helper.requiresVersion) {
+				Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${helper.requiresVersion} - Current version: ${global.version}`);
+				if (this.#cmpVersions(global.version, helper.requiresVersion) >= 0) {
 					Log.log("Version is ok!");
 				} else {
 					Log.warn(`Version is incorrect. Skip module: '${moduleName}'`);
@@ -158,11 +158,11 @@ class App {
 				}
 			}
 
-			m.setName(moduleName);
-			m.setPath(path.resolve(moduleFolder));
-			this.#nodeHelpers.push(m);
+			helper.setName(moduleName);
+			helper.setPath(path.resolve(moduleFolder));
+			this.#nodeHelpers.push(helper);
 
-			m.loaded();
+			helper.loaded();
 		}
 	}
 
