@@ -2,13 +2,16 @@ import Module from "node:module";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+const UpdateHelper = vi.hoisted(() => vi.fn());
+
+vi.mock("../../../../../defaultmodules/updatenotification/update_helper.mjs", () => ({ default: UpdateHelper }));
+
 const loadNodeHelper = async (config) => {
 	vi.resetModules();
 	global.config = config;
 	global.root_path = process.cwd();
 	global.defaultModulesDir = "defaultmodules";
 
-	const UpdateHelper = vi.fn();
 	const originalRequire = Module.prototype.require;
 
 	// Use the real base NodeHelper so getServerModuleConfig() is exercised as the
@@ -20,10 +23,6 @@ const loadNodeHelper = async (config) => {
 
 		if (id === "./git_helper") {
 			return vi.fn();
-		}
-
-		if (id === "./update_helper") {
-			return UpdateHelper;
 		}
 
 		return originalRequire.apply(this, arguments);
@@ -89,5 +88,32 @@ describe("updatenotification node helper", () => {
 		const [updateConfig] = UpdateHelper.mock.calls[0];
 		expect(updateConfig.updates).toEqual([]);
 		expect(updateConfig.updateInterval).toBe(1000);
+	});
+
+	it("waits for the update helper before processing updates", async () => {
+		const { helper } = await loadNodeHelper({
+			sendUpdatesNotifications: false,
+			updateInterval: 1000
+		});
+		const updates = [{ module: "MMM-Test" }];
+		const parse = vi.fn().mockResolvedValue([]);
+		let resolveUpdateHelper;
+
+		helper.config = { sendUpdatesNotifications: false, updateInterval: 1000 };
+		helper.gitHelper.getRepos = vi.fn().mockResolvedValue([]);
+		helper.gitHelper.checkUpdates = vi.fn().mockResolvedValue(updates);
+		helper.scheduleNextFetch = vi.fn();
+		helper.updateHelperPromise = new Promise((resolve) => {
+			resolveUpdateHelper = resolve;
+		});
+		const fetchPromise = helper.performFetch();
+
+		await vi.waitFor(() => expect(helper.gitHelper.checkUpdates).toHaveBeenCalled());
+		expect(parse).not.toHaveBeenCalled();
+
+		resolveUpdateHelper({ parse });
+		await fetchPromise;
+
+		expect(parse).toHaveBeenCalledWith(updates);
 	});
 });
