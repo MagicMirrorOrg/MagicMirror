@@ -1,0 +1,9 @@
+{
+	"apps": [
+		{
+			"name": "MagicMirror",
+			"script": "/home/silas/MagicMirror/installers/mm.sh",
+			"watch": ["/home/silas/MagicMirror/config/config.js"]
+		}
+	]
+}

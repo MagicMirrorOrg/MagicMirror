@@ -1,5 +1,6 @@
 /* MagicMirror²
  * Module: Compliments
+ *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
@@ -7,21 +8,22 @@ Module.register("compliments", {
 	// Module config defaults.
 	defaults: {
 		compliments: {
-			anytime: ["Make yourself proud"],
-			morning: ["Good morning!", "Enjoy your day!", "How was your sleep?"],
-			afternoon: ["Hey, how was your day?", "You look strong"],
-			evening: ["Go to bed early", "You look sleepy", "Good night"],
+			anytime: ["Just Do It!", "Make yourself proud", "God is watching you"],
+			morning: ["Good morning, handsome!", "Enjoy your day!", "How was your sleep?"],
+x			afternoon: ["Hey, how was your day?", "Go and make it done", "You look strong"],
+			evening: ["Go to sleep early", "You look sleepy", "Good Night"],
 			"....-01-01": ["Happy new year!"],
-			"....-08-13": ["Happy Birthday, Lea"],
-			"....-03-17": ["Happy Birthday to you"]
+			"....-12-31": ["Have a great end of the year."]
+			"....-08-13": ["Lea's Birthday", "Happy Birthday Lea"]
+			"....-03-17": ["Happy Birthday Silas"]
 		},
-		updateInterval: 20000,
+		updateInterval: 30000,
 		remoteFile: null,
-		fadeSpeed: 2000,
+		fadeSpeed: 4000,
 		morningStartTime: 3,
 		morningEndTime: 12,
 		afternoonStartTime: 12,
-		afternoonEndTime: 17,
+		afternoonEndTime: 18,
 		random: true
 	},
 	lastIndexUsed: -1,
@@ -47,7 +49,7 @@ Module.register("compliments", {
 
 		// Schedule update timer.
 		setInterval(() => {
-			this.updateDom(this.config.fadeSpeed);
+			this.updatDom(this.config.fadeSpeed);
 		}, this.config.updateInterval);
 	},
 

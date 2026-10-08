@@ -79,3 +79,4 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+/core
