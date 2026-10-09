@@ -1,20 +1,21 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const NodeHelper = require("node_helper");
-
-const defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
-const GitHelper = require("./git_helper");
+import fs from "node:fs";
+import path from "node:path";
+import NodeHelper from "node_helper";
+import defaultModules from "../defaultmodules.js";
+import GitHelper from "./git_helper.js";
 
 const ONE_MINUTE = 60 * 1000;
 
-module.exports = NodeHelper.create({
-	config: {},
+export default class extends NodeHelper {
+	config = {};
 
-	updateTimer: null,
-	updateProcessStarted: false,
+	updateTimer = null;
 
-	gitHelper: new GitHelper(),
-	updateHelperPromise: null,
+	updateProcessStarted = false;
+
+	gitHelper = new GitHelper();
+
+	updateHelperPromise = null;
 
 	getModules (modules) {
 		if (this.config.useModulesFromConfig) {
@@ -29,7 +30,7 @@ module.exports = NodeHelper.create({
 			};
 			return getDirectories(moduleDir);
 		}
-	},
+	}
 
 	async configureModules (modules) {
 		for (const moduleName of this.getModules(modules)) {
@@ -41,7 +42,7 @@ module.exports = NodeHelper.create({
 		if (!this.ignoreUpdateChecking("MagicMirror")) {
 			await this.gitHelper.add("MagicMirror");
 		}
-	},
+	}
 
 	async socketNotificationReceived (notification, payload) {
 		switch (notification) {
@@ -73,12 +74,12 @@ module.exports = NodeHelper.create({
 				}
 				break;
 		}
-	},
+	}
 
 	async loadUpdateHelper (config) {
-		const { default: UpdateHelper } = await import("./update_helper.mjs");
+		const { default: UpdateHelper } = await import("./update_helper.js");
 		return new UpdateHelper(config);
-	},
+	}
 
 	async performFetch () {
 		const repos = await this.gitHelper.getRepos();
@@ -104,7 +105,7 @@ module.exports = NodeHelper.create({
 		}
 
 		this.scheduleNextFetch(this.config.updateInterval);
-	},
+	}
 
 	scheduleNextFetch (delay) {
 		clearTimeout(this.updateTimer);
@@ -115,7 +116,7 @@ module.exports = NodeHelper.create({
 			},
 			Math.max(delay, ONE_MINUTE)
 		);
-	},
+	}
 
 	ignoreUpdateChecking (moduleName) {
 		// Should not check for updates for default modules
@@ -131,4 +132,4 @@ module.exports = NodeHelper.create({
 		// The rest of the modules that passes should check for updates
 		return false;
 	}
-});
+}

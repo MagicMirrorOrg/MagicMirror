@@ -1,4 +1,17 @@
 import {defineConfig} from "vitest/config";
+import {fileURLToPath} from "node:url";
+
+// MagicMirror aliases that js/alias-resolver.js provides at runtime.
+const alias = [
+	{
+		find: "logger",
+		replacement: fileURLToPath(new URL("./js/logger.js", import.meta.url))
+	},
+	{
+		find: "node_helper",
+		replacement: fileURLToPath(new URL("./js/node_helper.js", import.meta.url))
+	}
+];
 
 /*
  * Sequential execution keeps our shared test server stable:
@@ -40,6 +53,7 @@ export default defineConfig({
 		// Projects with specific configurations per test type
 		projects: [
 			{
+				resolve: {alias},
 				test: {
 					name: "unit",
 					globals: true,

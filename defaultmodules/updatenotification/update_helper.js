@@ -1,4 +1,4 @@
-import {exec, spawn} from "node:child_process";
+import { exec, spawn } from "node:child_process";
 import Log from "../../js/logger.js";
 
 /**
@@ -98,8 +98,8 @@ class Updater {
 		Log.info(`Updating ${module.name}...`);
 
 		return new Promise((resolve) => {
-			exec(Command, {cwd: modulePath,
-				timeout: this.timeout}, (error, stdout) => {
+			exec(Command, { cwd: modulePath,
+				timeout: this.timeout }, (error, stdout) => {
 				if (error) {
 					Log.error(`exec error: ${error}`);
 					Result.error = true;

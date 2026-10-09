@@ -52,7 +52,7 @@ describe("UpdateHelper", () => {
 	 * @returns {Promise<object>} Resolved UpdateHelper instance.
 	 */
 	const createUpdater = async (config = {}) => {
-		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper.mjs");
+		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper.js");
 		const UpdateHelper = updateHelperModule.default || updateHelperModule;
 		return new UpdateHelper({ updates: [], updateTimeout: 1000, updateAutorestart: false, ...config });
 	};

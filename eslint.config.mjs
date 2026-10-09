@@ -11,7 +11,7 @@ import stylistic from "@stylistic/eslint-plugin";
 import vitest from "@vitest/eslint-plugin";
 
 export default defineConfig([
-	globalIgnores(["config/**", "modules/**/*", "js/positions.js", "tests/configs/config_variables.js", "tests/mocks/**/package.json"]),
+	globalIgnores(["config/**", "modules/**/*", "js/positions.js", "tests/configs/config_variables.js", "tests/mocks/**/package.json", "defaultmodules/*/package.json"]),
 	{
 		files: ["**/*.css"],
 		language: "css/css",
@@ -179,7 +179,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["tests/mocks/**/node_helper.js"],
+		files: ["tests/mocks/**/node_helper.js", "defaultmodules/*/node_helper.js", "defaultmodules/*/git_helper.js"],
 		rules: {
 			// MagicMirror aliases are resolved at runtime by js/alias-resolver.js.
 			"import-x/no-unresolved": ["error", {ignore: ["^node_helper$", "^logger$"]}]

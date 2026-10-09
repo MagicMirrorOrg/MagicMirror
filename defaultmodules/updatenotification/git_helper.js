@@ -1,8 +1,10 @@
-const util = require("node:util");
-const execFile = util.promisify(require("node:child_process").execFile);
-const fs = require("node:fs");
-const path = require("node:path");
-const Log = require("logger");
+import { execFile as execFileCallback } from "node:child_process";
+import { statSync } from "node:fs";
+import path from "node:path";
+import { promisify } from "node:util";
+import Log from "logger";
+
+const execFile = promisify(execFileCallback);
 
 class GitHelper {
 	constructor () {
@@ -60,7 +62,7 @@ class GitHelper {
 		try {
 			Log.info(`Checking git for module: ${moduleName}`);
 			// Throws error if file doesn't exist
-			fs.statSync(path.join(moduleFolder, ".git"));
+			statSync(path.join(moduleFolder, ".git"));
 
 			// Fetch the git or throw error if no remotes
 			const isGitRepo = await this.isGitRepo(moduleFolder);
@@ -215,4 +217,4 @@ class GitHelper {
 	}
 }
 
-module.exports = GitHelper;
+export default GitHelper;
