@@ -73,6 +73,20 @@ describe("UpdateHelper", () => {
 		expect(result.needRestart).toBe(true);
 	});
 
+	it("reports update command failures", async () => {
+		const moduleName = "MMM-Test";
+		const { root } = createTempModuleRoot(moduleName);
+		global.root_path = root;
+
+		const updater = await createUpdater();
+		const result = await updater.updateProcess({
+			name: moduleName,
+			updateCommand: `"${process.execPath}" -e "process.exit(1)"`
+		});
+
+		expect(result).toEqual({ error: true, updated: false, needRestart: false });
+	});
+
 	it("schedules node restart when autoRestart is enabled", async () => {
 		vi.useFakeTimers();
 
