@@ -68,29 +68,21 @@ describe("updatenotification node helper", () => {
 		expect(updateConfig.updateInterval).toBe(1000);
 	});
 
-	it("waits for the update helper before processing updates", async () => {
-		const { helper } = await loadNodeHelper({
-			sendUpdatesNotifications: false,
-			updateInterval: 1000
-		});
+	it("processes updates with the update helper", async () => {
 		const updates = [{ module: "MMM-Test" }];
 		const parse = vi.fn().mockResolvedValue([]);
-		let resolveUpdateHelper;
+		UpdateHelper.mockImplementation(function () {
+			this.parse = parse;
+		});
+		const { helper } = await loadNodeHelper({
+			modules: [{ module: "updatenotification", config: { sendUpdatesNotifications: false } }]
+		});
 
-		helper.config = { sendUpdatesNotifications: false, updateInterval: 1000 };
+		await helper.socketNotificationReceived("CONFIG", { updateInterval: 1000 });
 		helper.gitHelper.getRepos = vi.fn().mockResolvedValue([]);
 		helper.gitHelper.checkUpdates = vi.fn().mockResolvedValue(updates);
 		helper.scheduleNextFetch = vi.fn();
-		helper.updateHelperPromise = new Promise((resolve) => {
-			resolveUpdateHelper = resolve;
-		});
-		const fetchPromise = helper.performFetch();
-
-		await vi.waitFor(() => expect(helper.gitHelper.checkUpdates).toHaveBeenCalled());
-		expect(parse).not.toHaveBeenCalled();
-
-		resolveUpdateHelper({ parse });
-		await fetchPromise;
+		await helper.performFetch();
 
 		expect(parse).toHaveBeenCalledWith(updates);
 	});

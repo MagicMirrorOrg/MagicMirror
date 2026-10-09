@@ -3,6 +3,7 @@ import path from "node:path";
 import NodeHelper from "node_helper";
 import defaultModules from "../defaultmodules.js";
 import GitHelper from "./git_helper.js";
+import UpdateHelper from "./update_helper.js";
 
 const ONE_MINUTE = 60 * 1000;
 
@@ -15,7 +16,7 @@ export default class extends NodeHelper {
 
 	gitHelper = new GitHelper();
 
-	updateHelperPromise = null;
+	updateHelper = null;
 
 	getModules (modules) {
 		if (this.config.useModulesFromConfig) {
@@ -54,8 +55,7 @@ export default class extends NodeHelper {
 					// Never accept update commands from the client.
 					updates: serverConfig.updates ?? []
 				};
-				this.updateHelperPromise = this.loadUpdateHelper(this.config);
-				await this.updateHelperPromise;
+				this.updateHelper = new UpdateHelper(this.config);
 				break;
 			}
 			case "MODULES":
@@ -76,11 +76,6 @@ export default class extends NodeHelper {
 		}
 	}
 
-	async loadUpdateHelper (config) {
-		const { default: UpdateHelper } = await import("./update_helper.js");
-		return new UpdateHelper(config);
-	}
-
 	async performFetch () {
 		const repos = await this.gitHelper.getRepos();
 
@@ -94,9 +89,8 @@ export default class extends NodeHelper {
 			this.sendSocketNotification("UPDATES", updates);
 		}
 
-		if (updates.length && this.updateHelperPromise) {
-			const updateHelper = await this.updateHelperPromise;
-			const updateResult = await updateHelper.parse(updates);
+		if (updates.length && this.updateHelper) {
+			const updateResult = await this.updateHelper.parse(updates);
 			for (const update of updateResult) {
 				if (update.inProgress) {
 					this.sendSocketNotification("UPDATE_STATUS", update);
