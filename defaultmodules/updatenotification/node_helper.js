@@ -1,20 +1,22 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const NodeHelper = require("node_helper");
-
-const defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
-const GitHelper = require("./git_helper");
+import fs from "node:fs";
+import path from "node:path";
+import NodeHelper from "node_helper";
+import defaultModules from "../defaultmodules.js";
+import GitHelper from "./git_helper.js";
+import UpdateHelper from "./update_helper.js";
 
 const ONE_MINUTE = 60 * 1000;
 
-module.exports = NodeHelper.create({
-	config: {},
+export default class extends NodeHelper {
+	config = {};
 
-	updateTimer: null,
-	updateProcessStarted: false,
+	updateTimer = null;
 
-	gitHelper: new GitHelper(),
-	updateHelperPromise: null,
+	updateProcessStarted = false;
+
+	gitHelper = new GitHelper();
+
+	updateHelper = null;
 
 	getModules (modules) {
 		if (this.config.useModulesFromConfig) {
@@ -29,7 +31,7 @@ module.exports = NodeHelper.create({
 			};
 			return getDirectories(moduleDir);
 		}
-	},
+	}
 
 	async configureModules (modules) {
 		for (const moduleName of this.getModules(modules)) {
@@ -41,7 +43,7 @@ module.exports = NodeHelper.create({
 		if (!this.ignoreUpdateChecking("MagicMirror")) {
 			await this.gitHelper.add("MagicMirror");
 		}
-	},
+	}
 
 	async socketNotificationReceived (notification, payload) {
 		switch (notification) {
@@ -53,8 +55,7 @@ module.exports = NodeHelper.create({
 					// Never accept update commands from the client.
 					updates: serverConfig.updates ?? []
 				};
-				this.updateHelperPromise = this.loadUpdateHelper(this.config);
-				await this.updateHelperPromise;
+				this.updateHelper = new UpdateHelper(this.config);
 				break;
 			}
 			case "MODULES":
@@ -73,12 +74,7 @@ module.exports = NodeHelper.create({
 				}
 				break;
 		}
-	},
-
-	async loadUpdateHelper (config) {
-		const { default: UpdateHelper } = await import("./update_helper.mjs");
-		return new UpdateHelper(config);
-	},
+	}
 
 	async performFetch () {
 		const repos = await this.gitHelper.getRepos();
@@ -93,9 +89,8 @@ module.exports = NodeHelper.create({
 			this.sendSocketNotification("UPDATES", updates);
 		}
 
-		if (updates.length && this.updateHelperPromise) {
-			const updateHelper = await this.updateHelperPromise;
-			const updateResult = await updateHelper.parse(updates);
+		if (updates.length && this.updateHelper) {
+			const updateResult = await this.updateHelper.parse(updates);
 			for (const update of updateResult) {
 				if (update.inProgress) {
 					this.sendSocketNotification("UPDATE_STATUS", update);
@@ -104,7 +99,7 @@ module.exports = NodeHelper.create({
 		}
 
 		this.scheduleNextFetch(this.config.updateInterval);
-	},
+	}
 
 	scheduleNextFetch (delay) {
 		clearTimeout(this.updateTimer);
@@ -115,7 +110,7 @@ module.exports = NodeHelper.create({
 			},
 			Math.max(delay, ONE_MINUTE)
 		);
-	},
+	}
 
 	ignoreUpdateChecking (moduleName) {
 		// Should not check for updates for default modules
@@ -131,4 +126,4 @@ module.exports = NodeHelper.create({
 		// The rest of the modules that passes should check for updates
 		return false;
 	}
-});
+}

@@ -52,7 +52,7 @@ describe("UpdateHelper", () => {
 	 * @returns {Promise<object>} Resolved UpdateHelper instance.
 	 */
 	const createUpdater = async (config = {}) => {
-		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper.mjs");
+		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper.js");
 		const UpdateHelper = updateHelperModule.default || updateHelperModule;
 		return new UpdateHelper({ updates: [], updateTimeout: 1000, updateAutorestart: false, ...config });
 	};
@@ -71,6 +71,20 @@ describe("UpdateHelper", () => {
 		expect(result.error).toBe(false);
 		expect(result.updated).toBe(true);
 		expect(result.needRestart).toBe(true);
+	});
+
+	it("reports update command failures", async () => {
+		const moduleName = "MMM-Test";
+		const { root } = createTempModuleRoot(moduleName);
+		global.root_path = root;
+
+		const updater = await createUpdater();
+		const result = await updater.updateProcess({
+			name: moduleName,
+			updateCommand: `"${process.execPath}" -e "process.exit(1)"`
+		});
+
+		expect(result).toEqual({ error: true, updated: false, needRestart: false });
 	});
 
 	it("schedules node restart when autoRestart is enabled", async () => {

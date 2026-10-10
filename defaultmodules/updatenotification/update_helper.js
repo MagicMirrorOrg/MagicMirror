@@ -1,5 +1,8 @@
-import {exec, spawn} from "node:child_process";
+import { exec, spawn } from "node:child_process";
+import { promisify } from "node:util";
 import Log from "../../js/logger.js";
+
+const execAsync = promisify(exec);
 
 /**
  * Updates third-party modules from commands defined in the configuration.
@@ -77,38 +80,35 @@ class Updater {
 	/**
 	 * Run the update command for a module and return its update state.
 	 * @param {{name: string, updateCommand: string|null}} module Module to update.
-	 * @returns {object|Promise<object>} The update result, or a promise for it.
+	 * @returns {Promise<object>} The update result.
 	 */
-	updateProcess (module) {
+	async updateProcess (module) {
 		const Result = {
 			error: false,
 			updated: false,
 			needRestart: false
 		};
-		let Command = null;
+		const Command = module.updateCommand;
 		const Path = `${this.rootPath}/modules/`,
 			modulePath = Path + module.name;
 
-		if (module.updateCommand) {
-			Command = module.updateCommand;
-		} else {
+		if (!Command) {
 			Log.warn(`Update of ${module.name} is not supported.`);
 			return Result;
 		}
 		Log.info(`Updating ${module.name}...`);
 
-		return new Promise((resolve) => {
-			exec(Command, {cwd: modulePath,
-				timeout: this.timeout}, (error, stdout) => {
-				if (error) {
-					Log.error(`exec error: ${error}`);
-					Result.error = true;
-				} else {
-					this.handleUpdateSuccess(module, Result, stdout);
-				}
-				resolve(Result);
-			});
-		});
+		let stdout;
+		try {
+			({ stdout } = await execAsync(Command, { cwd: modulePath, timeout: this.timeout }));
+		} catch (error) {
+			Log.error(`exec error: ${error}`);
+			Result.error = true;
+			return Result;
+		}
+
+		this.handleUpdateSuccess(module, Result, stdout);
+		return Result;
 	}
 
 	/**

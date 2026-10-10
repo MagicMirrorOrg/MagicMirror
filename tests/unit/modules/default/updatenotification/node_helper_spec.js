@@ -1,40 +1,19 @@
-import Module from "node:module";
-import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const UpdateHelper = vi.hoisted(() => vi.fn());
 
-vi.mock("../../../../../defaultmodules/updatenotification/update_helper.mjs", () => ({ default: UpdateHelper }));
+vi.mock("../../../../../defaultmodules/updatenotification/update_helper.js", () => ({ default: UpdateHelper }));
+vi.mock("../../../../../defaultmodules/updatenotification/git_helper.js", () => ({ default: vi.fn() }));
 
 const loadNodeHelper = async (config) => {
 	vi.resetModules();
 	global.config = config;
 	global.root_path = process.cwd();
-	global.defaultModulesDir = "defaultmodules";
-
-	const originalRequire = Module.prototype.require;
 
 	// Use the real base NodeHelper so getServerModuleConfig() is exercised as the
-	// actual inherited method, but stub the git/update helpers to avoid I/O.
-	Module.prototype.require = function (id) {
-		if (id === "node_helper") {
-			return originalRequire.call(this, path.resolve(process.cwd(), "js/node_helper.js"));
-		}
-
-		if (id === "./git_helper") {
-			return vi.fn();
-		}
-
-		return originalRequire.apply(this, arguments);
-	};
-
-	let HelperClass;
-	try {
-		const helperModule = await import("../../../../../defaultmodules/updatenotification/node_helper");
-		HelperClass = helperModule.default || helperModule;
-	} finally {
-		Module.prototype.require = originalRequire;
-	}
+	// actual inherited method; the git and update helpers are mocked to avoid I/O.
+	const helperModule = await import("../../../../../defaultmodules/updatenotification/node_helper.js");
+	const HelperClass = helperModule.default;
 
 	const helper = new HelperClass();
 	helper.name = "updatenotification";
@@ -45,7 +24,6 @@ const loadNodeHelper = async (config) => {
 afterEach(() => {
 	delete global.config;
 	delete global.root_path;
-	delete global.defaultModulesDir;
 	vi.resetAllMocks();
 	vi.resetModules();
 });
@@ -90,29 +68,21 @@ describe("updatenotification node helper", () => {
 		expect(updateConfig.updateInterval).toBe(1000);
 	});
 
-	it("waits for the update helper before processing updates", async () => {
-		const { helper } = await loadNodeHelper({
-			sendUpdatesNotifications: false,
-			updateInterval: 1000
-		});
+	it("processes updates with the update helper", async () => {
 		const updates = [{ module: "MMM-Test" }];
 		const parse = vi.fn().mockResolvedValue([]);
-		let resolveUpdateHelper;
+		UpdateHelper.mockImplementation(function () {
+			this.parse = parse;
+		});
+		const { helper } = await loadNodeHelper({
+			modules: [{ module: "updatenotification", config: { sendUpdatesNotifications: false } }]
+		});
 
-		helper.config = { sendUpdatesNotifications: false, updateInterval: 1000 };
+		await helper.socketNotificationReceived("CONFIG", { updateInterval: 1000 });
 		helper.gitHelper.getRepos = vi.fn().mockResolvedValue([]);
 		helper.gitHelper.checkUpdates = vi.fn().mockResolvedValue(updates);
 		helper.scheduleNextFetch = vi.fn();
-		helper.updateHelperPromise = new Promise((resolve) => {
-			resolveUpdateHelper = resolve;
-		});
-		const fetchPromise = helper.performFetch();
-
-		await vi.waitFor(() => expect(helper.gitHelper.checkUpdates).toHaveBeenCalled());
-		expect(parse).not.toHaveBeenCalled();
-
-		resolveUpdateHelper({ parse });
-		await fetchPromise;
+		await helper.performFetch();
 
 		expect(parse).toHaveBeenCalledWith(updates);
 	});
