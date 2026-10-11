@@ -48,7 +48,7 @@
 	],
 	"sideEffects": true,
 	"scripts": {
-		"config:check": "node js/check_config.js",
+		"config:check": "node js/check_config.mjs",
 		"install-mm": "npm install --no-audit --no-fund --no-update-notifier --only=prod --omit=dev",
 		"install-mm:dev": "npm install --no-audit --no-fund --no-update-notifier && npx playwright install chromium",
 		"lint:fix": "eslint --fix && prettier . --write",
