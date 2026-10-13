@@ -1,0 +1,64 @@
+{
+	"weather": [
+		{
+			"timestamp": "2026-10-12T08:00:00+02:00",
+			"precipitation": 0.0,
+			"temperature": 7.2,
+			"wind_direction": 280,
+			"wind_speed": 14.8,
+			"relative_humidity": null,
+			"precipitation_probability": 1,
+			"icon": "partly-cloudy-day"
+		},
+		{
+			"timestamp": "2026-10-12T09:00:00+02:00",
+			"precipitation": 0.0,
+			"temperature": 7.8,
+			"wind_direction": 278,
+			"wind_speed": 14.8,
+			"relative_humidity": null,
+			"precipitation_probability": 2,
+			"icon": "partly-cloudy-day"
+		},
+		{
+			"timestamp": "2026-10-12T12:00:00+02:00",
+			"precipitation": 0.0,
+			"temperature": 11.2,
+			"wind_direction": 285,
+			"wind_speed": 14.8,
+			"relative_humidity": null,
+			"precipitation_probability": 1,
+			"icon": "partly-cloudy-day"
+		},
+		{
+			"timestamp": "2026-10-13T00:00:00+02:00",
+			"precipitation": 0.0,
+			"temperature": 5.1,
+			"wind_direction": 284,
+			"wind_speed": 9.3,
+			"relative_humidity": null,
+			"precipitation_probability": 1,
+			"icon": "clear-night"
+		},
+		{
+			"timestamp": "2026-10-13T01:00:00+02:00",
+			"precipitation": 0.0,
+			"temperature": 4.5,
+			"wind_direction": 274,
+			"wind_speed": 7.4,
+			"relative_humidity": null,
+			"precipitation_probability": 1,
+			"icon": "clear-night"
+		},
+		{
+			"timestamp": "2026-10-13T09:00:00+02:00",
+			"precipitation": 0.0,
+			"temperature": 4.6,
+			"wind_direction": 159,
+			"wind_speed": 7.4,
+			"relative_humidity": null,
+			"precipitation_probability": 2,
+			"icon": "partly-cloudy-day"
+		}
+	]
+}

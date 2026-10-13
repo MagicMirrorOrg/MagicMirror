@@ -7,6 +7,8 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from "vitest";
+import currentFixture from "../../../../../mocks/weather_brightsky_current.json" with { type: "json" };
+import weatherFixture from "../../../../../mocks/weather_brightsky_weather.json" with { type: "json" };
 
 const BRIGHTSKY_CURRENT_URL = "https://api.brightsky.dev/current_weather";
 const BRIGHTSKY_WEATHER_URL = "https://api.brightsky.dev/weather";
@@ -184,6 +186,17 @@ describe("BrightSkyProvider", () => {
 			expect(new Date(requestedUrls[0].searchParams.get("date")).getTime()).toBe(midnight.getTime());
 			expect(new Date(requestedUrls[0].searchParams.get("last_date")).getTime()).toBeGreaterThan(Date.now() + 23 * 60 * 60 * 1000);
 		});
+
+		it("should request enough days for maxEntries beyond 48", async () => {
+			vi.useFakeTimers({ toFake: ["Date"] });
+			vi.setSystemTime(new Date(2026, 9, 3, 8));
+			mockApi({ weather: [] });
+
+			const provider = new BrightSkyProvider({ lat: 48.83, lon: 9.07, type: "hourly", maxEntries: 72 });
+			await fetchOnce(provider);
+
+			expect(new Date(requestedUrls[0].searchParams.get("last_date")).getTime()).toBe(new Date(2026, 9, 7).getTime());
+		});
 	});
 
 	describe("Daily Forecast Parsing", () => {
@@ -228,6 +241,103 @@ describe("BrightSkyProvider", () => {
 			const result = await fetchOnce(provider);
 
 			expect(result.map((day) => day.precipitationAmount)).toEqual([3, 4]);
+		});
+
+		it("should request exactly maxNumberOfDays days from local midnight", async () => {
+			vi.useFakeTimers({ toFake: ["Date"] });
+			vi.setSystemTime(new Date(2026, 9, 3, 8));
+			mockApi({ weather: [] });
+
+			const provider = new BrightSkyProvider({ lat: 48.83, lon: 9.07, type: "forecast", maxNumberOfDays: 3 });
+			await fetchOnce(provider);
+
+			expect(new Date(requestedUrls[0].searchParams.get("date")).getTime()).toBe(new Date(2026, 9, 3).getTime());
+			expect(new Date(requestedUrls[0].searchParams.get("last_date")).getTime()).toBe(new Date(2026, 9, 6).getTime());
+		});
+
+		it("should pick the most severe icon when daytime icons are tied", async () => {
+			vi.useFakeTimers({ toFake: ["Date"] });
+			vi.setSystemTime(new Date(2026, 9, 3, 8));
+			mockApi({
+				weather: buildRecords(new Date(2026, 9, 3, 11), 4, (index) => ({ icon: index < 2 ? "cloudy" : "rain" }))
+			});
+
+			const provider = new BrightSkyProvider({ lat: 48.83, lon: 9.07, type: "forecast", maxNumberOfDays: 1 });
+			const result = await fetchOnce(provider);
+
+			expect(result[0].weatherType).toBe("day-rain");
+		});
+	});
+
+	describe("Real API responses", () => {
+		// Fixtures use selected real Bright Sky records for Berlin (2026-10-12, UTC+2)
+		const originalTz = process.env.TZ;
+		const berlin = { lat: 52.52, lon: 13.41 };
+
+		beforeAll(() => {
+			process.env.TZ = "Europe/Berlin";
+		});
+
+		afterAll(() => {
+			if (originalTz === undefined) {
+				delete process.env.TZ;
+			} else {
+				process.env.TZ = originalTz;
+			}
+		});
+
+		it("should parse a current_weather response", async () => {
+			mockApi({}, currentFixture);
+			const result = await fetchOnce(new BrightSkyProvider({ ...berlin, type: "current" }));
+
+			expect(result.date.toISOString()).toBe("2026-10-11T22:30:00.000Z");
+			expect(result.temperature).toBe(9.7);
+			expect(result.humidity).toBe(91);
+			expect(result.windSpeed).toBeCloseTo(15.1 / 3.6, 5);
+			expect(result.windFromDirection).toBe(263);
+			expect(result.precipitationAmount).toBe(0);
+			expect(result.precipitationUnits).toBe("mm");
+			expect(result.weatherType).toBe("cloudy");
+		});
+
+		it("should parse an hourly weather response", async () => {
+			vi.useFakeTimers({ toFake: ["Date"] });
+			vi.setSystemTime(new Date("2026-10-12T08:30:00+02:00"));
+			mockApi(weatherFixture);
+			const result = await fetchOnce(new BrightSkyProvider({ ...berlin, type: "hourly" }));
+
+			expect(result).toHaveLength(5);
+			expect(result[0].date.toISOString()).toBe("2026-10-12T07:00:00.000Z");
+			expect(result[0].temperature).toBe(7.8);
+			expect(result[0].humidity).toBeNull();
+			expect(result[0].windSpeed).toBeCloseTo(14.8 / 3.6, 5);
+			expect(result[0].precipitationProbability).toBe(2);
+			expect(result[0].weatherType).toBe("day-cloudy");
+		});
+
+		it("should aggregate a weather response into two days", async () => {
+			vi.useFakeTimers({ toFake: ["Date"] });
+			vi.setSystemTime(new Date("2026-10-12T08:30:00+02:00"));
+			mockApi(weatherFixture);
+			const result = await fetchOnce(new BrightSkyProvider({ ...berlin, type: "forecast", maxNumberOfDays: 5 }));
+
+			expect(result).toHaveLength(2);
+
+			expect(result[0].date.getDate()).toBe(12);
+			expect(result[0].minTemperature).toBe(5.1);
+			expect(result[0].maxTemperature).toBe(11.2);
+			expect(result[0].precipitationAmount).toBe(0);
+			expect(result[0].precipitationProbability).toBe(2);
+			expect(result[0].windSpeed).toBeCloseTo(14.8 / 3.6, 5);
+			expect(result[0].weatherType).toBe("day-cloudy");
+
+			expect(result[1].date.getDate()).toBe(13);
+			expect(result[1].minTemperature).toBe(4.5);
+			expect(result[1].maxTemperature).toBe(4.6);
+			expect(result[1].precipitationAmount).toBe(0);
+			expect(result[1].precipitationProbability).toBe(2);
+			expect(result[1].windSpeed).toBeCloseTo(7.4 / 3.6, 5);
+			expect(result[1].weatherType).toBe("day-cloudy");
 		});
 	});
 

@@ -1,5 +1,5 @@
 const Log = require("logger");
-const { convertKmhToMs, getDateString, getSunTimes, isDayTime } = require("../provider-utils");
+const { convertKmhToMs, getDateString, getSunTimes, isDayTime, validateCoordinates } = require("../provider-utils");
 const WeatherProvider = require("../weatherprovider");
 
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
@@ -23,6 +23,9 @@ const ICON_MAP = {
 	thunderstorm: ["day-thunderstorm", "night-alt-thunderstorm"]
 };
 
+// Tie-break for the daily icon, most severe first
+const ICON_SEVERITY = ["thunderstorm", "hail", "snow", "sleet", "rain", "fog", "wind", "cloudy", "partly-cloudy-day", "partly-cloudy-night", "clear-day", "clear-night"];
+
 /**
  * Server-side weather provider for Bright Sky, a free JSON API for the open
  * data of the German Meteorological Service (DWD): station observations and
@@ -45,9 +48,11 @@ class BrightSkyProvider extends WeatherProvider {
 	}
 
 	async initialize () {
-		if (!Number.isFinite(this.config.lat) || !Number.isFinite(this.config.lon)) {
-			Log.error("[brightsky] Latitude and longitude are required");
-			this.#sendError("Latitude and longitude are required");
+		try {
+			validateCoordinates(this.config);
+		} catch (error) {
+			Log.error("[brightsky]", error.message);
+			this.#sendError(error.message);
 			return;
 		}
 
@@ -92,10 +97,11 @@ class BrightSkyProvider extends WeatherProvider {
 			return `${this.config.apiBase}/current_weather?${params}`;
 		}
 
-		// "current" also needs the hourly records of today to sum up the sunshine
+		// The 00:00 record closes the previous day, so N days need N * 24 + 1 records from midnight.
+		// Hourly also needs the already elapsed hours of today.
 		const days = this.config.type === "hourly"
-			? Math.ceil(Math.min(this.config.maxEntries, 48) / 24) + 1
-			: this.config.maxNumberOfDays + 1;
+			? Math.ceil(this.config.maxEntries / 24) + 1
+			: this.config.maxNumberOfDays;
 		const start = new Date();
 		start.setHours(0, 0, 0, 0);
 		const end = new Date(start);
@@ -244,7 +250,8 @@ class BrightSkyProvider extends WeatherProvider {
 		for (const { icon } of records) {
 			if (icon) counts.set(icon, (counts.get(icon) ?? 0) + 1);
 		}
-		return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+		const rank = (icon) => ICON_SEVERITY.indexOf(icon);
+		return [...counts.entries()].sort((a, b) => b[1] - a[1] || rank(a[0]) - rank(b[0]))[0]?.[0];
 	}
 
 	#toMs (kmh) {
