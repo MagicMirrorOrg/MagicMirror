@@ -62,9 +62,9 @@ describe("calendar with secrets", () => {
 		await helpers.stopApplication();
 	});
 
-	it("should have the default of 4 entries in both calendars (see issue #4264)", async () => {
+	it("should have the default of 10 entries in both calendars (see issue #4264)", async () => {
 		const locator = page.locator(".calendar .event");
-		await expect(locator).toHaveCount(8);
+		await expect(locator).toHaveCount(20);
 	});
 
 });
