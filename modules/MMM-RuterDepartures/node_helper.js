@@ -61,7 +61,10 @@ module.exports = NodeHelper.create({
 	},
 
 	async fetchDepartures(stops, maxDepartures) {
-		const fetchCount = maxDepartures * 5;
+		// Busy hubs like Majorstuen have many lines departing within minutes, so a
+		// small fetch count combined with a walk-time filter drops everything.
+		// Fetch a generous pool so the window reaches well past typical walk times.
+		const fetchCount = Math.max(maxDepartures * 15, 50);
 		const fields = stops
 			.map(
 				(stop, i) => `

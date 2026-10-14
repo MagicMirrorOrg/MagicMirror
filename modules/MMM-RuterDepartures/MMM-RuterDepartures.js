@@ -60,22 +60,22 @@ Module.register("MMM-RuterDepartures", {
 				empty.textContent = "Ingen avganger innen rekkevidde";
 				section.appendChild(empty);
 			} else {
-				const table = document.createElement("table");
-				table.className = "ruter-departures small";
+				const list = document.createElement("div");
+				list.className = "ruter-departures small";
 
 				for (const dep of reachable) {
 					const mins = Math.round((new Date(dep.expectedTime) - now) / 60000);
-					const timeStr = `${mins} min`;
-					const row = document.createElement("tr");
+					const row = document.createElement("div");
+					row.className = "ruter-row";
 					row.innerHTML = `
-						<td class="ruter-line">${dep.line}</td>
-						<td class="ruter-destination">${dep.destination}</td>
-						<td class="ruter-time ${dep.realtime ? "realtime" : ""}">${timeStr}</td>
+						<span class="ruter-line">${dep.line}</span>
+						<span class="ruter-destination">${dep.destination}</span>
+						<span class="ruter-time ${dep.realtime ? "realtime" : ""}">${mins} min</span>
 					`;
-					table.appendChild(row);
+					list.appendChild(row);
 				}
 
-				section.appendChild(table);
+				section.appendChild(list);
 			}
 
 			wrapper.appendChild(section);
