@@ -9,6 +9,10 @@ Module.register("MMM-RuterDepartures", {
 		defaultWalkMinutes: 0,
 	},
 
+	getStyles() {
+		return ["MMM-RuterDepartures.css"];
+	},
+
 	start() {
 		this.stops = [];
 		this.sendSocketNotification("RUTER_GET_DEPARTURES", {

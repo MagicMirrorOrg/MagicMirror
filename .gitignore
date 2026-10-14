@@ -64,6 +64,7 @@ config
 !config/config.js.sample
 !config/custom.css.sample
 !config/config.js
+!config/custom.css
 
 # Vim
 ## swap

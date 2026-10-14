@@ -1,0 +1,77 @@
+/* NRK-styled MagicMirror
+ *
+ * Applies NRK Sans typography and the periwinkle accent from the NRK design system.
+ * Background stays pure #000 — required for the two-way mirror glass.
+ */
+
+@import url("https://static.nrk.no/nrk-sans/latest/nrk-sans.min.css");
+
+:root {
+	/* NRK periwinkle accent for interactive/highlight text on dark surfaces. */
+	--nrk-accent: #8bb5eb;
+
+	--color-text: #a7b3c2;
+	--color-text-dimmed: #5a6676;
+	--color-text-bright: #ffffff;
+	--color-background: #000;
+
+	--font-primary: "NRK Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+	--font-secondary: "NRK Sans", "Inter", sans-serif;
+
+	--font-size: 20px;
+	--font-size-small: 0.875rem;
+
+	--gap-body-top: 60px;
+	--gap-body-right: 60px;
+	--gap-body-bottom: 60px;
+	--gap-body-left: 60px;
+
+	--gap-modules: 36px;
+}
+
+/* NRK hierarchy: heavy weight for primary labels, restrained sizes. */
+header.module-header {
+	font-weight: 500;
+	font-size: 0.875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--color-text-dimmed);
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+/* Clock — big and bold like NRK editorial headlines. */
+.clock .time {
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+.clock .date {
+	font-weight: 400;
+	color: var(--color-text);
+}
+
+/* Weather — larger, cleaner current temperature. */
+.weather .large.light {
+	font-weight: 300;
+}
+
+/* Keep radii subtle (4px NRK standard). */
+.module,
+.module-content,
+table {
+	border-radius: 0.25rem;
+}
+
+/* News ticker — brighter headline, smaller source label. */
+.newsfeed-source {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--color-text-dimmed);
+}
+
+.newsfeed-title {
+	font-weight: 400;
+	color: var(--color-text-bright);
+}
