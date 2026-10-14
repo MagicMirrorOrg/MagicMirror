@@ -75,10 +75,6 @@ let config = {
 			}
 		},
 		{
-			module: "compliments",
-			position: "lower_third",
-		},
-		{
 			module: "MMM-RuterDepartures",
 			position: "top_right",
 			header: "Avganger Marienlyst / Majorstuen",
