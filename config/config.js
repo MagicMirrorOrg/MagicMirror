@@ -45,10 +45,6 @@ let config = {
 			}
 		},
 		{
-			module: "compliments",
-			position: "lower_third"
-		},
-		{
 			module: "weather",
 			position: "top_right",
 			config: {
@@ -68,6 +64,19 @@ let config = {
 				lat: 59.9139,
 				lon: 10.7522
 			}
+		},
+		{
+			module: "MMM-YrMeteogram",
+			position: "bottom_center",
+			config: {
+				locationId: "1-72837",
+				lang: "nb",
+				width: "700px",
+			}
+		},
+		{
+			module: "compliments",
+			position: "lower_third",
 		},
 		{
 			module: "MMM-RuterDepartures",
