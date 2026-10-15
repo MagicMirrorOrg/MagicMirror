@@ -56,12 +56,15 @@ Temporary Items
 
 # Ignore all modules
 /modules/*
+!/modules/MMM-RuterDepartures
+!/modules/MMM-YrMeteogram
 
 # Ignore users config file but keep the samples.
 config
 !config/config.js.sample
 !config/custom.css.sample
 !config/config.js
+!config/custom.css
 
 # Vim
 ## swap

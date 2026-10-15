@@ -1,0 +1,46 @@
+.ruter-stop {
+	margin-bottom: 16px;
+}
+
+.ruter-stop-name {
+	margin-bottom: 6px;
+	font-size: 0.75rem;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--color-text-dimmed, #666);
+}
+
+.ruter-row {
+	display: grid;
+	grid-template-columns: 2.5em 1fr 4em;
+	gap: 10px;
+	align-items: baseline;
+	padding: 4px 0;
+}
+
+.ruter-line {
+	text-align: right;
+	font-weight: 700;
+	color: var(--color-text-bright, #fff);
+	letter-spacing: 0.01em;
+}
+
+.ruter-destination {
+	color: var(--color-text, #a7b3c2);
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ruter-time {
+	text-align: right;
+	font-weight: 400;
+	color: var(--color-text, #a7b3c2);
+}
+
+/* Periwinkle accent for live/realtime departures — NRK's on-dark accent color. */
+.ruter-time.realtime {
+	color: var(--nrk-accent, #8bb5eb);
+}

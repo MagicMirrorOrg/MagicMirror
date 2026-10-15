@@ -45,10 +45,6 @@ let config = {
 			}
 		},
 		{
-			module: "compliments",
-			position: "lower_third"
-		},
-		{
 			module: "weather",
 			position: "top_right",
 			config: {
@@ -67,6 +63,32 @@ let config = {
 				type: "forecast",
 				lat: 59.9139,
 				lon: 10.7522
+			}
+		},
+		{
+			module: "MMM-YrMeteogram",
+			position: "bottom_center",
+			config: {
+				locationId: "1-72837",
+				lang: "nb",
+				width: "700px",
+			}
+		},
+		{
+			module: "MMM-RuterDepartures",
+			position: "top_right",
+			header: "Avganger Marienlyst / Majorstuen",
+			config: {
+				lat: 59.932267,
+				lon: 10.724083,
+				maxStops: 3,
+				maxDepartures: 4,
+				updateInterval: 30 * 1000,
+				excludeStops: ["Vestre Aker kirke"],
+				walkMinutes: {
+					"Marienlyst": 5,
+					"Majorstuen": 10,
+				},
 			}
 		},
 		{
