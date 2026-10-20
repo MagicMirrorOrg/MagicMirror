@@ -54,7 +54,7 @@
 		"lint:fix": "eslint --fix && prettier . --write",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"server": "node ./serveronly",
-		"server:watch": "node ./serveronly/watcher.js",
+		"server:watch": "node ./serveronly/watcher.mjs",
 		"start": "node --run start:wayland",
 		"start:dev": "node --run start:wayland -- dev",
 		"start:wayland": "./node_modules/.bin/electron js/electron.js --ozone-platform=wayland",

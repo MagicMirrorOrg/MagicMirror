@@ -1,13 +1,15 @@
-// Load lightweight internal alias resolver to enable require("logger")
-require("../js/alias-resolver");
+import "../js/alias-resolver.js";
+import {getConfigFilePath, getServerPort} from "#server_functions";
+import Log from "../js/logger.js";
+import {createRequire} from "node:module";
+import {fileURLToPath} from "node:url";
+import fs from "node:fs";
+import http from "node:http";
+import net from "node:net";
+import path from "node:path";
+import {spawn} from "node:child_process";
 
-const { spawn } = require("node:child_process");
-const fs = require("node:fs");
-const path = require("node:path");
-const net = require("node:net");
-const http = require("node:http");
-const Log = require("logger");
-const { getConfigFilePath, getServerPort } = require("#server_functions");
+const require = createRequire(import.meta.url);
 
 const RESTART_DELAY_MS = 500;
 const PORT_CHECK_MAX_ATTEMPTS = 20;
@@ -18,14 +20,16 @@ let restartTimer = null;
 let isShuttingDown = false;
 let isRestarting = false;
 let serverConfig = null;
-const rootDir = path.join(__dirname, "..");
+const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 /**
  * Get the server configuration (port and address)
  * @returns {{port: number, address: string}} The server config
  */
 const getServerConfig = () => {
-	if (serverConfig) return serverConfig;
+	if (serverConfig) {
+		return serverConfig;
+	}
 
 	try {
 		const configPath = getConfigFilePath();
@@ -36,7 +40,8 @@ const getServerConfig = () => {
 			address: config.address || "localhost"
 		};
 	} catch {
-		serverConfig = { port: 8080, address: "localhost" };
+		serverConfig = {port: 8080,
+			address: "localhost"};
 	}
 
 	return serverConfig;
@@ -47,24 +52,22 @@ const getServerConfig = () => {
  * @param {number} port The port to check
  * @returns {Promise<boolean>} True if port is available
  */
-const isPortAvailable = (port) => {
-	return new Promise((resolve) => {
-		const server = net.createServer();
+const isPortAvailable = (port) => new Promise((resolve) => {
+	const server = net.createServer();
 
-		server.once("error", () => {
-			resolve(false);
-		});
-
-		server.once("listening", () => {
-			server.close();
-			resolve(true);
-		});
-
-		// Use the same address as the actual server will bind to
-		const { address } = getServerConfig();
-		server.listen(port, address);
+	server.once("error", () => {
+		resolve(false);
 	});
-};
+
+	server.once("listening", () => {
+		server.close();
+		resolve(true);
+	});
+
+	// Use the same address as the actual server will bind to
+	const {address} = getServerConfig();
+	server.listen(port, address);
+});
 
 /**
  * Wait until port is available
@@ -73,12 +76,16 @@ const isPortAvailable = (port) => {
  * @returns {Promise<void>}
  */
 const waitForPort = async (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) => {
-	for (let i = 0; i < maxAttempts; i++) {
+	for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+		// eslint-disable-next-line no-await-in-loop -- Each attempt depends on the preceding port check.
 		if (await isPortAvailable(port)) {
 			Log.info(`Port ${port} is now available`);
 			return;
 		}
-		await new Promise((resolve) => setTimeout(resolve, PORT_CHECK_INTERVAL_MS));
+		// eslint-disable-next-line no-await-in-loop -- Delay before the next sequential check.
+		await new Promise((resolve) => {
+			setTimeout(resolve, PORT_CHECK_INTERVAL_MS);
+		});
 	}
 	Log.warn(`Port ${port} still not available after ${maxAttempts} attempts`);
 };
@@ -90,7 +97,7 @@ const startServer = () => {
 	// Start node directly instead of via npm to avoid process tree issues
 	child = spawn("node", ["./serveronly"], {
 		stdio: "inherit",
-		cwd: path.join(__dirname, "..")
+		cwd: rootDir
 	});
 
 	child.on("error", (error) => {
@@ -119,10 +126,10 @@ const startServer = () => {
  * Send reload notification to all connected clients
  */
 const notifyClientsToReload = () => {
-	const { port, address } = getServerConfig();
+	const {port, address} = getServerConfig();
 	const options = {
 		hostname: address,
-		port: port,
+		port,
 		path: "/reload",
 		method: "GET"
 	};
@@ -146,7 +153,9 @@ const notifyClientsToReload = () => {
  * @param {string} reason The reason for the restart
  */
 const restartServer = (reason) => {
-	if (restartTimer) clearTimeout(restartTimer);
+	if (restartTimer) {
+		clearTimeout(restartTimer);
+	}
 
 	restartTimer = setTimeout(() => {
 		Log.info(reason);
@@ -155,7 +164,7 @@ const restartServer = (reason) => {
 			isRestarting = true;
 
 			// Get the actual port being used
-			const { port } = getServerConfig();
+			const {port} = getServerConfig();
 
 			// Notify clients to reload before restart
 			notifyClientsToReload();
@@ -188,10 +197,14 @@ const watchFile = (file) => {
 
 		const watcher = fs.watch(dirName, (_eventType, changedFile) => {
 			// Only trigger for the specific file we're interested in
-			if (changedFile !== fileName) return;
+			if (changedFile !== fileName) {
+				return;
+			}
 
 			Log.info(`[watchFile] Change detected in: ${file}`);
-			if (restartTimer) clearTimeout(restartTimer);
+			if (restartTimer) {
+				clearTimeout(restartTimer);
+			}
 
 			restartTimer = setTimeout(() => {
 				Log.info(`[watchFile] Triggering restart due to change in: ${file}`);
@@ -230,22 +243,22 @@ try {
 
 	// Watch each target file
 	for (const target of watchTargets) {
-		const targetPath = path.isAbsolute(target)
-			? target
-			: path.join(rootDir, target);
-
-		// Check if file exists
-		if (!fs.existsSync(targetPath)) {
-			Log.warn(`Watch target does not exist: ${targetPath}`);
-			continue;
+		let targetPath = target;
+		if (!path.isAbsolute(target)) {
+			targetPath = path.join(rootDir, target);
 		}
 
-		// Check if it's a file (directories are not supported)
-		const stats = fs.statSync(targetPath);
-		if (stats.isFile()) {
-			watchFile(targetPath);
+		// Check if file exists
+		if (fs.existsSync(targetPath)) {
+			// Check if it's a file (directories are not supported)
+			const stats = fs.statSync(targetPath);
+			if (stats.isFile()) {
+				watchFile(targetPath);
+			} else {
+				Log.warn(`Watch target is not a file (directories not supported): ${targetPath}`);
+			}
 		} else {
-			Log.warn(`Watch target is not a file (directories not supported): ${targetPath}`);
+			Log.warn(`Watch target does not exist: ${targetPath}`);
 		}
 	}
 } catch {
@@ -255,7 +268,11 @@ try {
 
 process.on("SIGINT", () => {
 	isShuttingDown = true;
-	if (restartTimer) clearTimeout(restartTimer);
-	if (child) child.kill("SIGTERM");
+	if (restartTimer) {
+		clearTimeout(restartTimer);
+	}
+	if (child) {
+		child.kill("SIGTERM");
+	}
 	process.exit(0);
 });
