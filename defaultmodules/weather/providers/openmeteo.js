@@ -78,6 +78,7 @@ class OpenMeteoProvider extends WeatherProvider {
 		"showers_sum",
 		"snowfall_sum",
 		"precipitation_hours",
+		"precipitation_probability_max",
 		"weathercode",
 		"sunrise",
 		"sunset",
@@ -421,7 +422,7 @@ class OpenMeteoProvider extends WeatherProvider {
 			rain: weather.rain_sum != null ? parseFloat(weather.rain_sum) : null,
 			snow: weather.snowfall_sum != null ? parseFloat(weather.snowfall_sum * 10) : null,
 			precipitationAmount: weather.precipitation_sum != null ? parseFloat(weather.precipitation_sum) : null,
-			precipitationProbability: weather.precipitation_hours != null ? parseFloat(weather.precipitation_hours * 100 / 24) : null,
+			precipitationProbability: weather.precipitation_probability_max != null ? parseFloat(weather.precipitation_probability_max) : null,
 			uvIndex: weather.uv_index_max != null ? parseFloat(weather.uv_index_max) : null
 		}));
 	}
