@@ -54,7 +54,7 @@ class Updater {
 		}
 
 		if (updatedCount && this.autoRestart) {
-			Log.info(`${updatedCount} module(s) updated, restarting MagicMirror...`);
+			Log.info(`${updatedCount} module(s) updated.`);
 			setTimeout(() => this.nodeRestart(), 3000);
 		}
 

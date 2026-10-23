@@ -16,7 +16,7 @@ describe("updatenotification module", () => {
 		};
 		global.Log = { info: vi.fn() };
 
-		await import("../../../../../defaultmodules/updatenotification/updatenotification.js");
+		await import(new URL("updatenotification.js", moduleDir).href);
 
 		updatenotification.updateDom = vi.fn();
 		updatenotification.sendSocketNotification = vi.fn();
