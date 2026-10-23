@@ -1,46 +1,43 @@
-// Load lightweight internal alias resolver
-require("./alias-resolver");
+import "./alias-resolver.js";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+import fs from "node:fs";
+import path from "node:path";
+import { spawn } from "node:child_process";
+import { Agent, setGlobalDispatcher } from "undici";
+import packageJson from "../package.json" with { type: "json" };
+import Log from "./logger.js";
+import Server from "./server.js";
+import Utils from "./utils.js";
+import serverFunctions from "#server_functions";
 
-const fs = require("node:fs");
-const path = require("node:path");
-const Spawn = require("node:child_process").spawn;
-const Log = require("logger");
+const require = createRequire(import.meta.url);
+const { ConfigError } = Utils;
+const { getEnvVarsAsObj } = serverFunctions;
 
 // global absolute root path
-global.root_path = path.resolve(`${__dirname}/../`);
+global.root_path = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-// used to control fetch timeout for node_helpers
-const { setGlobalDispatcher, Agent } = require("undici");
-
-const Server = require("./server");
-const Utils = require("./utils");
-const { ConfigError } = require("./utils");
-
-const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 
 // Get version number.
-global.version = require(`${global.root_path}/package.json`).version;
+global.version = packageJson.version;
 global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
 // Log system information in a subprocess so it is shown even on early startup failures.
-Spawn("node ./js/systeminformation.js", {
+spawn("node ./js/systeminformation.js", {
 	env: {
 		...process.env,
 		ELECTRON_VERSION: `${process.versions.electron}`,
 		USED_NODE_VERSION: `${process.versions.node}`
 	},
-	cwd: this.root_path,
+	cwd: global.root_path,
 	shell: true,
 	detached: true,
 	stdio: "inherit"
 });
-
-if (process.env.MM_CONFIG_FILE) {
-	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
-}
 
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
@@ -213,6 +210,10 @@ class App {
 	 */
 	async start () {
 		try {
+			if (process.env.MM_CONFIG_FILE) {
+				global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
+			}
+
 			const configObj = Utils.loadConfig();
 			global.config = configObj.fullConf;
 			// Keep a copy of the redacted config to later verify module secret permissions
@@ -334,6 +335,7 @@ class App {
 		});
 
 		Log.log("Node_helpers stopped ...");
+		this.#nodeHelpers = [];
 
 		// To be able to stop the app even if it hasn't been started (when
 		// running with Electron against another server)
@@ -341,8 +343,10 @@ class App {
 			return Promise.resolve();
 		}
 
-		return this.#httpServer.close();
+		const result = await this.#httpServer.close();
+		this.#httpServer = null;
+		return result;
 	}
 }
 
-module.exports = new App();
+export default new App();

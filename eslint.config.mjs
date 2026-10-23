@@ -32,7 +32,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js"],
+		files: ["**/*.js", "js/app.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
@@ -104,7 +104,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js"],
+		files: ["**/*.js", "js/app.mjs"],
 		ignores: [
 			"clientonly/index.js",
 			"js/logger.js",
@@ -118,6 +118,7 @@ export default defineConfig([
 	},
 	{
 		files: ["**/*.mjs"],
+		ignores: ["js/app.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {

@@ -76,11 +76,11 @@ if (typeof module !== "undefined") {
 				const lines = new Error().stack.split("\n");
 				for (const line of lines) {
 					if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
-					const match = line.match(/\((.+?\.js):\d+:\d+\)/) || line.match(/at\s+(.+?\.js):\d+:\d+/);
+					const match = line.match(/\((.+?\.[cm]?js):\d+:\d+\)/) || line.match(/at\s+(.+?\.[cm]?js):\d+:\d+/);
 					if (match) {
 						const file = match[1];
-						const baseName = file.replace(/.*\/(.*)\.js/, "$1");
-						const parentDir = file.replace(/.*\/(.*)\/.*\.js/, "$1");
+						const baseName = file.replace(/.*\/(.*)\.[cm]?js/, "$1");
+						const parentDir = file.replace(/.*\/(.*)\/.*\.[cm]?js/, "$1");
 						return styleText("gray", parentDir === "js" ? `[${baseName}]` : `[${parentDir}]`);
 					}
 				}
