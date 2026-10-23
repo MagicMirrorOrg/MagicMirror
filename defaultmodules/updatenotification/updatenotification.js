@@ -13,7 +13,7 @@ Module.register("updatenotification", {
 	suspended: false,
 	moduleList: {},
 	needRestart: false,
-	updates: [],
+	updates: {},
 
 	start () {
 		Log.info(`Starting module: ${this.name}`);
@@ -109,7 +109,6 @@ Module.register("updatenotification", {
 			};
 
 			if (payload.error) {
-				this.sendSocketNotification("UPDATE_ERROR", payload.name);
 				this.updates[payload.name].done = false;
 			} else {
 				if (payload.updated) {

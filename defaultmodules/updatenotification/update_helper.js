@@ -7,8 +7,9 @@ const execAsync = promisify(exec);
 /**
  * Updates third-party modules from commands defined in the configuration.
  *
- * Only one module is updated at a time. Each update result reports whether the
- * update succeeded and whether MagicMirror needs to be restarted.
+ * Pending updates run one after another. Each update result reports whether the
+ * update succeeded and whether MagicMirror needs to be restarted. A module is
+ * updated at most once per MagicMirror run, also when its update failed.
  */
 class Updater {
 
@@ -30,12 +31,33 @@ class Updater {
 	}
 
 	/**
-	 * Parse modules and apply the first available update.
+	 * Parse modules and apply all available updates one after another.
 	 * @param {Array<{module: string}>} modules Modules that may have updates.
 	 * @returns {Promise<Array<object>>} The current update state for each module.
 	 */
 	async parse (modules) {
-		await Promise.all(modules.map((module) => this.processModule(module)));
+		if (this.updating) {
+			Log.debug("Update run already in progress, skipping this check.");
+			return Object.values(this.moduleList);
+		}
+
+		this.updating = true;
+		let updatedCount = 0;
+		try {
+			for (const module of modules) {
+				if (await this.processModule(module)) {
+					updatedCount++;
+				}
+			}
+		} finally {
+			this.updating = false;
+		}
+
+		if (updatedCount && this.autoRestart) {
+			Log.info(`${updatedCount} module(s) updated, restarting MagicMirror...`);
+			setTimeout(() => this.nodeRestart(), 3000);
+		}
+
 		const updater = Object.values(this.moduleList);
 		Log.debug("Update Result:", updater);
 		return updater;
@@ -44,17 +66,21 @@ class Updater {
 	/**
 	 * Initialize and process one module update.
 	 * @param {{module: string}} module Module to process.
-	 * @returns {Promise<void>} Resolves when processing is complete.
+	 * @returns {Promise<boolean>} Whether the module was updated successfully.
 	 */
 	async processModule (module) {
 		const moduleState = await this.getModuleState(module);
-		if (moduleState.inProgress || this.updating || !moduleState.updateCommand) {
-			return;
+		if (!moduleState.updateCommand || moduleState.updated || moduleState.error) {
+			return false;
 		}
 
-		this.updating = true;
 		moduleState.inProgress = true;
-		Object.assign(moduleState, await this.updateProcess(moduleState));
+		try {
+			Object.assign(moduleState, await this.updateProcess(moduleState));
+		} finally {
+			moduleState.inProgress = false;
+		}
+		return moduleState.updated;
 	}
 
 	/**
@@ -112,7 +138,8 @@ class Updater {
 	}
 
 	/**
-	 * Apply the successful update result and schedule an automatic restart when configured.
+	 * Apply the successful update result. The automatic restart is scheduled by
+	 * parse() once all pending updates are done.
 	 * @param {{name: string}} module Updated module.
 	 * @param {{updated: boolean, needRestart: boolean}} result Result to update.
 	 * @param {string} stdout Update command output.
@@ -123,7 +150,6 @@ class Updater {
 		result.updated = true;
 		if (this.autoRestart) {
 			Log.info("Update done");
-			setTimeout(() => this.nodeRestart(), 3000);
 		} else {
 			Log.info("Update done, don't forget to restart MagicMirror!");
 			result.needRestart = true;
@@ -177,11 +203,11 @@ class Updater {
 
 	/**
 	 * Find the configured update command for a module.
-	 * @param {{module: string}} module Module configuration.
+	 * @param {string} module Module name.
 	 * @returns {string|null} The configured command, if one exists.
 	 */
 	applyCommand (module) {
-		if (Updater.isMagicMirror(module.module) || !this.updates.length) {
+		if (Updater.isMagicMirror(module) || !this.updates.length) {
 			return null;
 		}
 		let command = null;
