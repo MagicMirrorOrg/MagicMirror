@@ -86,4 +86,30 @@ describe("updatenotification node helper", () => {
 
 		expect(parse).toHaveBeenCalledWith(updates);
 	});
+
+	it("sends the status of updated and failed modules to the frontend", async () => {
+		const updateResult = [
+			{ name: "MMM-Updated", updated: true, error: false, inProgress: false },
+			{ name: "MMM-Failed", updated: false, error: true, inProgress: false },
+			{ name: "MMM-NoCommand", updated: false, error: null, inProgress: false }
+		];
+		UpdateHelper.mockImplementation(function () {
+			this.parse = vi.fn().mockResolvedValue(updateResult);
+		});
+		const { helper } = await loadNodeHelper({
+			modules: [{ module: "updatenotification", config: { sendUpdatesNotifications: false } }]
+		});
+
+		await helper.socketNotificationReceived("CONFIG", { updateInterval: 1000 });
+		helper.gitHelper.getRepos = vi.fn().mockResolvedValue([]);
+		helper.gitHelper.checkUpdates = vi.fn().mockResolvedValue([{ module: "MMM-Updated" }]);
+		helper.scheduleNextFetch = vi.fn();
+		helper.sendSocketNotification = vi.fn();
+		await helper.performFetch();
+
+		expect(helper.sendSocketNotification.mock.calls).toEqual([
+			["UPDATE_STATUS", updateResult[0]],
+			["UPDATE_STATUS", updateResult[1]]
+		]);
+	});
 });

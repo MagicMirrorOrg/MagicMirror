@@ -92,7 +92,7 @@ export default class extends NodeHelper {
 		if (updates.length && this.updateHelper) {
 			const updateResult = await this.updateHelper.parse(updates);
 			for (const update of updateResult) {
-				if (update.inProgress) {
+				if (update.updated || update.error) {
 					this.sendSocketNotification("UPDATE_STATUS", update);
 				}
 			}
