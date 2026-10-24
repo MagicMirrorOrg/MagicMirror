@@ -91,12 +91,11 @@ exports.getPage = () => {
 exports.startApplication = async (configFilename) => {
 	vi.resetModules();
 
-	// Clear Node's require cache for config and app files to prevent stale configs and middlewares
+	// Clear CommonJS config and server caches; the ESM app is reused across starts.
 	Object.keys(require.cache).forEach((key) => {
 		if (
 			key.includes("/tests/configs/")
 			|| key.includes("/config/config")
-			|| key.includes("/js/app.js")
 			|| key.includes("/js/server.js")
 		) {
 			delete require.cache[key];
@@ -126,7 +125,7 @@ exports.startApplication = async (configFilename) => {
 
 	process.env.mmTestMode = "true";
 	process.setMaxListeners(0);
-	global.app = require(`${global.root_path}/js/app`);
+	global.app = (await import(`${global.root_path}/js/app.mjs`)).default;
 
 	return global.app.start();
 };

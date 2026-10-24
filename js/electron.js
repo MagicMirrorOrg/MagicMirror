@@ -1,10 +1,13 @@
 "use strict";
 
+require("./alias-resolver");
+
 const electron = require("electron");
-const core = require("./app");
 const Log = require("./logger");
 const { applyElectronSwitches } = require("./electron_helper");
 const { getServerPort } = require("#server_functions");
+
+const corePromise = import("./app.mjs").then(({ default: core }) => core);
 
 // Config
 let config = process.env.config ? JSON.parse(process.env.config) : {};
@@ -173,7 +176,7 @@ app.on("activate", () => {
  * Added to fix #1056 (no method to gracefully shut down modules on exit).
  *
  * Note: this is only used if running Electron. Otherwise
- * core.stop() is called by process.on("SIGINT"... in `app.js`
+ * core.stop() is called by process.on("SIGINT"... in `app.mjs`
  */
 app.on("before-quit", async (event) => {
 	Log.log("Shutting down server...");
@@ -181,6 +184,7 @@ app.on("before-quit", async (event) => {
 	setTimeout(() => {
 		process.exit(0);
 	}, 3000); // Force-quit after 3 seconds.
+	const core = await corePromise;
 	await core.stop();
 	process.exit(0);
 });
@@ -197,6 +201,8 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
  * Bootstrap Electron: launch the client-only viewer and/or the full core application.
  */
 const bootstrapElectron = async () => {
+	const core = await corePromise;
+
 	if (process.env.clientonly) {
 		await app.whenReady();
 		Log.log("Launching client viewer application.");

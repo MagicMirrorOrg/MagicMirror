@@ -1,7 +1,7 @@
 const os = require("node:os");
 const { execFileSync } = require("node:child_process");
 const si = require("systeminformation");
-// needed with relative path because logSystemInformation is called in an own process in app.js:
+// needed with relative path because logSystemInformation is called in an own process in app.mjs:
 const mmVersion = require("../package").version;
 const Log = require("./logger");
 
