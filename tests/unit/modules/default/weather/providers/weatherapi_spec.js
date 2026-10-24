@@ -49,6 +49,8 @@ const buildWeatherApiResponse = () => {
 						avghumidity: 81,
 						totalsnow_cm: 0.6,
 						totalprecip_mm: 2,
+						daily_chance_of_rain: 80,
+						daily_chance_of_snow: 20,
 						maxwind_kph: 22,
 						uv: 1,
 						condition: { code: 1183 }
@@ -68,6 +70,8 @@ const buildWeatherApiResponse = () => {
 							precip_mm: 0.5,
 							will_it_rain: 1,
 							will_it_snow: 0,
+							chance_of_rain: 75,
+							chance_of_snow: 25,
 							uv: 0
 						},
 						{
@@ -84,6 +88,8 @@ const buildWeatherApiResponse = () => {
 							precip_mm: 0.2,
 							will_it_rain: 0,
 							will_it_snow: 0,
+							chance_of_rain: 30,
+							chance_of_snow: 65,
 							uv: 0
 						},
 						{
@@ -100,6 +106,8 @@ const buildWeatherApiResponse = () => {
 							precip_mm: 0,
 							will_it_rain: 0,
 							will_it_snow: 0,
+							chance_of_rain: 10,
+							chance_of_snow: 0,
 							uv: 0
 						}
 					]
@@ -118,6 +126,8 @@ const buildWeatherApiResponse = () => {
 						avghumidity: 78,
 						totalsnow_cm: 0,
 						totalprecip_mm: 0.4,
+						daily_chance_of_rain: 35,
+						daily_chance_of_snow: 55,
 						maxwind_kph: 20,
 						uv: 2,
 						condition: { code: 1006 }
@@ -240,6 +250,8 @@ describe("WeatherAPIProvider", () => {
 			expect(result[0].minTemperature).toBe(-8);
 			expect(result[0].maxTemperature).toBe(-1);
 			expect(result[0].weatherType).toBe("day-sprinkle");
+			expect(result[0].precipitationProbability).toBe(80);
+			expect(result[1].precipitationProbability).toBe(55);
 			expect(result[0].uvIndex).toBe(1);
 			expect(result[0].sunrise).toBeInstanceOf(Date);
 			expect(result[0].sunset).toBeInstanceOf(Date);
@@ -277,7 +289,7 @@ describe("WeatherAPIProvider", () => {
 			expect(result[0].windFromDirection).toBe(210);
 			expect(result[0].weatherType).toBe("night-sprinkle");
 			expect(result[0].uvIndex).toBe(0);
-			expect(result[0].precipitationProbability).toBe(50);
+			expect(result[0].precipitationProbability).toBe(75);
 		});
 	});
 

@@ -203,6 +203,14 @@ class WeatherAPIProvider extends WeatherProvider {
 		return Number.isFinite(number) ? number : null;
 	}
 
+	#maxPrecipitationProbability (rainProbability, snowProbability) {
+		const probabilities = [rainProbability, snowProbability]
+			.map((probability) => this.#toNumber(probability))
+			.filter((probability) => probability !== null);
+
+		return probabilities.length > 0 ? Math.max(...probabilities) : null;
+	}
+
 	#generateCurrent (data) {
 		const weather = data.forecast.forecastday[0] ?? {};
 		const current = data.current ?? {};
@@ -263,13 +271,10 @@ class WeatherAPIProvider extends WeatherProvider {
 				? new Date(forecastDay.date_epoch * 1000)
 				: new Date(`${forecastDay.date}T00:00:00`);
 
-			const precipitationProbability = forecastDay.hour?.length > 0
-				? (forecastDay.hour.reduce((sum, hourData) => {
-					const rain = this.#toNumber(hourData.will_it_rain) ?? 0;
-					const snow = this.#toNumber(hourData.will_it_snow) ?? 0;
-					return sum + ((rain + snow) / 2);
-				}, 0) / forecastDay.hour.length) * 100
-				: null;
+			const precipitationProbability = this.#maxPrecipitationProbability(
+				forecastDay.day?.daily_chance_of_rain,
+				forecastDay.day?.daily_chance_of_snow
+			);
 
 			const avgWindDegree = forecastDay.hour?.length > 0
 				? forecastDay.hour.reduce((sum, hourData) => {
@@ -366,9 +371,13 @@ class WeatherAPIProvider extends WeatherProvider {
 				weather.temperature = this.#toNumber(hourData.temp_c);
 				weather.precipitationAmount = this.#toNumber(hourData.precip_mm);
 
-				const willRain = this.#toNumber(hourData.will_it_rain) ?? 0;
-				const willSnow = this.#toNumber(hourData.will_it_snow) ?? 0;
-				weather.precipitationProbability = (willRain + willSnow) * 50;
+				const precipitationProbability = this.#maxPrecipitationProbability(
+					hourData.chance_of_rain,
+					hourData.chance_of_snow
+				);
+				if (precipitationProbability !== null) {
+					weather.precipitationProbability = precipitationProbability;
+				}
 
 				weather.uvIndex = this.#toNumber(hourData.uv);
 
