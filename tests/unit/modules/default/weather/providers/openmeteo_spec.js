@@ -111,6 +111,7 @@ describe("OpenMeteoProvider", () => {
 			const params = url.searchParams;
 
 			expect(params.get("forecast_days")).toBe("6"); // 5 days + 1
+			expect(params.get("daily").split(",")).toContain("precipitation_probability_max");
 			expect(params.has("start_date")).toBe(false);
 			expect(params.has("end_date")).toBe(false);
 		});
@@ -220,6 +221,7 @@ describe("OpenMeteoProvider", () => {
 			expect(firstDay.minTemperature).toBe(-9.2);
 			expect(firstDay.maxTemperature).toBe(-0.2);
 			expect(firstDay.temperature).toBeCloseTo(-4.7, 0); // (-0.2+-9.2)/2
+			expect(firstDay.precipitationProbability).toBe(25);
 
 			expect(firstDay.sunrise).toBeInstanceOf(Date);
 			expect(firstDay.sunset).toBeInstanceOf(Date);
