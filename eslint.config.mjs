@@ -32,7 +32,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js", "js/app.mjs"],
+		files: ["**/*.js", "js/app.mjs", "js/ip_access_control.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
@@ -104,7 +104,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js", "js/app.mjs"],
+		files: ["**/*.js", "js/app.mjs", "js/ip_access_control.mjs"],
 		ignores: [
 			"clientonly/index.js",
 			"js/logger.js",
@@ -118,7 +118,7 @@ export default defineConfig([
 	},
 	{
 		files: ["**/*.mjs"],
-		ignores: ["js/app.mjs"],
+		ignores: ["js/app.mjs", "js/ip_access_control.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { ipAccessControl, socketIpAccessControl } from "../../../js/ip_access_control";
+import { ipAccessControl, socketIpAccessControl } from "../../../js/ip_access_control.mjs";
 
 /**
  * Creates a minimal Express-like response mock used by the middleware tests.
