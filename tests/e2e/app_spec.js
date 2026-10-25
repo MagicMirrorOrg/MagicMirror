@@ -1,6 +1,10 @@
+import { createRequire } from "node:module";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+const require = createRequire(import.meta.url);
 const Log = require("logger");
-const NodeHelper = require("../../js/node_helper");
-const helpers = require("./helpers/global-setup");
+const NodeHelper = require("../../js/node_helper.js");
+const helpers = require("./helpers/global-setup.js");
 
 describe("App restart lifecycle", () => {
 	afterEach(async () => {
@@ -12,16 +16,16 @@ describe("App restart lifecycle", () => {
 		const startHelper = vi.spyOn(NodeHelper.prototype, "start");
 		const stopHelper = vi.spyOn(NodeHelper.prototype, "stop");
 		await helpers.startApplication("tests/configs/esm_helper.js");
-		const app = global.app;
+		const app = globalThis.app;
 		const sigintListeners = process.listenerCount("SIGINT");
 		const sigtermListeners = process.listenerCount("SIGTERM");
 		expect(startHelper).toHaveBeenCalledTimes(1);
-		expect(global.config.modules[0].module).toBe("esmHelper");
+		expect(globalThis.config.modules[0].module).toBe("esmHelper");
 
 		await helpers.startApplication("tests/configs/modules/clock/clock_24hr.js");
-		expect(global.app).toBe(app);
-		expect(global.configuration_file).toBe("tests/configs/modules/clock/clock_24hr.js");
-		expect(global.config.modules[0].module).toBe("clock");
+		expect(globalThis.app).toBe(app);
+		expect(globalThis.configuration_file).toBe("tests/configs/modules/clock/clock_24hr.js");
+		expect(globalThis.config.modules[0].module).toBe("clock");
 		expect(startHelper).toHaveBeenCalledTimes(1);
 		expect(stopHelper).toHaveBeenCalledTimes(1);
 		expect(process.listenerCount("SIGINT")).toBe(sigintListeners);
