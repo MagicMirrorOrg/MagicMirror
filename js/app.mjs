@@ -39,8 +39,8 @@ spawn("node ./js/systeminformation.js", {
 	stdio: "inherit"
 });
 
-// The next part is here to prevent a major exception when there
-// is no internet connection. This could probable be solved better.
+// Handle uncaught exceptions to keep the process running (e.g. missing network connectivity).
+// TODO: consider more targeted error handling instead of a catch-all
 process.on("uncaughtException", (err) => {
 	// ignore strange exceptions under aarch64 coming from systeminformation:
 	if (!err.stack.includes("node_modules/systeminformation")) {
@@ -155,11 +155,33 @@ class App {
 				}
 			}
 
-			helper.setName(moduleName);
-			helper.setPath(path.resolve(moduleFolder));
-			this.#nodeHelpers.push(helper);
+			try {
+				helper.setName(moduleName);
+				helper.setPath(path.resolve(moduleFolder));
+				await helper.loaded();
+				// Register only after loaded() succeeded so failed helpers are neither started nor stopped.
+				this.#nodeHelpers.push(helper);
+			} catch (error) {
+				Log.error(`Error when initializing node_helper for module ${moduleName}:\n`, error);
+			}
+		}
+	}
 
-			helper.loaded();
+	/**
+	 * Connects a node_helper to the server and starts it. Errors are logged so
+	 * that one failing helper does not prevent the others from starting.
+	 * @param {object} helper The node_helper instance.
+	 * @param {object} app The Express app.
+	 * @param {object} io The Socket.IO server.
+	 * @returns {Promise<void>} Resolved when the helper has started or failed.
+	 */
+	async #startHelper (helper, app, io) {
+		try {
+			helper.setExpressApp(app);
+			helper.setSocketIO(io);
+			await helper.start();
+		} catch (error) {
+			Log.error(`Error when starting node_helper for module ${helper.name}:\n`, error);
 		}
 	}
 
@@ -265,27 +287,8 @@ class App {
 			const { app, io } = await this.#httpServer.open();
 			Log.log("Server started ...");
 
-			const nodePromises = [];
-			for (const nodeHelper of this.#nodeHelpers) {
-				nodeHelper.setExpressApp(app);
-				nodeHelper.setSocketIO(io);
-
-				try {
-					nodePromises.push(nodeHelper.start());
-				} catch (error) {
-					Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-					Log.error(error);
-				}
-			}
-
-			const results = await Promise.allSettled(nodePromises);
-
-			// Log errors that happened during async node_helper startup
-			results.forEach((result) => {
-				if (result.status === "rejected") {
-					Log.error(result.reason);
-				}
-			});
+			const startups = this.#nodeHelpers.map((helper) => this.#startHelper(helper, app, io));
+			await Promise.all(startups);
 
 			Log.log("Sockets connected & modules started ...");
 
