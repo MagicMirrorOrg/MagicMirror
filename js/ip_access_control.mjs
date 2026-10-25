@@ -1,5 +1,5 @@
-const ipaddr = require("ipaddr.js");
-const Log = require("logger");
+import ipaddr from "ipaddr.js";
+import Log from "./logger.js";
 
 /**
  * Checks if a client IP matches any entry in the whitelist
@@ -140,4 +140,4 @@ const socketIpAccessControl = (whitelist, trustedProxies) => {
 	};
 };
 
-module.exports = { ipAccessControl, socketIpAccessControl };
+export { ipAccessControl, socketIpAccessControl };

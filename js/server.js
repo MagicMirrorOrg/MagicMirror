@@ -7,7 +7,7 @@ const helmet = require("helmet");
 const socketio = require("socket.io");
 const Log = require("logger");
 
-const { ipAccessControl, socketIpAccessControl } = require("./ip_access_control");
+const { ipAccessControl, socketIpAccessControl } = require("./ip_access_control.mjs");
 
 const vendor = require("./vendor");
 
