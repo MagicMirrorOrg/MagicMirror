@@ -49,6 +49,12 @@ body:has(.portrait-board) .region.fullscreen.above .module-content { height: 100
 .portrait-minutes { color: var(--portrait-primary); font-size: 5cqw; font-weight: 750; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .portrait-unavailable { font-size: 4cqw; color: var(--portrait-secondary); }
 
+/* Offline: only a large centred clock and date, so no stale data is shown. */
+.portrait-offline { grid-template-rows: none; align-content: center; justify-items: center; text-align: center; }
+.portrait-offline .portrait-clock { font-size: 26cqw; }
+.portrait-offline .portrait-date { font-size: 6cqw; margin-top: 3cqw; }
+.portrait-offline-note { grid-row: 3; margin-top: 8cqw; color: var(--portrait-rule); font-size: 3cqw; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+
 /* Side-by-side greeting comparison, opt-in via ?preview=messages. */
 body:has(.portrait-comparison) .region.fullscreen.above .module { width: 100vw; }
 .portrait-comparison { box-sizing: border-box; width: 100%; height: 100%; overflow-y: auto; padding: 24px; background: #05080e; color: #fff; font-family: "NRK Sans", Arial, sans-serif; }

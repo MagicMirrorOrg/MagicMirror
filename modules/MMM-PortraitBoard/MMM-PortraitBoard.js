@@ -10,7 +10,11 @@ Module.register("MMM-PortraitBoard", {
 		departuresMaxAge: 2 * 60 * 1000,
 		walkMinutes: { Marienlyst: 5, Majorstuen: 10 },
 		maxBusDepartures: 5,
-		maxMetroDepartures: 6
+		maxMetroDepartures: 6,
+		// When the internet is unreachable, the board shows only the clock and date.
+		connectivityUrl: "https://api.entur.io/",
+		connectivityInterval: 30 * 1000,
+		failuresBeforeOffline: 2
 	},
 
 	getStyles() {
@@ -23,6 +27,12 @@ Module.register("MMM-PortraitBoard", {
 		this.departures = [];
 		this.departuresReceivedAt = 0;
 		this.events = [];
+		this.online = true;
+		this.sendSocketNotification("PORTRAIT_CONNECTIVITY_START", {
+			url: this.config.connectivityUrl,
+			interval: this.config.connectivityInterval,
+			failuresBeforeOffline: this.config.failuresBeforeOffline
+		});
 		this.sendSocketNotification("PORTRAIT_WEATHER_START", {
 			identifier: this.identifier,
 			lat: this.config.lat,
@@ -36,6 +46,9 @@ Module.register("MMM-PortraitBoard", {
 		if (notification === "PORTRAIT_WEATHER" && payload.identifier === this.identifier) {
 			this.weather = payload.weather;
 			this.weatherReceivedAt = Date.now();
+			this.updateDom(0);
+		} else if (notification === "PORTRAIT_CONNECTIVITY") {
+			this.online = payload.online;
 			this.updateDom(0);
 		}
 	},
@@ -208,11 +221,20 @@ Module.register("MMM-PortraitBoard", {
 		return preview;
 	},
 
+	offlineBoard(parts) {
+		const board = this.element("main", "portrait-board portrait-offline");
+		board.appendChild(this.element("time", "portrait-clock", `${parts.hour}:${parts.minute}`));
+		board.appendChild(this.element("span", "portrait-date", `${parts.weekday} ${parts.day}. ${parts.month}`));
+		board.appendChild(this.element("span", "portrait-offline-note", "Frakoblet"));
+		return board;
+	},
+
 	getDom() {
 		if (new URLSearchParams(window.location.search).get("preview") === "messages") return this.messagesPreview();
 		const now = Date.now();
 		// Preview only changes the displayed clock/date and view; live data is still filtered against real time.
 		const preview = new URLSearchParams(window.location.search).get("preview");
+		if (!this.online || preview === "offline") return this.offlineBoard(this.localParts(new Date(now)));
 		const parts = this.localParts(preview === "wednesday" ? new Date("2026-10-21T15:00:00+02:00") : new Date(now));
 		if (preview === "morning") {
 			parts.hour = "09";
