@@ -164,6 +164,17 @@ class Server {
 				res.status(200).send("OK");
 			});
 
+			// Run after express.static: missing CSS gets a CSS-typed 404 instead of
+			// Express's default HTML 404, which browsers report as a MIME mismatch.
+			const handleMissingStylesheet = (req, res, next) => {
+				if (path.extname(req.path).toLowerCase() !== ".css") {
+					return next();
+				}
+
+				res.status(404).type("text/css").send("");
+			};
+			app.use(handleMissingStylesheet);
+
 			this.#server.on("listening", () => {
 				resolve({
 					app,

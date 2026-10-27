@@ -34,6 +34,12 @@ describe("App environment", () => {
 		const res = await fetch("http://localhost:8080/nothing");
 		expect(res.status).toBe(404);
 	});
+
+	it("missing stylesheets should return 404 with a CSS content type", async () => {
+		const res = await fetch("http://localhost:8080/config/missing.css");
+		expect(res.status).toBe(404);
+		expect(res.headers.get("content-type")).toMatch(/^text\/css/);
+	});
 });
 
 describe("Check config", () => {
