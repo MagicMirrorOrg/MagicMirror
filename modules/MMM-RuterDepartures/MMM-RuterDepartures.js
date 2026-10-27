@@ -24,6 +24,7 @@ Module.register("MMM-RuterDepartures", {
 	socketNotificationReceived(notification, payload) {
 		if (notification === "RUTER_DEPARTURES" && payload.identifier === this.identifier) {
 			this.stops = payload.stops;
+			this.sendNotification("PORTRAIT_DEPARTURES", { stops: this.stops, receivedAt: Date.now() });
 			this.updateDom();
 		}
 	},

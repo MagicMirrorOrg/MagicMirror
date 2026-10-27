@@ -74,6 +74,7 @@ module.exports = NodeHelper.create({
 					realtime
 					expectedDepartureTime
 					cancellation
+					quay { publicCode }
 					destinationDisplay { frontText }
 					serviceJourney {
 						journeyPattern {
@@ -99,6 +100,7 @@ module.exports = NodeHelper.create({
 					mode: c.serviceJourney.journeyPattern.line.transportMode,
 					destination: c.destinationDisplay.frontText,
 					expectedTime: c.expectedDepartureTime,
+					track: c.quay?.publicCode || null,
 					realtime: c.realtime,
 				}))
 				.sort((a, b) => new Date(a.expectedTime) - new Date(b.expectedTime));

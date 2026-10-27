@@ -58,6 +58,7 @@ Temporary Items
 /modules/*
 !/modules/MMM-RuterDepartures
 !/modules/MMM-YrMeteogram
+!/modules/MMM-PortraitBoard
 
 # Ignore users config file but keep the samples.
 config

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inforskjerm — portrettskisse</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="preview.js" defer></script>
+</head>
+<body>
+  <div class="preview-controls" aria-label="Forhåndsvisning">
+    <span class="preview-label">DESIGNSKISSE · EKSEMPELDATA</span>
+    <div class="control-row" role="group" aria-label="Velg visning">
+      <button type="button" data-mode="workday" aria-pressed="true">Før 14:00</button>
+      <button type="button" data-mode="home" aria-pressed="false">Etter 14:00</button>
+    </div>
+    <label class="calendar-control"><input id="show-events" type="checkbox" checked /> Vis møter i dag</label>
+  </div>
+
+  <main class="board" data-mode="workday" aria-label="Portrettvisning av informasjonsskjerm">
+    <header class="masthead">
+      <div>
+        <p class="masthead-date">Fredag 16. oktober</p>
+      </div>
+      <time class="clock" id="clock">09:36</time>
+    </header>
+
+    <div class="board-body">
+      <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title">God morgen</h1>
+      </section>
+
+      <section class="weather-panel" aria-labelledby="weather-title">
+        <div class="section-heading">
+          <h2 id="weather-title">Været</h2>
+        </div>
+        <div class="weather-main">
+          <svg class="weather-icon" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+            <circle cx="108" cy="72" r="30" stroke="currentColor" stroke-width="8" />
+            <path d="M108 18v14M108 112v13M54 72H40M175 72h-14M70 34 60 24M158 120l-10-10M146 34l10-10" stroke="currentColor" stroke-width="8" stroke-linecap="round" />
+            <path d="M60 154h91c16 0 27-11 27-25 0-13-10-24-23-25-5-18-20-30-39-30-19 0-34 13-39 29-3-1-7-2-11-2-17 0-30 12-30 27 0 15 10 26 24 26Z" fill="#111e32" stroke="currentColor" stroke-width="8" stroke-linejoin="round" />
+          </svg>
+          <div class="temperature">11<span>°</span></div>
+        </div>
+        <p class="weather-summary" id="weather-summary">Lettskyet nå.<br /><strong>Opphold utover dagen.</strong></p>
+        <div class="weather-detail" id="weather-detail"><strong>Ta med en lett jakke</strong></div>
+      </section>
+
+      <section class="events-panel" id="events-panel" aria-labelledby="events-title">
+        <div class="section-heading"><h2 id="events-title">Fellesmøter i dag</h2></div>
+        <div class="event"><time>11:00</time><div><strong>Allmøte</strong><span>Auditoriet</span></div></div>
+        <div class="event"><time>13:00</time><div><strong>Ledelsen informerer</strong><span>Storsalen</span></div></div>
+      </section>
+
+      <section class="departures-panel" id="departures-panel" aria-labelledby="departures-title" hidden>
+        <div class="section-heading"><h2 id="departures-title">Avganger</h2><span class="heading-aside">MARIENLYST</span></div>
+        <div class="departure"><span class="line-badge tram">20</span><strong>Skøyen</strong><span class="minutes">5 <small>min</small></span></div>
+        <div class="departure"><span class="line-badge bus">28</span><strong>Økern</strong><span class="minutes">6 <small>min</small></span></div>
+        <div class="departure"><span class="line-badge tram">20</span><strong>Galgeberg</strong><span class="minutes">7 <small>min</small></span></div>
+        <div class="departure"><span class="line-badge tram">20</span><strong>Skøyen</strong><span class="minutes">12 <small>min</small></span></div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
