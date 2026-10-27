@@ -239,7 +239,7 @@ const loadFile = (fileName) => {
 					resolve();
 				};
 				stylesheet.onerror = () => {
-					Log.error("Error on loading stylesheet:", fileName);
+					Log.error(`Could not load stylesheet '${fileName}'.`);
 					stylesheet.remove();
 					resolve();
 				};
