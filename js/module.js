@@ -476,14 +476,12 @@ Module.create = function (name) {
 };
 
 Module.register = function (name, moduleDefinition) {
-	if (moduleDefinition.requiresVersion) {
-		Log.log(`Check MagicMirror² version for module '${name}' - Minimum version:  ${moduleDefinition.requiresVersion} - Current version: ${window.mmVersion}`);
-		if (cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) >= 0) {
-			Log.log("Version is ok!");
-		} else {
-			Log.warn(`Version is incorrect. Skip module: '${name}'`);
-			return;
-		}
+	if (moduleDefinition.requiresVersion && cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) < 0) {
+		Log.warn(
+			`Module '${name}' requires MagicMirror² >= ${moduleDefinition.requiresVersion} `
+			+ `(current: ${window.mmVersion}); module will not be loaded.`
+		);
+		return;
 	}
 	Log.log(`Module registered: ${name}`);
 	Module.definitions[name] = moduleDefinition;
