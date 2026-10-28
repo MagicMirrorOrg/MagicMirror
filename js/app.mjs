@@ -7,7 +7,7 @@ import { spawn } from "node:child_process";
 import { Agent, setGlobalDispatcher } from "undici";
 import packageJson from "../package.json" with { type: "json" };
 import Log from "./logger.js";
-import Server from "./server.js";
+import Server from "./server.mjs";
 import Utils from "./utils.js";
 import serverFunctions from "#server_functions";
 

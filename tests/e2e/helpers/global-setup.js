@@ -91,12 +91,11 @@ exports.getPage = () => {
 exports.startApplication = async (configFilename) => {
 	vi.resetModules();
 
-	// Clear CommonJS config and server caches; the ESM app is reused across starts.
+	// Clear CommonJS config caches; the ESM app is reused across starts.
 	Object.keys(require.cache).forEach((key) => {
 		if (
 			key.includes("/tests/configs/")
 			|| key.includes("/config/config")
-			|| key.includes("/js/server.js")
 		) {
 			delete require.cache[key];
 		}

@@ -1,5 +1,5 @@
 import "../defaultmodules/defaultmodules.js";
-import "./vendor.js";
+import "./vendor.mjs";
 
 /* Module state */
 
@@ -274,7 +274,7 @@ export const loadModules = async () => {
 
 /**
  * Load a file (script or stylesheet).
- * Prevent double loading and search for files defined in js/vendor.js.
+ * Prevent double loading and search for files defined in js/vendor.mjs.
  * @param {string} fileName Path of the file we want to load.
  * @param {Module} module The module that calls the loadFile function.
  * @returns {Promise} resolved when the file is loaded
@@ -293,7 +293,7 @@ export const loadFileForModule = (fileName, module) => {
 	}
 
 	if (globalThis.vendor[fileName] !== undefined) {
-		// This file is defined in js/vendor.js.
+		// This file is defined in js/vendor.mjs.
 		// Load it from its location.
 		loadedFiles.push(fileName.toLowerCase());
 		return loadFile(`${globalThis.vendor[fileName]}`);
