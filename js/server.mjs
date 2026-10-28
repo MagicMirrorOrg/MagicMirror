@@ -1,17 +1,16 @@
-const fs = require("node:fs");
-const http = require("node:http");
-const https = require("node:https");
-const path = require("node:path");
-const express = require("express");
-const helmet = require("helmet");
-const socketio = require("socket.io");
-const Log = require("logger");
+import fs from "node:fs";
+import http from "node:http";
+import https from "node:https";
+import path from "node:path";
+import express from "express";
+import helmet from "helmet";
+import { Server as SocketServer } from "socket.io";
+import Log from "./logger.js";
+import { ipAccessControl, socketIpAccessControl } from "./ip_access_control.mjs";
+import vendor from "./vendor.mjs";
+import serverFunctions from "#server_functions";
 
-const { ipAccessControl, socketIpAccessControl } = require("./ip_access_control.mjs");
-
-const vendor = require("./vendor");
-
-const { getHtml, getVersion, getEnvVars, getServerPort, cors } = require("#server_functions");
+const { getHtml, getVersion, getEnvVars, getServerPort, cors } = serverFunctions;
 
 /**
  * Server
@@ -60,7 +59,7 @@ class Server {
 			} else {
 				this.#server = http.Server(app);
 			}
-			const io = socketio(this.#server, {
+			const io = new SocketServer(this.#server, {
 				allowRequest: socketIpAccessControl(config.ipWhitelist, config.trustedProxies),
 				allowEIO3: true,
 				pingInterval: 120000, // server → client ping every 2 mins
@@ -106,7 +105,7 @@ class Server {
 
 			app.use(ipAccessControl(config.ipWhitelist, config.trustedProxies));
 			app.use(helmet(config.httpHeaders));
-			app.use("/js", express.static(__dirname));
+			app.use("/js", express.static(import.meta.dirname));
 
 			const getConfigFileError = (filename) => (req, res) => {
 				const errorText = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/${filename}</pre>\n</body>\n</html>`;
@@ -198,4 +197,4 @@ class Server {
 	}
 }
 
-module.exports = Server;
+export default Server;

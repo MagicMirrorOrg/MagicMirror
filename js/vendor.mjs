@@ -11,6 +11,4 @@ const vendor = {
 
 globalThis.vendor = vendor;
 
-if (typeof module !== "undefined") {
-	module.exports = vendor;
-}
+export default vendor;

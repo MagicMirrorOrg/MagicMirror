@@ -1,17 +1,16 @@
-const helpers = require("./helpers/global-setup");
+import vendors from "../../js/vendor.mjs";
+import { startApplication, stopApplication } from "./helpers/global-setup.mjs";
 
 describe("Vendors", () => {
 	beforeAll(async () => {
-		await helpers.startApplication("tests/configs/default.js");
+		await startApplication("tests/configs/default.js");
 	});
 
 	afterAll(async () => {
-		await helpers.stopApplication();
+		await stopApplication();
 	});
 
 	describe("Get list vendors", () => {
-		const vendors = require(`${global.root_path}/js/vendor.js`);
-
 		Object.keys(vendors).forEach((vendor) => {
 			it(`should return 200 HTTP code for vendor "${vendor}"`, async () => {
 				const urlVendor = `http://localhost:8080/${vendors[vendor]}`;
