@@ -30,4 +30,4 @@ jobs:
       - name: "Create Markdown content"
         run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          node js/releasenotes.js
+          node js/releasenotes.mjs

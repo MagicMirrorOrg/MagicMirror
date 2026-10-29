@@ -1,7 +1,9 @@
 /* eslint no-console: "off" */
-const util = require("node:util");
-const exec = util.promisify(require("node:child_process").exec);
-const fs = require("node:fs");
+import { exec as execCallback } from "node:child_process";
+import fs from "node:fs";
+import util from "node:util";
+
+const exec = util.promisify(execCallback);
 
 const createReleaseNotes = async () => {
 	let repoName = "MagicMirrorOrg/MagicMirror";
