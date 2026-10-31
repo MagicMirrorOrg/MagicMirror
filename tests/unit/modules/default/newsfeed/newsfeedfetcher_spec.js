@@ -14,32 +14,34 @@ const feedResponse = (fetcher, xml = xmlContent) => new Promise((resolve) => {
 
 describe("NewsfeedFetcher", () => {
 	it("parses all items from the test fixture", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const items = await feedResponse(fetcher);
 
 		expect(items).toHaveLength(10);
 	});
 
 	it("parses title, URL, publication date and description", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const items = await feedResponse(fetcher);
 		const item = items[0];
 
-		expect(item.title).toBeTruthy();
-		expect(item.url).toMatch(/^https?:\/\//);
-		expect(item.pubdate).toBeTruthy();
+		expect(item.title).toBe("QPanel 0.13.0");
+		expect(item.url).toBe("https://rodrigoramirez.com/qpanel-0-13-0/");
+		expect(item.pubdate).toBe("2016-09-20T11:16:08.000Z");
 		expect(item.description).toBeTruthy();
 	});
 
 	it("strips HTML tags from descriptions", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const items = await feedResponse(fetcher);
 
-		expect(items[0].description).not.toContain("<p>");
+		for (const item of items) {
+			expect(item.description).not.toMatch(/<[^>]+>/);
+		}
 	});
 
 	it("defaults to an empty description when an Atom entry has no summary content", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const feed = `
 			<feed xmlns="http://www.w3.org/2005/Atom">
 				<entry>
@@ -55,7 +57,7 @@ describe("NewsfeedFetcher", () => {
 	});
 
 	it("generates a stable SHA-256 hash for each item", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const items = await feedResponse(fetcher);
 
 		for (const item of items) {
@@ -65,7 +67,7 @@ describe("NewsfeedFetcher", () => {
 
 	it("discards items without a title", async () => {
 		const xml = xmlContent.replace("<title>QPanel 0.13.0</title>", "<title></title>");
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const items = await feedResponse(fetcher, xml);
 
 		expect(items).toHaveLength(9);
@@ -73,14 +75,14 @@ describe("NewsfeedFetcher", () => {
 
 	it("discards items without a publication date", async () => {
 		const xml = xmlContent.replace("<pubDate>Tue, 20 Sep 2016 11:16:08 +0000</pubDate>", "<pubDate></pubDate>");
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const items = await feedResponse(fetcher, xml);
 
 		expect(items).toHaveLength(9);
 	});
 
 	it("calls onError when feed XML is malformed", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const error = new Promise((resolve) => fetcher.onError((_fetcher, info) => resolve(info)));
 		fetcher.httpFetcher.emit("response", { body: Readable.from(["this is not xml at all <<<"]) });
 
@@ -88,7 +90,7 @@ describe("NewsfeedFetcher", () => {
 	});
 
 	it("calls onError when an HTTP error is emitted", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const error = new Promise((resolve) => fetcher.onError((_fetcher, info) => resolve(info)));
 		fetcher.httpFetcher.emit("error", { message: "404", translationKey: "MODULE_ERROR_CLIENT_ERROR" });
 
@@ -98,22 +100,30 @@ describe("NewsfeedFetcher", () => {
 	it("increases reloadInterval when feed TTL is larger", async () => {
 		const ttlMinutes = 30;
 		const xml = xmlContent.replace("    <item>", `    <ttl>${ttlMinutes}</ttl>\n    <item>`);
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		await feedResponse(fetcher, xml);
 
 		expect(fetcher.httpFetcher.reloadInterval).toBe(ttlMinutes * 60 * 1000);
 	});
 
+	it("does not decrease reloadInterval when feed TTL is smaller", async () => {
+		const xml = xmlContent.replace("    <item>", "    <ttl>1</ttl>\n    <item>");
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 600000, "UTF-8", false);
+		await feedResponse(fetcher, xml);
+
+		expect(fetcher.httpFetcher.reloadInterval).toBe(600000);
+	});
+
 	it("caps TTL at 24 hours", async () => {
 		const xml = xmlContent.replace("    <item>", "    <ttl>2880</ttl>\n    <item>");
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		await feedResponse(fetcher, xml);
 
 		expect(fetcher.httpFetcher.reloadInterval).toBe(24 * 60 * 60 * 1000);
 	});
 
 	it("updates reloadInterval only when the configured value is smaller", () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 
 		fetcher.setReloadInterval(30000);
 		expect(fetcher.httpFetcher.reloadInterval).toBe(30000);
@@ -123,13 +133,23 @@ describe("NewsfeedFetcher", () => {
 		expect(fetcher.httpFetcher.reloadInterval).toBe(30000);
 	});
 
-	it("attaches useCorsProxy without changing item URLs", async () => {
-		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, true);
+	it("uses allowedBasicHtmlTags from the fifth constructor argument", async () => {
+		const xml = xmlContent.replace("<title>QPanel 0.13.0</title>", "<title><![CDATA[<em>QPanel</em> 0.13.0]]></title>");
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, ["em"]);
+		const items = await feedResponse(fetcher, xml);
+
+		expect(items[0].title).toBe("<em>QPanel</em> 0.13.0");
+	});
+
+	it("keeps article URLs direct and omits the removed proxy metadata", async () => {
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false);
 		const items = await feedResponse(fetcher);
 
+		expect(items).toHaveLength(10);
 		for (const item of items) {
-			expect(item.useCorsProxy).toBe(true);
+			expect(item.url).toMatch(/^https?:\/\//);
 			expect(item.url).not.toContain("/cors?url=");
+			expect(item).not.toHaveProperty("useCorsProxy");
 		}
 	});
 });
