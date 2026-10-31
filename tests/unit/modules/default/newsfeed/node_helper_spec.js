@@ -91,7 +91,6 @@ describe("newsfeed node_helper", () => {
 		helper.createFetcher({
 			url: "https://example.com/feed.xml",
 			encoding: "ISO-8859-1",
-			useCorsProxy: false,
 			reloadInterval: 120000
 		}, config);
 

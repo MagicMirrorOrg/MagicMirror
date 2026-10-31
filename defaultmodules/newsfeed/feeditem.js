@@ -63,11 +63,10 @@ const sanitizeBasicHtml = (html, allowedTags = []) => {
  * @param {object} item - The parsed feed item from feedparser.
  * @param {object} [options] - Normalization options.
  * @param {string[]} [options.allowedBasicHtmlTags] - Inline tags allowed to survive sanitization.
- * @param {boolean} [options.useCorsProxy] - Whether the item's article should use the CORS proxy.
  * @param {boolean} [options.logFeedWarnings] - Whether to log a warning for items missing a title or publication date.
- * @returns {{title:string, description:string, pubdate:string, url:string, useCorsProxy:boolean, hash:string}|null} The normalized item, or null when title or pubdate is missing.
+ * @returns {{title:string, description:string, pubdate:string, url:string, hash:string}|null} The normalized item, or null when title or pubdate is missing.
  */
-const normalizeFeedItem = (item, { allowedBasicHtmlTags = [], useCorsProxy = false, logFeedWarnings = false } = {}) => {
+const normalizeFeedItem = (item, { allowedBasicHtmlTags = [], logFeedWarnings = false } = {}) => {
 	// feedparser strips HTML from item.title; recover the raw title so inline
 	// formatting tags (e.g. <em>) in titles survive sanitizeBasicHtml below.
 	const title = (item["rss:title"] && item["rss:title"]["#"]) || (item["atom:title"] && item["atom:title"]["#"]) || item.title;
@@ -111,7 +110,6 @@ const normalizeFeedItem = (item, { allowedBasicHtmlTags = [], useCorsProxy = fal
 		description,
 		pubdate,
 		url,
-		useCorsProxy,
 		// Hash on the original title so the dedup identity is stable regardless of allowedBasicHtmlTags
 		hash: crypto.createHash("sha256").update(`${pubdate} :: ${title} :: ${url}`).digest("hex")
 	};
