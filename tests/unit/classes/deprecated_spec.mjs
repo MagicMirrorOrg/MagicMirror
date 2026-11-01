@@ -1,4 +1,4 @@
-const deprecated = require("../../../js/deprecated");
+import * as deprecated from "../../../js/deprecated.mjs";
 
 describe("Deprecated", () => {
 	it("should be an object", () => {
