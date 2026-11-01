@@ -4,7 +4,7 @@ require("./alias-resolver");
 
 const electron = require("electron");
 const Log = require("./logger");
-const { applyElectronSwitches } = require("./electron_helper");
+const { applyElectronSwitches } = require("./electron_helper.mjs");
 const { getServerPort } = require("#server_functions");
 
 const corePromise = import("./app.mjs").then(({ default: core }) => core);

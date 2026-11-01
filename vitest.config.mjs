@@ -60,7 +60,7 @@ export default defineConfig({
 					environment: "node",
 					setupFiles: ["./tests/utils/vitest-setup.js"],
 					include: [
-						"tests/unit/**/*_spec.js",
+						"tests/unit/**/*_spec.{js,mjs}",
 						"tests/unit/defaultmodules/calendar/calendar_fetcher_utils_bad_rrule.js"
 					],
 					testTimeout: 20000,

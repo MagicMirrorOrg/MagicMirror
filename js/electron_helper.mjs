@@ -1,4 +1,4 @@
-const Log = require("./logger");
+import Log from "./logger.js";
 
 /**
  * Applies Electron command-line switches from config.
@@ -27,4 +27,4 @@ const applyElectronSwitches = (commandLine, electronSwitches) => {
 	}
 };
 
-module.exports = { applyElectronSwitches };
+export { applyElectronSwitches };

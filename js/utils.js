@@ -77,11 +77,11 @@ const getModulePositions = () => {
 
 /**
  * Checks the config for deprecated options and throws a warning in the logs
- * if it encounters one option from the deprecated.js list
+ * if it encounters one option from the deprecated.mjs list
  * @param {object} userConfig The user config
  */
 const checkDeprecatedOptions = (userConfig) => {
-	const deprecated = require(`${global.root_path}/js/deprecated`);
+	const deprecated = require(`${global.root_path}/js/deprecated.mjs`);
 
 	// check for deprecated core options
 	const deprecatedOptions = deprecated.configs;

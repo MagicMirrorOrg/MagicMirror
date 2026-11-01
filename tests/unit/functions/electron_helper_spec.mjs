@@ -1,5 +1,5 @@
-const Log = require("logger");
-const { applyElectronSwitches } = require("../../../js/electron_helper");
+import Log from "../../../js/logger.js";
+import { applyElectronSwitches } from "../../../js/electron_helper.mjs";
 
 describe("electron switches", () => {
 	let commandLine;
