@@ -31,7 +31,7 @@
 			"default": "./js/server_functions.js"
 		},
 		"#http_fetcher": {
-			"default": "./js/http_fetcher.js"
+			"default": "./js/http_fetcher.mjs"
 		}
 	},
 	"main": "js/electron.js",
