@@ -85,23 +85,23 @@
 		"@fontsource/roboto-condensed": "^5.3.0",
 		"@fortawesome/fontawesome-free": "^7.3.1",
 		"animate.css": "^4.1.1",
-		"croner": "^10.0.1",
-		"eslint": "^10.13.0",
+		"croner": "^11.0.0",
+		"eslint": "^10.14.0",
 		"express": "^5.3.0",
 		"feedparser": "^2.6.0",
-		"globals": "^17.13.0",
+		"globals": "^17.14.0",
 		"helmet": "^8.3.0",
 		"html-to-text": "^10.0.1",
 		"iconv-lite": "^0.7.3",
 		"ics-filter": "^1.0.5",
 		"ipaddr.js": "^2.5.0",
 		"moment": "^2.31.0",
-		"moment-timezone": "^0.6.5",
+		"moment-timezone": "^0.6.6",
 		"node-ical": "^0.27.3",
 		"nunjucks": "^3.2.4",
 		"socket.io": "^4.8.4",
 		"suncalc": "^2.1.1",
-		"systeminformation": "^5.33.16",
+		"systeminformation": "^5.33.19",
 		"undici": "^8.12.3",
 		"weathericons": "^2.1.0"
 	},
@@ -111,12 +111,12 @@
 		"@eslint/markdown": "^8.0.3",
 		"@stylistic/eslint-plugin": "^5.10.0",
 		"@vitest/coverage-v8": "^5.0.5",
-		"@vitest/eslint-plugin": "^1.6.27",
+		"@vitest/eslint-plugin": "^1.6.28",
 		"@vitest/ui": "^5.0.5",
 		"cspell": "^10.4.0",
 		"eslint-plugin-import-x": "^4.17.1",
-		"eslint-plugin-jsdoc": "^65.4.0",
-		"eslint-plugin-package-json": "^1.10.1",
+		"eslint-plugin-jsdoc": "^65.4.2",
+		"eslint-plugin-package-json": "^1.12.0",
 		"eslint-plugin-playwright": "^2.12.1",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.7",
@@ -129,7 +129,7 @@
 		"vitest": "^5.0.5"
 	},
 	"optionalDependencies": {
-		"electron": "^44.9.2"
+		"electron": "^45.2.1"
 	},
 	"engines": {
 		"node": ">=22.22.2 <23 || >=24"
