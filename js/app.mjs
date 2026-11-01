@@ -9,12 +9,10 @@ import packageJson from "../package.json" with { type: "json" };
 import Log from "./logger.js";
 import Server from "./server.mjs";
 import Utils from "./utils.js";
-import serverFunctions from "#server_functions";
+import { getEnvVarsAsObj } from "#server_functions";
 
 const require = createRequire(import.meta.url);
 const { ConfigError } = Utils;
-const { getEnvVarsAsObj } = serverFunctions;
-
 // global absolute root path
 global.root_path = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 

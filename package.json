@@ -28,7 +28,7 @@
 	"type": "commonjs",
 	"imports": {
 		"#server_functions": {
-			"default": "./js/server_functions.js"
+			"default": "./js/server_functions.mjs"
 		},
 		"#http_fetcher": {
 			"default": "./js/http_fetcher.mjs"

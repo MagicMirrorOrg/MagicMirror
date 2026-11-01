@@ -32,7 +32,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
+		files: ["**/*.js", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
@@ -104,7 +104,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
+		files: ["**/*.js", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
 		ignores: [
 			"clientonly/index.js",
 			"js/logger.js",
@@ -119,7 +119,7 @@ export default defineConfig([
 	},
 	{
 		files: ["**/*.mjs"],
-		ignores: ["js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
+		ignores: ["js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {

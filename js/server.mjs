@@ -8,9 +8,7 @@ import { Server as SocketServer } from "socket.io";
 import Log from "./logger.js";
 import { ipAccessControl, socketIpAccessControl } from "./ip_access_control.mjs";
 import vendor from "./vendor.mjs";
-import serverFunctions from "#server_functions";
-
-const { getHtml, getVersion, getEnvVars, getServerPort, cors } = serverFunctions;
+import { getHtml, getVersion, getEnvVars, getServerPort, cors } from "#server_functions";
 
 /**
  * Server
