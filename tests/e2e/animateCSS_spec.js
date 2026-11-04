@@ -2,7 +2,7 @@ const { expect } = require("playwright/test");
 const helpers = require("./helpers/global-setup");
 
 // Validate Animate.css integration for compliments module using class toggling.
-// We intentionally ignore computed animation styles (jsdom doesn't simulate real animations).
+// Assertions focus on animation class toggling, not timing or computed styles.
 describe("AnimateCSS integration Test", () => {
 	let page;
 
