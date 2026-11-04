@@ -1,6 +1,5 @@
 import "./alias-resolver.js";
-import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -9,12 +8,9 @@ import packageJson from "../package.json" with { type: "json" };
 import Log from "./logger.js";
 import Server from "./server.mjs";
 import Utils from "./utils.js";
-import serverFunctions from "#server_functions";
+import { getEnvVarsAsObj } from "#server_functions";
 
-const require = createRequire(import.meta.url);
 const { ConfigError } = Utils;
-const { getEnvVarsAsObj } = serverFunctions;
-
 // global absolute root path
 global.root_path = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -244,7 +240,12 @@ class App {
 			Utils.checkConfigFile(configObj);
 
 			global.defaultModulesDir = config.defaultModulesDir;
-			this.#defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
+			const defaultModulesPath = path.resolve(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
+			const cjsDefaultModulesPath = `${defaultModulesPath}.js`;
+			const defaultModulesUrl = fs.existsSync(cjsDefaultModulesPath)
+				? pathToFileURL(cjsDefaultModulesPath)
+				: pathToFileURL(`${defaultModulesPath}.mjs`);
+			this.#defaultModules = (await import(defaultModulesUrl.href)).default;
 
 			Log.setLogLevel(config.logLevel);
 

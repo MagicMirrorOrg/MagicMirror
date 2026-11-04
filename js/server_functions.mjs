@@ -1,9 +1,9 @@
-const dns = require("node:dns");
-const fs = require("node:fs");
-const path = require("node:path");
-const ipaddr = require("ipaddr.js");
-const undici = require("undici");
-const Log = require("logger");
+import dns from "node:dns";
+import fs from "node:fs";
+import path from "node:path";
+import ipaddr from "ipaddr.js";
+import undici from "undici";
+import Log from "./logger.js";
 
 const startUp = new Date();
 
@@ -264,7 +264,7 @@ const getServerPort = (config = global.config) => {
 const getConfigFilePath = () => {
 	// Ensure root_path is set (for standalone contexts like watcher)
 	if (!global.root_path) {
-		global.root_path = path.resolve(`${__dirname}/../`);
+		global.root_path = path.resolve(import.meta.dirname, "../");
 	}
 
 	// Check environment variable if global not set
@@ -275,4 +275,18 @@ const getConfigFilePath = () => {
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 };
 
-module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getServerPort, getConfigFilePath, replaceSecretPlaceholder };
+const serverFunctions = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getServerPort, getConfigFilePath, replaceSecretPlaceholder };
+
+export {
+	serverFunctions as "module.exports",
+	cors,
+	getHtml,
+	getVersion,
+	getStartup,
+	getEnvVars,
+	getEnvVarsAsObj,
+	getUserAgent,
+	getServerPort,
+	getConfigFilePath,
+	replaceSecretPlaceholder
+};

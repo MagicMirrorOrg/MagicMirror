@@ -6,7 +6,4 @@ const defaultModules = ["alert", "calendar", "clock", "compliments", "helloworld
 
 globalThis.defaultModules = defaultModules;
 
-/*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {
-	module.exports = defaultModules;
-}
+export { defaultModules as default };

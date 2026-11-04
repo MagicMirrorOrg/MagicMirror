@@ -1,7 +1,9 @@
-const { EventEmitter } = require("node:events");
-const { fetch: undiciFetch, Agent } = require("undici");
-const Log = require("logger");
-const { getUserAgent } = require("#server_functions");
+import { EventEmitter } from "node:events";
+import undici from "undici";
+import Log from "./logger.js";
+import { getUserAgent } from "#server_functions";
+
+const { fetch: undiciFetch, Agent } = undici;
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
 const THIRTY_MINUTES = 30 * 60 * 1000;
@@ -392,4 +394,4 @@ class HTTPFetcher extends EventEmitter {
 	}
 }
 
-module.exports = HTTPFetcher;
+export { HTTPFetcher as default, HTTPFetcher as "module.exports" };

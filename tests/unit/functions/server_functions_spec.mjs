@@ -1,13 +1,19 @@
-// Tests use vi.spyOn on shared module objects (dns, undici).
-// vi.spyOn modifies the object property directly on the cached module instance, so it
-// is intercepted by server_functions.js regardless of the Module.prototype.require override
-// in vitest-setup.js.  restoreAllMocks:true auto-restores spies, but may reuse the same
-// spy instance — mockClear() is called explicitly in beforeEach to reset call history.
-const dns = require("node:dns");
-const undici = require("undici");
-const { cors, getUserAgent, replaceSecretPlaceholder } = require("#server_functions");
+import { createRequire } from "node:module";
+import dns from "node:dns";
+import undici from "undici";
+import { cors, getUserAgent, replaceSecretPlaceholder } from "#server_functions";
+
+const require = createRequire(import.meta.url);
+const commonJSExports = require("#server_functions");
 
 describe("server_functions tests", () => {
+	it("preserves the CommonJS API", () => {
+		expect(Object.getPrototypeOf(commonJSExports)).toBe(Object.prototype);
+		expect(commonJSExports).toHaveProperty("cors", expect.any(Function));
+		expect(commonJSExports).toHaveProperty("getUserAgent", expect.any(Function));
+		expect(commonJSExports).toHaveProperty("replaceSecretPlaceholder", expect.any(Function));
+	});
+
 	describe("The replaceSecretPlaceholder method with cors=allowWhitelist", () => {
 		beforeEach(() => {
 			global.config = { cors: "allowWhitelist" };

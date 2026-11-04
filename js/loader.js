@@ -1,4 +1,4 @@
-import "../defaultmodules/defaultmodules.js";
+import "../defaultmodules/defaultmodules.mjs";
 import "./vendor.mjs";
 
 /* Module state */
@@ -21,7 +21,7 @@ const getEnvVarsFromConfig = () => {
 
 /**
  * Retrieve object of env variables.
- * @returns {object} with key: values as assembled in js/server_functions.js
+ * @returns {object} with key: values as assembled in js/server_functions.mjs
  */
 const getEnvVars = async () => {
 	// In test mode, skip server fetch and use config values directly

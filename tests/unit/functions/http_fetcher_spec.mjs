@@ -1,6 +1,6 @@
-const { http, HttpResponse } = require("msw");
-const { setupServer } = require("msw/node");
-const HTTPFetcher = require("#http_fetcher");
+import { http, HttpResponse } from "msw";
+import { setupServer } from "msw/node";
+import HTTPFetcher from "#http_fetcher";
 
 const TEST_URL = "http://test.example.com/data";
 let server;
