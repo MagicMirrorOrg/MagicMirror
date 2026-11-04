@@ -163,7 +163,7 @@ describe("translations", () => {
 			tr: ["DAYBEFOREYESTERDAY"]
 		};
 
-		// Function to initialize JSDOM and load translations
+		// Initialize the translation test environment and load translations
 		const initializeTranslationDOM = async (language) => {
 			const Translator = await getFreshTranslator();
 			await Translator.load(mmm, translations[language], false);
