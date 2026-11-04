@@ -1,10 +1,14 @@
 import { createRequire } from "node:module";
 import dns from "node:dns";
+import http from "node:http";
 import undici from "undici";
 import { cors, getUserAgent, replaceSecretPlaceholder } from "#server_functions";
 
 const require = createRequire(import.meta.url);
 const commonJSExports = require("#server_functions");
+
+const realUndiciFetch = undici.fetch.bind(undici);
+const realBuildConnector = undici.buildConnector.bind(undici);
 
 describe("server_functions tests", () => {
 	it("preserves the CommonJS API", () => {
@@ -256,12 +260,14 @@ describe("server_functions tests", () => {
 				status: vi.fn(function () { return this; }),
 				json: vi.fn()
 			};
+			vi.spyOn(undici, "fetch").mockImplementation((...args) => realUndiciFetch(...args));
 		});
 
 		it("Blocks localhost hostname without DNS", async () => {
 			await cors({ url: "/cors?url=http://localhost/path" }, response);
 			expect(response.status).toHaveBeenCalledWith(403);
 			expect(response.json).toHaveBeenCalledWith({ error: "Forbidden: private or reserved addresses are not allowed" });
+			expect(dns.promises.lookup).not.toHaveBeenCalled();
 		});
 
 		it("Blocks non-http protocols", async () => {
@@ -292,16 +298,6 @@ describe("server_functions tests", () => {
 			expect(response.status).toHaveBeenCalledWith(403);
 		});
 
-		it("Allows public unicast addresses", async () => {
-			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
-			vi.spyOn(global, "fetch").mockResolvedValue({
-				ok: true,
-				headers: { get: vi.fn() },
-				arrayBuffer: vi.fn(() => new ArrayBuffer(0))
-			});
-			await cors({ url: "/cors?url=http://example.com/" }, response);
-			expect(response.status).not.toHaveBeenCalledWith(403);
-		});
 	});
 
 	describe("cors method with allowWhitelist", () => {
@@ -314,12 +310,7 @@ describe("server_functions tests", () => {
 				status: vi.fn(function () { return this; }),
 				json: vi.fn()
 			};
-			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
-			vi.spyOn(global, "fetch").mockResolvedValue({
-				ok: true,
-				headers: { get: vi.fn() },
-				arrayBuffer: vi.fn(() => new ArrayBuffer(0))
-			});
+			vi.spyOn(undici, "fetch").mockImplementation((...args) => realUndiciFetch(...args));
 		});
 
 		it("Blocks domains not in whitelist", async () => {
@@ -327,11 +318,100 @@ describe("server_functions tests", () => {
 			await cors({ url: "/cors?url=http://example.com/api" }, response);
 			expect(response.status).toHaveBeenCalledWith(403);
 		});
+	});
 
-		it("Allows domains in whitelist", async () => {
-			global.config = { cors: "allowWhitelist", corsDomainWhitelist: ["example.com"] };
-			await cors({ url: "/cors?url=http://example.com/api" }, response);
-			expect(response.status).not.toHaveBeenCalledWith(403);
+	describe("The cors method validates redirect targets", () => {
+		let server;
+		let port;
+		let response;
+
+		beforeEach(async () => {
+			global.config = { cors: "allowAll" };
+			response = {
+				set: vi.fn(),
+				send: vi.fn(),
+				status: vi.fn(function () { return this; }),
+				json: vi.fn()
+			};
+
+			vi.spyOn(undici, "fetch").mockImplementation((...args) => realUndiciFetch(...args));
+			// Keep the request hostname for CORS checks, but route its socket to the local test server.
+			vi.spyOn(undici, "buildConnector").mockImplementation((connectorOptions) => {
+				const connector = realBuildConnector(connectorOptions);
+				return (options, callback) => connector({ ...options, hostname: "127.0.0.1", servername: null }, callback);
+			});
+
+			server = http.createServer((req, res) => {
+				const redirects = {
+					"/redirect-allowed": `http://second.test:${port}/final`,
+					"/redirect-private-domain": `http://internal.test:${port}/secret`,
+					"/redirect-loopback-ip": `http://127.0.0.1:${port}/secret`,
+					"/redirect-outside-whitelist": `http://outside.test:${port}/final`
+				};
+				if (redirects[req.url]) {
+					res.writeHead(302, { Location: redirects[req.url] });
+					res.end();
+					return;
+				}
+				res.writeHead(200, { "Content-Type": "text/plain" });
+				res.end("redirect-ok");
+			});
+
+			await new Promise((resolve) => {
+				server.listen(0, "127.0.0.1", resolve);
+			});
+			({ port } = server.address());
+		});
+
+		afterEach(async () => {
+			await new Promise((resolve) => {
+				server.close(resolve);
+			});
+		});
+
+		it("Follows redirects when all hops resolve to public unicast addresses and are whitelisted", async () => {
+			global.config = { cors: "allowWhitelist", corsDomainWhitelist: ["first.test", "second.test"] };
+			const lookupSpy = vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
+
+			await cors({ url: `/cors?url=http://first.test:${port}/redirect-allowed` }, response);
+
+			expect(lookupSpy.mock.calls.map(([hostname]) => hostname)).toEqual(["first.test", "second.test"]);
+			expect(response.send).toHaveBeenCalledWith(Buffer.from("redirect-ok"));
+		});
+
+		it.each([
+			{
+				name: "a private DNS result",
+				path: "/redirect-private-domain",
+				config: { cors: "allowAll" },
+				addresses: ["93.184.216.34", "127.0.0.1"],
+				error: "Forbidden: private or reserved addresses are not allowed"
+			},
+			{
+				name: "a loopback IP literal",
+				path: "/redirect-loopback-ip",
+				config: { cors: "allowAll" },
+				addresses: ["93.184.216.34", "127.0.0.1"],
+				error: "Forbidden: private or reserved addresses are not allowed"
+			},
+			{
+				name: "a host outside the whitelist",
+				path: "/redirect-outside-whitelist",
+				config: { cors: "allowWhitelist", corsDomainWhitelist: ["first.test"] },
+				addresses: ["93.184.216.34"],
+				error: "Forbidden: domain not in corsDomainWhitelist"
+			}
+		])("Blocks redirects to $name", async ({ path, config, addresses, error }) => {
+			global.config = config;
+			const lookupAddresses = [...addresses];
+			vi.spyOn(dns.promises, "lookup").mockImplementation(() => {
+				return Promise.resolve({ address: lookupAddresses.shift(), family: 4 });
+			});
+
+			await cors({ url: `/cors?url=http://first.test:${port}${path}` }, response);
+
+			expect(response.status).toHaveBeenCalledWith(403);
+			expect(response.json).toHaveBeenCalledWith({ error: error });
 		});
 	});
 });
