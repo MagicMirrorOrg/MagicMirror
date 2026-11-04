@@ -1,4 +1,4 @@
-import "../defaultmodules/defaultmodules.js";
+import "../defaultmodules/defaultmodules.mjs";
 import "./vendor.mjs";
 
 /* Module state */

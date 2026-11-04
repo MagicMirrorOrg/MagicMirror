@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import NodeHelper from "node_helper";
-import defaultModules from "../defaultmodules.js";
+import defaultModules from "../defaultmodules.mjs";
 import GitHelper from "./git_helper.js";
 import UpdateHelper from "./update_helper.js";
 
