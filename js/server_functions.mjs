@@ -45,6 +45,39 @@ const replaceSecretPlaceholder = (input, allowedSecrets) => {
 };
 
 /**
+ * Validates that a hostname is allowed by the CORS configuration and resolves to a public unicast IP.
+ * @param {string} hostname - The hostname to validate.
+ * @returns {Promise<string>} The validated IP address.
+ */
+const validateCorsHost = async (hostname) => {
+	const host = hostname.toLowerCase();
+
+	if (host === "localhost") {
+		Log.warn(`SSRF blocked (localhost): ${hostname}`);
+		const error = new Error("Forbidden: private or reserved addresses are not allowed");
+		error.statusCode = 403;
+		throw error;
+	}
+
+	if (global.config.cors === "allowWhitelist" && !global.config.corsDomainWhitelist.includes(host)) {
+		Log.warn(`CORS blocked (not in whitelist): ${hostname}`);
+		const error = new Error("Forbidden: domain not in corsDomainWhitelist");
+		error.statusCode = 403;
+		throw error;
+	}
+
+	const { address } = await dns.promises.lookup(host);
+	if (ipaddr.process(address).range() !== "unicast") {
+		Log.warn(`SSRF blocked: ${hostname}`);
+		const error = new Error("Forbidden: private or reserved addresses are not allowed");
+		error.statusCode = 403;
+		throw error;
+	}
+
+	return address;
+};
+
+/**
  * A method that forwards HTTP Get-methods to the internet to avoid CORS-errors.
  *
  * Example input request url: /cors?sendheaders=header1:value1,header2:value2&expectedheaders=header1,header2&url=http://www.test.com/path?param1=value1
@@ -85,58 +118,46 @@ const cors = async (req, res) => {
 				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
 			}
 
-			// Block localhost by hostname before even creating the dispatcher (no DNS needed).
-			if (parsed.hostname.toLowerCase() === "localhost") {
-				Log.warn(`SSRF blocked (localhost): ${url}`);
-				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
-			}
-
-			// Whitelist check: if enabled, only allow explicitly listed domains
-			if (global.config.cors === "allowWhitelist" && !global.config.corsDomainWhitelist.includes(parsed.hostname.toLowerCase())) {
-				Log.warn(`CORS blocked (not in whitelist): ${url}`);
-				return res.status(403).json({ error: "Forbidden: domain not in corsDomainWhitelist" });
-			}
-
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
 			Log.log(`cors url: ${url}`);
 
-			// Resolve DNS once and validate the IP. The validated IP is then pinned
-			// for the actual connection so fetch() cannot re-resolve to a different
-			// address. This prevents DNS rebinding / TOCTOU attacks (GHSA-xhvw-r95j-xm4v).
-			const { address, family } = await dns.promises.lookup(parsed.hostname);
-			if (ipaddr.process(address).range() !== "unicast") {
-				Log.warn(`SSRF blocked: ${url}`);
-				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
-			}
-
-			// Pin the validated IP — fetch() reuses it instead of doing its own DNS lookup
+			// Validate each host immediately before connecting and pin the socket to its public IP.
+			const defaultConnector = undici.buildConnector({});
 			const dispatcher = new undici.Agent({
-				connect: {
-					lookup: (_h, _o, cb) => {
-						const addresses = [{ address: address, family: family }];
-						process.nextTick(() => cb(null, addresses));
+				connect: async (options, callback) => {
+					try {
+						const address = await validateCorsHost(options.hostname);
+						// Keep the original hostname for TLS SNI while connecting to the validated IP.
+						defaultConnector({ ...options, hostname: address, servername: options.servername || options.hostname }, callback);
+					} catch (err) {
+						callback(err, null);
 					}
 				}
 			});
 
-			const response = await undici.fetch(url, { dispatcher, headers: headersToSend });
-			if (response.ok) {
-				for (const header of expectedReceivedHeaders) {
-					const headerValue = response.headers.get(header);
-					if (header) res.set(header, headerValue);
+			try {
+				const response = await undici.fetch(url, { dispatcher, headers: headersToSend });
+				if (response.ok) {
+					for (const header of expectedReceivedHeaders) {
+						const headerValue = response.headers.get(header);
+						if (header) res.set(header, headerValue);
+					}
+					const arrayBuffer = await response.arrayBuffer();
+					res.send(Buffer.from(arrayBuffer));
+				} else {
+					throw new Error(`Response status: ${response.status}`);
 				}
-				const arrayBuffer = await response.arrayBuffer();
-				res.send(Buffer.from(arrayBuffer));
-			} else {
-				throw new Error(`Response status: ${response.status}`);
+			} finally {
+				await dispatcher.close();
 			}
 		}
 	} catch (error) {
+		const cause = error.cause?.statusCode ? error.cause : error;
 		if (process.env.mmTestMode !== "true") {
-			Log.error(`Error in CORS request: ${error}`);
+			Log.error(`Error in CORS request: ${cause}`);
 		}
-		res.status(500).json({ error: error.message });
+		res.status(cause.statusCode || 500).json({ error: cause.message });
 	}
 };
 
