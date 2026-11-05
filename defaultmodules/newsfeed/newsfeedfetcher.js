@@ -1,9 +1,9 @@
-const stream = require("node:stream");
-const FeedParser = require("feedparser");
-const iconv = require("iconv-lite");
-const Log = require("logger");
-const { normalizeFeedItem } = require("./feeditem");
-const HTTPFetcher = require("#http_fetcher");
+import stream from "node:stream";
+import FeedParser from "feedparser";
+import iconv from "iconv-lite";
+import Log from "logger";
+import HTTPFetcher from "../../js/http_fetcher.mjs";
+import { normalizeFeedItem } from "./feeditem.js";
 
 // The complete set of basic formatting tags users are allowed to opt into via the
 // `allowedBasicHtmlTags` config option. These are inline emphasis / line-break tags that
@@ -159,4 +159,4 @@ class NewsfeedFetcher {
 	}
 }
 
-module.exports = NewsfeedFetcher;
+export default NewsfeedFetcher;

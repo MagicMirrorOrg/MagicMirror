@@ -1,6 +1,6 @@
-const crypto = require("node:crypto");
-const { htmlToText } = require("html-to-text");
-const Log = require("logger");
+import crypto from "node:crypto";
+import { htmlToText } from "html-to-text";
+import Log from "logger";
 
 // html-to-text formatter that re-emits an allowed inline tag around its content,
 // so feeds that send real <em>/<strong> elements keep their emphasis. `br` is a void
@@ -115,7 +115,7 @@ const normalizeFeedItem = (item, { allowedBasicHtmlTags = [], logFeedWarnings = 
 	};
 };
 
-module.exports = {
+export {
 	sanitizeBasicHtml,
 	normalizeFeedItem
 };

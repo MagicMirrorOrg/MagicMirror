@@ -1,11 +1,11 @@
-const dns = require("node:dns");
-const ipaddr = require("ipaddr.js");
-const undici = require("undici");
-const NodeHelper = require("node_helper");
-const Log = require("logger");
-const NewsfeedFetcher = require("./newsfeedfetcher");
+import dns from "node:dns";
+import ipaddr from "ipaddr.js";
+import undici from "undici";
+import NodeHelper from "node_helper";
+import Log from "logger";
+import NewsfeedFetcher from "./newsfeedfetcher.js";
 
-module.exports = NodeHelper.create({
+export default NodeHelper.create({
 	// Override start method.
 	start () {
 		Log.log(`Starting node helper for: ${this.name}`);

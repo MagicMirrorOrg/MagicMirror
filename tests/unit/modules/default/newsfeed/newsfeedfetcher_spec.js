@@ -1,11 +1,9 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { Readable } = require("node:stream");
-const defaults = require("../../../../../js/defaults");
+import fs from "node:fs";
+import path from "node:path";
+import { Readable } from "node:stream";
+import NewsfeedFetcher from "../../../../../defaultmodules/newsfeed/newsfeedfetcher.js";
 
-const NewsfeedFetcher = require(`../../../../../${defaults.defaultModulesDir}/newsfeed/newsfeedfetcher`);
-
-const xmlContent = fs.readFileSync(path.resolve(__dirname, "../../../../mocks/newsfeed_test.xml"), "utf8");
+const xmlContent = fs.readFileSync(path.resolve(import.meta.dirname, "../../../../mocks/newsfeed_test.xml"), "utf8");
 
 const feedResponse = (fetcher, xml = xmlContent) => new Promise((resolve) => {
 	fetcher.onReceive(() => resolve(fetcher.items));
