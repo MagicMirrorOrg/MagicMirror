@@ -1,70 +1,55 @@
-import Module from "node:module";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-const loadNewsfeedNodeHelper = async () => {
-	vi.resetModules();
-
+const mocks = vi.hoisted(() => {
+	const fetcherInstances = [];
 	const loggerMock = {
 		log: vi.fn(),
 		warn: vi.fn(),
 		error: vi.fn()
 	};
-	const fetcherInstances = [];
-	const originalRequire = Module.prototype.require;
-
-	Module.prototype.require = function (id) {
-		if (id === "node_helper") {
-			return {
-				create: vi.fn((definition) => definition)
-			};
+	class MockNewsfeedFetcher {
+		constructor (...args) {
+			this.url = args[0];
+			this.items = [];
+			this.onReceiveCallback = undefined;
+			this.onErrorCallback = undefined;
+			this.setReloadInterval = vi.fn();
+			this.broadcastItems = vi.fn();
+			this.startFetch = vi.fn();
+			fetcherInstances.push(this);
 		}
 
-		if (id === "logger") {
-			return loggerMock;
+		onReceive (callback) {
+			this.onReceiveCallback = callback;
 		}
 
-		if (id === "./newsfeedfetcher") {
-			return class MockNewsfeedFetcher {
-				constructor (...args) {
-					this.url = args[0];
-					this.items = [];
-					this.onReceiveCallback = undefined;
-					this.onErrorCallback = undefined;
-					this.setReloadInterval = vi.fn();
-					this.broadcastItems = vi.fn();
-					this.startFetch = vi.fn();
-					fetcherInstances.push(this);
-				}
-
-				onReceive (callback) {
-					this.onReceiveCallback = callback;
-				}
-
-				onError (callback) {
-					this.onErrorCallback = callback;
-				}
-			};
+		onError (callback) {
+			this.onErrorCallback = callback;
 		}
-
-		return originalRequire.apply(this, arguments);
-	};
-
-	let helper;
-	try {
-		const helperModule = await import("../../../../../defaultmodules/newsfeed/node_helper");
-		helper = helperModule.default || helperModule;
-	} finally {
-		Module.prototype.require = originalRequire;
 	}
 
+	return { fetcherInstances, loggerMock, MockNewsfeedFetcher };
+});
+
+vi.mock("node_helper", () => ({
+	default: { create: (definition) => definition }
+}));
+vi.mock("logger", () => ({ default: mocks.loggerMock }));
+vi.mock("../../../../../defaultmodules/newsfeed/newsfeedfetcher.js", () => ({
+	default: mocks.MockNewsfeedFetcher
+}));
+
+import helper from "../../../../../defaultmodules/newsfeed/node_helper.js";
+
+const loadNewsfeedNodeHelper = () => {
+	mocks.fetcherInstances.length = 0;
 	helper.fetchers = {};
 	helper.sendSocketNotification = vi.fn();
-	return { helper, fetcherInstances, loggerMock };
+	return { helper, fetcherInstances: mocks.fetcherInstances, loggerMock: mocks.loggerMock };
 };
 
 afterEach(() => {
 	vi.resetAllMocks();
-	vi.resetModules();
 });
 
 

@@ -181,7 +181,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["tests/mocks/**/node_helper.js", "defaultmodules/*/node_helper.js", "defaultmodules/*/git_helper.js"],
+		files: ["tests/mocks/**/node_helper.js", "defaultmodules/*/node_helper.js", "defaultmodules/*/git_helper.js", "defaultmodules/newsfeed/feeditem.js", "defaultmodules/newsfeed/newsfeedfetcher.js"],
 		rules: {
 			// MagicMirror aliases are resolved at runtime by js/alias-resolver.js.
 			"import-x/no-unresolved": ["error", {ignore: ["^node_helper$", "^logger$"]}]

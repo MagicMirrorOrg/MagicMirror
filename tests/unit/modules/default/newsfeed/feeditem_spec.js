@@ -1,6 +1,4 @@
-const defaults = require("../../../../../js/defaults");
-
-const { sanitizeBasicHtml } = require(`../../../../../${defaults.defaultModulesDir}/newsfeed/feeditem`);
+import { sanitizeBasicHtml } from "../../../../../defaultmodules/newsfeed/feeditem.js";
 
 // The full safe list users may opt into; most tests run with it enabled.
 const ALL_TAGS = ["b", "strong", "i", "em", "u", "br", "code", "s", "sub", "sup"];
