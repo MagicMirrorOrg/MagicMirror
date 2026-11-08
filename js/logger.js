@@ -74,7 +74,8 @@ if (typeof module !== "undefined") {
 		const getCallerPrefix = () => {
 			try {
 				const lines = new Error().stack.split("\n");
-				for (const line of lines) {
+				for (const frame of lines) {
+					const line = frame.replaceAll("\\", "/");
 					if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
 					const match = line.match(/\((.+?\.[cm]?js):\d+:\d+\)/) || line.match(/at\s+(.+?\.[cm]?js):\d+:\d+/);
 					if (match) {
