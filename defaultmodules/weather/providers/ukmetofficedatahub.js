@@ -140,7 +140,7 @@ class UkMetOfficeDataHubProvider extends WeatherProvider {
 					snow: hour.totalSnowAmount || 0,
 					precipitationAmount: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
 					precipitationProbability: hour.probOfPrecipitation || null,
-					feelsLikeTemp: hour.feelsLikeTemperature || null,
+					feelsLikeTemp: hour.feelsLikeTemperature ?? null,
 					sunrise: null,
 					sunset: null
 				};
@@ -167,7 +167,7 @@ class UkMetOfficeDataHubProvider extends WeatherProvider {
 			snow: firstHour.totalSnowAmount || 0,
 			precipitationAmount: (firstHour.totalPrecipAmount || 0) + (firstHour.totalSnowAmount || 0),
 			precipitationProbability: firstHour.probOfPrecipitation || null,
-			feelsLikeTemp: firstHour.feelsLikeTemperature || null,
+			feelsLikeTemp: firstHour.feelsLikeTemperature ?? null,
 			sunrise: null,
 			sunset: null
 		};
@@ -204,7 +204,7 @@ class UkMetOfficeDataHubProvider extends WeatherProvider {
 					snow: day.dayProbabilityOfSnow || 0,
 					precipitationAmount: 0,
 					precipitationProbability: day.dayProbabilityOfPrecipitation || null,
-					feelsLikeTemp: day.dayMaxFeelsLikeTemp || null
+					feelsLikeTemp: day.dayMaxFeelsLikeTemp ?? null
 				});
 			}
 		}
@@ -235,7 +235,7 @@ class UkMetOfficeDataHubProvider extends WeatherProvider {
 				snow: hour.totalSnowAmount || 0,
 				precipitationAmount: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
 				precipitationProbability: hour.probOfPrecipitation || null,
-				feelsLikeTemp: hour.feelsLikeTemp || null
+				feelsLikeTemp: hour.feelsLikeTemp ?? null
 			});
 		}
 
