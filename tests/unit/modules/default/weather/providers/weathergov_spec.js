@@ -155,6 +155,34 @@ describe("WeatherGovProvider", () => {
 			expect(result.weatherType).not.toBeNull();
 		});
 
+		it("should convert observed wind speed from km/h to m/s", async () => {
+			const provider = new WeatherGovProvider({
+				lat: 40.71,
+				lon: -74.0,
+				type: "current"
+			});
+
+			const dataPromise = new Promise((resolve) => {
+				provider.setCallbacks(resolve, vi.fn());
+			});
+
+			const observation = structuredClone(currentData);
+			observation.properties.windSpeed.value = 36;
+
+			server.use(
+				http.get(WEATHERGOV_CURRENT_URL, () => {
+					return HttpResponse.json(observation);
+				})
+			);
+
+			await provider.initialize();
+			provider.start();
+
+			const result = await dataPromise;
+
+			expect(result.windSpeed).toBeCloseTo(10);
+		});
+
 		it("should use heat index or wind chill for feels like temperature", async () => {
 			const provider = new WeatherGovProvider({
 				lat: 40.71,
