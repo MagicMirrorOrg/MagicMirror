@@ -77,7 +77,7 @@ class WeatherObject {
 	}
 
 	feelsLike () {
-		if (this.feelsLikeTemp) {
+		if (this.feelsLikeTemp || this.feelsLikeTemp === 0) {
 			return this.feelsLikeTemp;
 		}
 		return WeatherUtils.calculateFeelsLike(this.temperature, this.windSpeed, this.humidity);

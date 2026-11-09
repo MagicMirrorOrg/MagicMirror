@@ -5,6 +5,8 @@ const WeatherObject = require(`../../../../../${defaults.defaultModulesDir}/weat
 global.moment = require("moment-timezone");
 global.SunCalc = require("suncalc");
 
+global.WeatherUtils = require(`../../../../../${defaults.defaultModulesDir}/weather/weatherutils`);
+
 describe("WeatherObject", () => {
 	let originalTimeZone;
 	let weatherobject;
@@ -42,6 +44,26 @@ describe("WeatherObject", () => {
 	it("should return an already defined feelsLike info", () => {
 		weatherobject.feelsLikeTemp = "feelsLikeTempValue";
 		expect(weatherobject.feelsLike()).toBe("feelsLikeTempValue");
+	});
+
+	it("should preserve a provider's zero feels-like temperature", () => {
+		const current = Object.assign(new WeatherObject(), {
+			temperature: 12,
+			windSpeed: 0,
+			humidity: 50,
+			feelsLikeTemp: 0
+		});
+		expect(current.feelsLike()).toBe(0);
+	});
+
+	it.each([null, undefined, NaN])("should calculate a fallback for %s", (feelsLikeTemp) => {
+		const current = Object.assign(new WeatherObject(), {
+			temperature: 12,
+			windSpeed: 0,
+			humidity: 50,
+			feelsLikeTemp
+		});
+		expect(current.feelsLike()).toBeCloseTo(11.741);
 	});
 
 	afterAll(() => {

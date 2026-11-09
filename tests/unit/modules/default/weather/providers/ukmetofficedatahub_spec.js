@@ -60,6 +60,25 @@ describe("UKMetOfficeDataHubProvider", () => {
 		UKMetOfficeDataHubProvider = module.default || module;
 	});
 
+	it.each([
+		["current observation", "current", -1, "feelsLikeTemperature"],
+		["current fallback", "current", -120, "feelsLikeTemperature"],
+		["daily forecast", "forecast", 1440, "dayMaxFeelsLikeTemp"],
+		["hourly forecast", "hourly", 60, "feelsLikeTemp"]
+	])("should preserve zero feels-like temperature in the %s", (label, type, offsetMinutes, field) => {
+		const provider = new UKMetOfficeDataHubProvider({ apiKey: "test-key", type });
+		const onData = vi.fn();
+		provider.setCallbacks(onData, vi.fn());
+		const time = new Date(Date.now() + offsetMinutes * 60_000).toISOString();
+		const data = { features: [{ properties: { timeSeries: [{ time, [field]: 0 }] } }] };
+		vi.spyOn(provider, "_createJSONFetcher").mockImplementation((options, onResponse) => onResponse(data));
+
+		provider.initialize();
+
+		const [weather] = onData.mock.calls[0];
+		expect((Array.isArray(weather) ? weather[0] : weather).feelsLikeTemp).toBe(0);
+	});
+
 	describe("Constructor & Configuration", () => {
 		it("should set config values from params", () => {
 			const provider = new UKMetOfficeDataHubProvider({
