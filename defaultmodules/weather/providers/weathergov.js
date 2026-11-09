@@ -238,7 +238,7 @@ class WeatherGovProvider extends WeatherProvider {
 
 		current.date = new Date(currentWeatherData.timestamp);
 		current.temperature = currentWeatherData.temperature.value;
-		current.windSpeed = currentWeatherData.windSpeed.value; // Observations are already in m/s
+		current.windSpeed = convertKmhToMs(currentWeatherData.windSpeed.value); // Observations are in km/h
 		current.windFromDirection = currentWeatherData.windDirection.value;
 		current.minTemperature = currentWeatherData.minTemperatureLast24Hours?.value;
 		current.maxTemperature = currentWeatherData.maxTemperatureLast24Hours?.value;
