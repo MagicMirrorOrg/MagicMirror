@@ -14,6 +14,7 @@ const defaults = {
 	trustedProxies: [],	// Only needed behind a reverse proxy.
 	cors: "disabled", // or "allowAll" or "allowWhitelist"
 	corsDomainWhitelist: [], // example: ["api.mapbox.com"]
+	corsSecretWhitelist: {}, // example: { "api.mapbox.com": ["SECRET_MAPBOX_TOKEN"] }
 	watchTargets: [],
 
 	language: "en",

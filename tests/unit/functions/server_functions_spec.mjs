@@ -318,6 +318,78 @@ describe("server_functions tests", () => {
 			await cors({ url: "/cors?url=http://example.com/api" }, response);
 			expect(response.status).toHaveBeenCalledWith(403);
 		});
+
+	});
+
+	describe("The cors method protects secret requests", () => {
+		let response;
+		let fetchSpy;
+
+		beforeEach(() => {
+			vi.stubEnv("SECRET_CORS_TOKEN", "dummy-token");
+			global.config = {
+				cors: "allowWhitelist",
+				corsDomainWhitelist: ["first.test", "second.test"],
+				corsSecretWhitelist: { "first.test": ["SECRET_CORS_TOKEN"] }
+			};
+			response = {
+				set: vi.fn(),
+				send: vi.fn(),
+				status: vi.fn(function () { return this; }),
+				json: vi.fn()
+			};
+			fetchSpy = vi.spyOn(undici, "fetch");
+			fetchSpy.mockClear();
+			fetchSpy.mockResolvedValue({
+				headers: { get: () => null },
+				arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+				ok: true
+			});
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
+		});
+
+		afterEach(() => {
+			vi.unstubAllEnvs();
+		});
+
+		it.each([
+			["http://first.test/tiles?token=**SECRET_CORS_TOKEN**", "dummy-token"],
+			["https://first.test:8443/tiles?token=**SECRET_CORS_TOKEN**", "dummy-token"],
+			["https://user@first.test/tiles?token=**SECRET_CORS_TOKEN**", "dummy-token"],
+			["https://**SECRET_CORS_TOKEN**@first.test/tiles", "second.test/path?"]
+		])("Rejects unsafe secret URL %s", async (url, secretValue) => {
+			vi.stubEnv("SECRET_CORS_TOKEN", secretValue);
+			await cors({ url: `/cors?url=${url}` }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+			expect(fetchSpy).not.toHaveBeenCalled();
+		});
+
+		it("Restores only configured secrets for the configured host", async () => {
+			await cors({ url: "/cors?url=https://first.test:443/tiles?allowed=**SECRET_CORS_TOKEN**&denied=**SECRET_CORS_DENIED**" }, response);
+			await cors({ url: "/cors?url=https://second.test/tiles?token=**SECRET_CORS_TOKEN**" }, response);
+
+			expect(fetchSpy.mock.calls.map(([url]) => url)).toEqual([
+				"https://first.test:443/tiles?allowed=dummy-token&denied=**SECRET_CORS_DENIED**",
+				"https://second.test/tiles?token=**SECRET_CORS_TOKEN**"
+			]);
+			expect(fetchSpy.mock.calls[0][1].redirect).toBe("error");
+		});
+
+		it.each([
+			["no secret allowlist", { cors: "allowWhitelist", corsDomainWhitelist: ["first.test"] }],
+			["allowAll", { cors: "allowAll" }]
+		])("Leaves placeholders untouched with %s", async (mode, config) => {
+			global.config = config;
+			const url = "http://first.test/tiles?token=**SECRET_CORS_TOKEN**";
+			await cors({ url: `/cors?url=${url}` }, response);
+			expect(fetchSpy.mock.calls[0][0]).toBe(url);
+		});
+
+		it("Does not expose secrets from fetch errors", async () => {
+			fetchSpy.mockRejectedValue(new Error("failed URL: https://first.test/?token=dummy-token"));
+			await cors({ url: "/cors?url=https://first.test/?token=**SECRET_CORS_TOKEN**" }, response);
+			expect(response.json).toHaveBeenCalledWith({ error: "CORS request with secrets failed" });
+		});
 	});
 
 	describe("The cors method validates redirect targets", () => {
@@ -338,7 +410,7 @@ describe("server_functions tests", () => {
 			// Keep the request hostname for CORS checks, but route its socket to the local test server.
 			vi.spyOn(undici, "buildConnector").mockImplementation((connectorOptions) => {
 				const connector = realBuildConnector(connectorOptions);
-				return (options, callback) => connector({ ...options, hostname: "127.0.0.1", servername: null }, callback);
+				return (options, callback) => connector({ ...options, hostname: "127.0.0.1", servername: null, protocol: "http:", port }, callback);
 			});
 
 			server = http.createServer((req, res) => {

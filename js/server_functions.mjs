@@ -20,8 +20,7 @@ const getStartup = (req, res) => {
  * Replace `**SECRET_ABC**` placeholders with the value of `process.env.SECRET_ABC`.
  *
  * If `allowedSecrets` is given, only those secret names are restored and every
- * other placeholder is left untouched. Without it, all secrets are restored
- * (used by the CORS proxy, which only runs on the trusted server side).
+ * other placeholder is left untouched.
  * @param {string} input - String that may contain `**SECRET_***` placeholders.
  * @param {Set<string>} [allowedSecrets] - Secret names that may be restored.
  * @returns {string} The input with the allowed placeholders replaced.
@@ -78,6 +77,53 @@ const validateCorsHost = async (hostname) => {
 };
 
 /**
+ * Validates a CORS URL and expands only secrets approved for its hostname.
+ * @param {string} url - The requested URL.
+ * @returns {{url: string, containsSecrets: boolean}} The resolved request URL and redirect policy.
+ */
+const resolveCorsUrl = (url) => {
+	const reject = (message) => {
+		const error = new Error(message);
+		error.statusCode = 403;
+		throw error;
+	};
+
+	let parsed;
+	try {
+		parsed = new URL(url);
+	} catch {
+		Log.warn(`SSRF blocked (invalid URL): ${url}`);
+		reject("Forbidden: private or reserved addresses are not allowed");
+	}
+	if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+		Log.warn(`SSRF blocked (protocol): ${url}`);
+		reject("Forbidden: private or reserved addresses are not allowed");
+	}
+
+	const hostname = parsed.hostname.toLowerCase();
+	const configuredSecrets = global.config.cors === "allowWhitelist" && global.config.corsDomainWhitelist.includes(hostname)
+		? global.config.corsSecretWhitelist?.[hostname]
+		: [];
+	const allowedSecrets = new Set(Array.isArray(configuredSecrets) ? configuredSecrets : []);
+	const expandedUrl = replaceSecretPlaceholder(url, allowedSecrets);
+	const containsSecrets = expandedUrl !== url;
+
+	if (containsSecrets) {
+		let expanded;
+		try {
+			expanded = new URL(expandedUrl);
+		} catch {
+			reject("Forbidden: invalid secret URL");
+		}
+		if (expanded.protocol !== "https:" || expanded.port || expanded.origin !== parsed.origin || expanded.username || expanded.password) {
+			reject("Forbidden: secrets require HTTPS on port 443 with an unchanged origin and no credentials");
+		}
+	}
+
+	return { url: expandedUrl, containsSecrets };
+};
+
+/**
  * A method that forwards HTTP Get-methods to the internet to avoid CORS-errors.
  *
  * Example input request url: /cors?sendheaders=header1:value1,header2:value2&expectedheaders=header1,header2&url=http://www.test.com/path?param1=value1
@@ -93,6 +139,7 @@ const cors = async (req, res) => {
 		return res.status(403).json({ error: "CORS proxy is disabled" });
 	}
 	let url;
+	let containsSecrets = false;
 	try {
 		const urlRegEx = "url=(.+?)$";
 
@@ -102,25 +149,11 @@ const cors = async (req, res) => {
 			Log.error(url);
 			return res.status(400).send(url);
 		} else {
-			url = match[1];
-			if (typeof global.config !== "undefined") url = replaceSecretPlaceholder(url);
-
-			// Validate protocol before attempting connection (non-http/https are never allowed)
-			let parsed;
-			try {
-				parsed = new URL(url);
-			} catch {
-				Log.warn(`SSRF blocked (invalid URL): ${url}`);
-				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
-			}
-			if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-				Log.warn(`SSRF blocked (protocol): ${url}`);
-				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
-			}
+			({ url, containsSecrets } = resolveCorsUrl(match[1]));
 
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
-			Log.log(`cors url: ${url}`);
+			Log.log(`cors host: ${new URL(url).host}`);
 
 			// Validate each host immediately before connecting and pin the socket to its public IP.
 			const defaultConnector = undici.buildConnector({});
@@ -137,7 +170,7 @@ const cors = async (req, res) => {
 			});
 
 			try {
-				const response = await undici.fetch(url, { dispatcher, headers: headersToSend });
+				const response = await undici.fetch(url, { dispatcher, headers: headersToSend, redirect: containsSecrets ? "error" : "follow" });
 				if (response.ok) {
 					for (const header of expectedReceivedHeaders) {
 						const headerValue = response.headers.get(header);
@@ -154,10 +187,11 @@ const cors = async (req, res) => {
 		}
 	} catch (error) {
 		const cause = error.cause?.statusCode ? error.cause : error;
+		const message = containsSecrets ? "CORS request with secrets failed" : cause.message;
 		if (process.env.mmTestMode !== "true") {
-			Log.error(`Error in CORS request: ${cause}`);
+			Log.error(`Error in CORS request: ${containsSecrets ? message : cause}`);
 		}
-		res.status(cause.statusCode || 500).json({ error: cause.message });
+		res.status(cause.statusCode || 500).json({ error: message });
 	}
 };
 
