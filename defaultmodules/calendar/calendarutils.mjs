@@ -25,7 +25,7 @@ const CalendarUtils = {
 				return { longDateFormat: { LT: "HH:mm" } };
 			}
 			default: {
-				return { longDateFormat: { LT: moment.localeData().longDateFormat("LT") } };
+				return { longDateFormat: { LT: globalThis.moment.localeData().longDateFormat("LT") } };
 			}
 		}
 	},
@@ -131,6 +131,6 @@ const CalendarUtils = {
 	}
 };
 
-if (typeof module !== "undefined") {
-	module.exports = CalendarUtils;
-}
+globalThis.CalendarUtils = CalendarUtils;
+
+export default CalendarUtils;

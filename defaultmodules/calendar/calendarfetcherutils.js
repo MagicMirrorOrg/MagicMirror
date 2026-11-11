@@ -1,10 +1,10 @@
 /**
  * @external Moment
  */
-const moment = require("moment-timezone");
-const ical = require("node-ical");
+import moment from "moment-timezone";
+import ical from "node-ical";
 
-const Log = require("logger");
+import Log from "logger";
 
 const CalendarFetcherUtils = {
 
@@ -341,6 +341,4 @@ const CalendarFetcherUtils = {
 	}
 };
 
-if (typeof module !== "undefined") {
-	module.exports = CalendarFetcherUtils;
-}
+export { CalendarFetcherUtils };

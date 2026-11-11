@@ -54,13 +54,14 @@ jobs:
         run: |
           node --run install-mm:dev
   test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     strategy:
       matrix:
         node-version: [22.x, 24.x, 26.x]
     steps:
       - name: Install electron dependencies and labwc
+        timeout-minutes: 10
         run: |
           sudo apt-get update
           sudo apt-get install -y libnss3 libasound2t64 labwc

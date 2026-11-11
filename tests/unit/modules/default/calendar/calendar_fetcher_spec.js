@@ -1,12 +1,10 @@
-global.moment = require("moment-timezone");
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { async as icalAsync } from "node-ical";
+import moment from "moment-timezone";
 
-const ical = require("node-ical");
-const moment = require("moment-timezone");
-const defaults = require("../../../../../js/defaults");
-
-const CalendarFetcherUtils = require(`../../../../../${defaults.defaultModulesDir}/calendar/calendarfetcherutils`);
-
-const CalendarFetcher = require(`../../../../../${defaults.defaultModulesDir}/calendar/calendarfetcher`);
+globalThis.moment = moment;
+const { CalendarFetcherUtils } = await import("../../../../../defaultmodules/calendar/calendarfetcherutils.js");
+const { CalendarFetcher } = await import("../../../../../defaultmodules/calendar/calendarfetcher.js");
 
 const makeFetcher = (options = {}) => new CalendarFetcher(
 	options.url ?? "http://test.example.com/cal.ics",
@@ -78,7 +76,7 @@ describe("CalendarFetcher", () => {
 			await emitResponse(fetcher, new Response(futureEventICS(), { status: 200 }));
 			expect(fetcher.events).toHaveLength(1);
 
-			vi.spyOn(ical.async, "parseICS").mockRejectedValueOnce(new Error("invalid ics"));
+			vi.spyOn(icalAsync, "parseICS").mockRejectedValueOnce(new Error("invalid ics"));
 			const error = await emitResponse(fetcher, new Response("BROKEN", { status: 200 }));
 
 			expect(fetcher.events).toHaveLength(1);

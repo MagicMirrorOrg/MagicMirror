@@ -32,7 +32,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js", "defaultmodules/defaultmodules.mjs", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
+		files: ["**/*.js", "defaultmodules/defaultmodules.mjs", "defaultmodules/calendar/calendarutils.mjs", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
@@ -104,7 +104,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["**/*.js", "defaultmodules/defaultmodules.mjs", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
+		files: ["**/*.js", "defaultmodules/defaultmodules.mjs", "defaultmodules/calendar/calendarutils.mjs", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
 		ignores: [
 			"clientonly/index.js",
 			"js/logger.js",
@@ -119,7 +119,7 @@ export default defineConfig([
 	},
 	{
 		files: ["**/*.mjs"],
-		ignores: ["defaultmodules/defaultmodules.mjs", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
+		ignores: ["defaultmodules/defaultmodules.mjs", "defaultmodules/calendar/calendarutils.mjs", "js/app.mjs", "js/deprecated.mjs", "js/electron_helper.mjs", "js/http_fetcher.mjs", "js/ip_access_control.mjs", "js/releasenotes.mjs", "js/server.mjs", "js/server_functions.mjs", "js/vendor.mjs", "tests/**/*.mjs"],
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
@@ -181,7 +181,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["tests/mocks/**/node_helper.js", "defaultmodules/*/node_helper.js", "defaultmodules/*/git_helper.js", "defaultmodules/newsfeed/feeditem.js", "defaultmodules/newsfeed/newsfeedfetcher.js"],
+		files: ["tests/mocks/**/node_helper.js", "defaultmodules/*/node_helper.js", "defaultmodules/*/git_helper.js", "defaultmodules/newsfeed/feeditem.js", "defaultmodules/newsfeed/newsfeedfetcher.js", "defaultmodules/calendar/calendarfetcher.js", "defaultmodules/calendar/calendarfetcherutils.js", "defaultmodules/calendar/debug.js"],
 		rules: {
 			// MagicMirror aliases are resolved at runtime by js/alias-resolver.js.
 			"import-x/no-unresolved": ["error", {ignore: ["^node_helper$", "^logger$"]}]
