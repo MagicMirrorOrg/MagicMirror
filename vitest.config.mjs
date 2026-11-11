@@ -59,10 +59,7 @@ export default defineConfig({
 					globals: true,
 					environment: "node",
 					setupFiles: ["./tests/utils/vitest-setup.js"],
-					include: [
-						"tests/unit/**/*_spec.{js,mjs}",
-						"tests/unit/defaultmodules/calendar/calendar_fetcher_utils_bad_rrule.js"
-					],
+					include: ["tests/unit/**/*_spec.{js,mjs}"],
 					testTimeout: 20000,
 					hookTimeout: 10000
 				}

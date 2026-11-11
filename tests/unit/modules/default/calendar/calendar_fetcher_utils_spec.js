@@ -1,10 +1,7 @@
-global.moment = require("moment-timezone");
-
-const ical = require("node-ical");
-const moment = require("moment-timezone");
-const defaults = require("../../../../../js/defaults");
-
-const CalendarFetcherUtils = require(`../../../../../${defaults.defaultModulesDir}/calendar/calendarfetcherutils`);
+import { describe, expect, it } from "vitest";
+import { parseICS } from "node-ical";
+import moment from "moment-timezone";
+import { CalendarFetcherUtils } from "../../../../../defaultmodules/calendar/calendarfetcherutils.js";
 
 describe("Calendar fetcher utils test", () => {
 	const defaultConfig = {
@@ -114,7 +111,7 @@ describe("Calendar fetcher utils test", () => {
 		});
 
 		it("should return the correct times when recurring events pass through daylight saving time", () => {
-			const data = ical.parseICS(`BEGIN:VEVENT
+			const data = parseICS(`BEGIN:VEVENT
 DTSTART;TZID=Europe/Amsterdam:20250311T090000
 DTEND;TZID=Europe/Amsterdam:20250311T091500
 RRULE:FREQ=WEEKLY;BYDAY=FR,MO,TH,TU,WE,SA,SU
@@ -148,7 +145,7 @@ END:VEVENT`);
 		});
 
 		it("should return the correct moments based on the timezone given", () => {
-			const data = ical.parseICS(`BEGIN:VEVENT
+			const data = parseICS(`BEGIN:VEVENT
 DTSTART;TZID=Europe/Amsterdam:20250311T090000
 DTEND;TZID=Europe/Amsterdam:20250311T091500
 RRULE:FREQ=WEEKLY;BYDAY=FR,MO,TH,TU,WE,SA,SU
@@ -170,7 +167,7 @@ END:VEVENT`);
 		it("should return correct day-of-week for full-day recurring events across DST transitions", () => {
 			// Test case for GitHub issue #3976: recurring full-day events showing on wrong day
 			// This happens when DST transitions change the UTC offset between occurrences
-			const data = ical.parseICS(`BEGIN:VCALENDAR
+			const data = parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:20251027
 DTEND;VALUE=DATE:20251028
@@ -210,7 +207,7 @@ END:VCALENDAR`);
 			// Facebook birthday calendars use DTSTART with the actual birth year (e.g. 1990),
 			// which previously caused rrule.js to return the wrong year occurrence.
 			// With rrule-temporal this works correctly without any special-casing.
-			const data = ical.parseICS(`BEGIN:VCALENDAR
+			const data = parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:19900215
 RRULE:FREQ=YEARLY
@@ -277,7 +274,7 @@ END:VCALENDAR`);
 			// node-ical creates DATE-only events with the local Date constructor: new Date(year, month, day).
 			// getFullYear() on a locally-constructed date always returns the correct calendar year
 			// regardless of the server's UTC offset — guard against regressions that switch to getUTCFullYear().
-			const data = ical.parseICS(`BEGIN:VCALENDAR
+			const data = parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:19900101
 DTEND;VALUE=DATE:19900102
@@ -324,7 +321,7 @@ END:VCALENDAR`);
 	describe("expandRecurringEvent", () => {
 		it("should extend end to end-of-day when event has no DTEND", () => {
 			// node-ical sets end === start when DTEND is absent; our code extends to endOf("day")
-			const data = ical.parseICS(`BEGIN:VCALENDAR
+			const data = parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260222T100000Z
 UID:no-end-test@test
@@ -340,7 +337,7 @@ END:VCALENDAR`);
 
 		it("should apply RECURRENCE-ID overrides (moved single occurrence)", () => {
 			// A weekly event on Mondays at 10:00, but the second occurrence is moved to Tuesday 14:00
-			const data = ical.parseICS(`BEGIN:VCALENDAR
+			const data = parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:20260302T100000
 DTEND;TZID=Europe/Berlin:20260302T110000
@@ -379,7 +376,7 @@ END:VCALENDAR`);
 
 		it("should handle events with DURATION instead of DTEND", () => {
 			// RFC 5545 allows DURATION as alternative to DTEND
-			const data = ical.parseICS(`BEGIN:VCALENDAR
+			const data = parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260315T090000Z
 DURATION:PT1H30M
@@ -401,7 +398,7 @@ END:VCALENDAR`);
 		});
 
 		it("should handle recurring events with DURATION instead of DTEND", () => {
-			const data = ical.parseICS(`BEGIN:VCALENDAR
+			const data = parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:20260301T080000
 DURATION:PT45M
@@ -528,7 +525,7 @@ END:VCALENDAR`);
 		const yearConfig = { ...defaultConfig, maximumNumberOfDays: 365 };
 
 		const buildEvent = (rrule, dtstart = "20231002", dtend = "20231003") => {
-			return ical.parseICS(`BEGIN:VCALENDAR
+			return parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:${dtstart}
 DTEND;VALUE=DATE:${dtend}

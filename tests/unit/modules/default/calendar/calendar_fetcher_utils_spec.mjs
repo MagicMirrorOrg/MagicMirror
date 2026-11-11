@@ -1,8 +1,7 @@
-global.moment = require("moment-timezone");
+import moment from "moment-timezone";
+import { CalendarFetcherUtils } from "../../../../../defaultmodules/calendar/calendarfetcherutils.js";
 
-const defaults = require("../../../js/defaults");
-
-const CalendarFetcherUtils = require(`../../../../../${defaults.defaultModulesDir}/calendar/calendarfetcherutils`);
+globalThis.moment = moment;
 
 describe("Calendar fetcher utils test", () => {
 	const defaultConfig = {

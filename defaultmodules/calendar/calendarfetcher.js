@@ -1,7 +1,7 @@
-const ical = require("node-ical");
-const Log = require("logger");
-const CalendarFetcherUtils = require("./calendarfetcherutils");
-const HTTPFetcher = require("#http_fetcher");
+import { async as icalAsync } from "node-ical";
+import Log from "logger";
+import HTTPFetcher from "../../js/http_fetcher.mjs";
+import { CalendarFetcherUtils } from "./calendarfetcherutils.js";
 
 /**
  * CalendarFetcher - Fetches and parses iCal calendar data
@@ -66,7 +66,7 @@ class CalendarFetcher {
 				maximumNumberOfDays: this.maximumNumberOfDays
 			});
 
-			const parsed = await ical.async.parseICS(filteredData);
+			const parsed = await icalAsync.parseICS(filteredData);
 
 			Log.debug(`Parsed iCal data from ${this.url} with ${Object.keys(parsed).length} entries.`);
 
@@ -139,4 +139,4 @@ class CalendarFetcher {
 	}
 }
 
-module.exports = CalendarFetcher;
+export { CalendarFetcher };
