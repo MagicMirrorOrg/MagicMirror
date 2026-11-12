@@ -392,9 +392,9 @@ Module.register("calendar", {
 				const now = moment();
 
 				if (this.config.timeFormat === "absolute") {
-					timeWrapper.innerHTML = this.buildAbsoluteTimeText(event, eventStartDateMoment, eventEndDateMoment, now);
+					timeWrapper.innerHTML = CalendarUtils.buildAbsoluteTimeText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, this.translate.bind(this));
 				} else {
-					timeWrapper.innerHTML = this.buildRelativeTimeText(event, eventStartDateMoment, eventEndDateMoment, now);
+					timeWrapper.innerHTML = CalendarUtils.buildRelativeTimeText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, this.translate.bind(this));
 				}
 
 				timeWrapper.className = `time light ${this.timeClassForUrl(event.url)}`;
@@ -688,27 +688,15 @@ Module.register("calendar", {
 		return timeWrapper;
 	},
 
-	hasEventDuration (event) {
-		return event.startDate !== event.endDate;
-	},
-
 	shouldShowDateHeadersTimedEnd (event) {
-		return this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event));
-	},
-
-	shouldShowRelativeTimedEnd (event) {
-		return !this.config.hideTime && this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event));
-	},
-
-	getAdjustedFullDayEndMoment (endMoment) {
-		return endMoment.clone().subtract(1, "second");
+		return this.config.showEnd && (!this.config.showEndsOnlyWithDuration || CalendarUtils.hasEventDuration(event));
 	},
 
 	renderDateHeadersEventTime (eventWrapper, titleWrapper, event, eventStartDateMoment, eventEndDateMoment) {
 		if (this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
 
 		if (event.fullDayEvent) {
-			const adjustedEndMoment = this.getAdjustedFullDayEndMoment(eventEndDateMoment);
+			const adjustedEndMoment = CalendarUtils.getAdjustedFullDayEndMoment(eventEndDateMoment);
 			if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
 				const timeWrapper = this.createDateHeadersTimeWrapper(event.url);
 				timeWrapper.innerHTML = `-${CalendarUtils.capFirst(adjustedEndMoment.format(this.config.fullDayEventDateFormat))}`;
@@ -732,172 +720,6 @@ Module.register("calendar", {
 		}
 
 		if (!this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
-	},
-
-	buildAbsoluteTimeText (event, eventStartDateMoment, eventEndDateMoment, now) {
-		let timeText = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.dateFormat));
-
-		if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event))) {
-			const sameDay = this.isSameDay(eventStartDateMoment, eventEndDateMoment);
-			if (sameDay && !this.dateFormatIncludesTime()) {
-				timeText += `, ${eventStartDateMoment.format("LT")}`;
-			}
-			timeText += `-${this.formatTimedEventEnd(eventStartDateMoment, eventEndDateMoment)}`;
-		}
-
-		if (event.fullDayEvent) {
-			const adjustedEndMoment = this.getAdjustedFullDayEndMoment(eventEndDateMoment);
-			timeText = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.fullDayEventDateFormat));
-
-			if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
-				timeText += `-${CalendarUtils.capFirst(adjustedEndMoment.format(this.config.fullDayEventDateFormat))}`;
-			} else if (!eventStartDateMoment.isSame(adjustedEndMoment, "d") && eventStartDateMoment.isBefore(now)) {
-				timeText = CalendarUtils.capFirst(now.format(this.config.fullDayEventDateFormat));
-			}
-
-			if (this.config.nextDaysRelative) {
-				let relativeLabel = false;
-				if (event.today) {
-					timeText = CalendarUtils.capFirst(this.translate("TODAY"));
-					relativeLabel = true;
-				} else if (event.yesterday) {
-					timeText = CalendarUtils.capFirst(this.translate("YESTERDAY"));
-					relativeLabel = true;
-				} else if (event.tomorrow) {
-					timeText = CalendarUtils.capFirst(this.translate("TOMORROW"));
-					relativeLabel = true;
-				} else if (event.dayAfterTomorrow && this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
-					timeText = CalendarUtils.capFirst(this.translate("DAYAFTERTOMORROW"));
-					relativeLabel = true;
-				}
-
-				if (relativeLabel && this.config.showEnd && !this.config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
-					timeText += `-${CalendarUtils.capFirst(adjustedEndMoment.format(this.config.fullDayEventDateFormat))}`;
-				}
-			}
-
-			return timeText;
-		}
-
-		if (this.config.getRelative > 0 && eventStartDateMoment.isBefore(now)) {
-			return CalendarUtils.capFirst(
-				this.translate("RUNNING", {
-					fallback: `${this.translate("RUNNING")} {timeUntilEnd}`,
-					timeUntilEnd: eventEndDateMoment.fromNow(true)
-				})
-			);
-		}
-
-		if (this.config.urgency > 0 && eventStartDateMoment.diff(now, "d") < this.config.urgency) {
-			return CalendarUtils.capFirst(eventStartDateMoment.fromNow());
-		}
-
-		return timeText;
-	},
-
-	buildRelativeTimeText (event, eventStartDateMoment, eventEndDateMoment, now) {
-		if (eventStartDateMoment.isSameOrAfter(now) || (event.fullDayEvent && eventEndDateMoment.diff(now, "days") === 0)) {
-			let timeText;
-
-			if (!this.config.hideTime && !event.fullDayEvent) {
-				Log.debug("[calendar] event not hidden and not fullday");
-				timeText = `${CalendarUtils.capFirst(eventStartDateMoment.calendar(null, { sameElse: this.config.dateFormat }))}`;
-			} else {
-				Log.debug("[calendar] event full day or hidden");
-				timeText = `${CalendarUtils.capFirst(
-					eventStartDateMoment.calendar(null, {
-						sameDay: this.config.showTimeToday ? "LT" : `[${this.translate("TODAY")}]`,
-						nextDay: `[${this.translate("TOMORROW")}]`,
-						nextWeek: "dddd",
-						sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
-					})
-				)}`;
-			}
-
-			if (event.fullDayEvent) {
-				if (event.today || (event.fullDayEvent && eventEndDateMoment.diff(now, "days") === 0)) {
-					timeText = CalendarUtils.capFirst(this.translate("TODAY"));
-				} else if (event.dayBeforeYesterday) {
-					if (this.translate("DAYBEFOREYESTERDAY") !== "DAYBEFOREYESTERDAY") {
-						timeText = CalendarUtils.capFirst(this.translate("DAYBEFOREYESTERDAY"));
-					}
-				} else if (event.yesterday) {
-					timeText = CalendarUtils.capFirst(this.translate("YESTERDAY"));
-				} else if (event.tomorrow) {
-					timeText = CalendarUtils.capFirst(this.translate("TOMORROW"));
-				} else if (event.dayAfterTomorrow) {
-					if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
-						timeText = CalendarUtils.capFirst(this.translate("DAYAFTERTOMORROW"));
-					}
-				}
-
-				if (this.config.showEnd && !this.config.showEndsOnlyWithDuration) {
-					const adjustedEndMoment = this.getAdjustedFullDayEndMoment(eventEndDateMoment);
-					if (!eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
-						timeText += `-${CalendarUtils.capFirst(adjustedEndMoment.format(this.config.fullDayEventDateFormat))}`;
-					}
-				}
-
-				Log.info("[calendar] event fullday");
-			} else if (eventStartDateMoment.diff(now, "h") < this.config.getRelative) {
-				Log.info("[calendar] not full day but within getRelative size");
-				timeText = `${CalendarUtils.capFirst(eventStartDateMoment.fromNow())}`;
-			} else if (this.shouldShowRelativeTimedEnd(event)) {
-				if (this.isSameDay(eventStartDateMoment, eventEndDateMoment)) {
-					const sameElseFormat = this.dateFormatIncludesTime() ? this.config.dateFormat : `${this.config.dateFormat}, LT`;
-					timeText = CalendarUtils.capFirst(
-						eventStartDateMoment.calendar(null, { sameElse: sameElseFormat })
-					);
-				}
-				timeText += `-${this.formatTimedEventEnd(eventStartDateMoment, eventEndDateMoment)}`;
-			}
-
-			return timeText;
-		}
-
-		return CalendarUtils.capFirst(
-			this.translate("RUNNING", {
-				fallback: `${this.translate("RUNNING")} {timeUntilEnd}`,
-				timeUntilEnd: eventEndDateMoment.fromNow(true)
-			})
-		);
-	},
-
-	/**
-	 * Determines whether two moments are on the same day.
-	 * @param {moment.Moment} startMoment The start moment.
-	 * @param {moment.Moment} endMoment The end moment.
-	 * @returns {boolean} True when both moments share the same calendar day.
-	 */
-	isSameDay (startMoment, endMoment) {
-		return startMoment.isSame(endMoment, "d");
-	},
-
-	/**
-	 * Checks whether the configured dateFormat already contains time components.
-	 * @returns {boolean} True when dateFormat includes time tokens.
-	 */
-	dateFormatIncludesTime () {
-		const dateFormatWithoutLiterals = this.config.dateFormat.replace(/\[[^\]]*\]/g, "");
-		const localeDateFormat = moment.localeData();
-		const expandedDateFormat = dateFormatWithoutLiterals.replace(
-			/LTS|LT|LLLL|LLL|LL|L|llll|lll|ll|l/g,
-			(token) => localeDateFormat.longDateFormat(token) || token
-		);
-		const expandedDateFormatWithoutLiterals = expandedDateFormat.replace(/\[[^\]]*\]/g, "");
-		return (/(H{1,2}|h{1,2}|k{1,2}|m{1,2}|s{1,2}|a|A)/).test(expandedDateFormatWithoutLiterals);
-	},
-
-	/**
-	 * Formats a timed event end value.
-	 * Uses time-only for same-day events and dateEndFormat for multi-day events.
-	 * @param {moment.Moment} startMoment The event start moment.
-	 * @param {moment.Moment} endMoment The event end moment.
-	 * @returns {string} The formatted end value.
-	 */
-	formatTimedEventEnd (startMoment, endMoment) {
-		const endFormat = this.isSameDay(startMoment, endMoment) ? "LT" : this.config.dateEndFormat;
-		return CalendarUtils.capFirst(endMoment.format(endFormat));
 	},
 
 	/**
