@@ -71,6 +71,11 @@ const createWindow = () => {
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
+	if (process.env.mmTestMode) {
+		electronOptions.show = false;
+		electronOptions.fullscreen = false;
+	}
+
 	if (process.env.MOCK_DATE !== undefined) {
 		// if we are running tests and we want to mock the current date
 		const fakeNow = new Date(process.env.MOCK_DATE).valueOf();
@@ -143,9 +148,11 @@ const createWindow = () => {
 		callback({ responseHeaders: curHeaders });
 	});
 
-	mainWindow.once("ready-to-show", () => {
-		mainWindow.show();
-	});
+	if (!process.env.mmTestMode) {
+		mainWindow.once("ready-to-show", () => {
+			mainWindow.show();
+		});
+	}
 };
 
 // Quit when all windows are closed.

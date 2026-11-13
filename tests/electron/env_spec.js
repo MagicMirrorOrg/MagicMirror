@@ -15,6 +15,13 @@ describe("Electron app environment", () => {
 		const moduleContent = await helpers.getElement("#module_0_helloworld .module-content");
 		await expect(moduleContent.textContent()).resolves.toContain("Test Display Header");
 		expect(global.electronApp.windows()).toHaveLength(1);
+		const windowState = await global.electronApp.evaluate(({ BrowserWindow }) => {
+			const [window] = BrowserWindow.getAllWindows();
+			return { visible: window.isVisible(), fullscreen: window.isFullScreen(), bounds: window.getBounds() };
+		});
+		expect(windowState.visible).toBe(false);
+		expect(windowState.fullscreen).toBe(false);
+		expect(windowState.bounds).toMatchObject({ width: 640, height: 480 });
 	});
 });
 
@@ -34,5 +41,7 @@ describe("Development console tests", () => {
 		for (const page of pageArray) {
 			expect(["MagicMirror²", "DevTools"]).toContain(await page.title());
 		}
+		const visible = await global.electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().some((window) => window.isVisible()));
+		expect(visible).toBe(false);
 	});
 });
