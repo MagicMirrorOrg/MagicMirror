@@ -89,8 +89,26 @@ describe("HTTPFetcher", () => {
 			const errorInfo = await errorPromise;
 
 			expect(errorInfo).toHaveProperty("errorType", "NETWORK_ERROR");
-			expect(errorInfo).toHaveProperty("translationKey", "MODULE_ERROR_NO_CONNECTION");
 			expect(errorInfo).toHaveProperty("url", TEST_URL);
+		});
+
+		it.each([
+			["EAI_AGAIN", "MODULE_ERROR_NO_CONNECTION"],
+			["ERR_TLS_CERT_ALTNAME_INVALID", "MODULE_ERROR_UNSPECIFIED"]
+		])("should report %s as %s and log the reason", async (code, translationKey) => {
+			const fetchSpy = vi.spyOn(globalThis, "fetch").mockRejectedValue(new TypeError("fetch failed", { cause: Object.assign(new Error(), { code }) }));
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
+
+			const errorPromise = new Promise((resolve) => {
+				fetcher.on("error", resolve);
+			});
+
+			await fetcher.fetch();
+			const errorInfo = await errorPromise;
+			fetchSpy.mockRestore();
+
+			expect(errorInfo.translationKey).toBe(translationKey);
+			expect(errorInfo.message).toBe(`Network error: ${code}`);
 		});
 
 		it("should emit error event on timeout", async () => {
