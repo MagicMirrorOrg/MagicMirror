@@ -21,9 +21,12 @@ const ERROR_TYPE_TO_TRANSLATION = {
 	RATE_LIMITED: "MODULE_ERROR_RATE_LIMITED",
 	SERVER_ERROR: "MODULE_ERROR_SERVER_ERROR",
 	CLIENT_ERROR: "MODULE_ERROR_CLIENT_ERROR",
-	NETWORK_ERROR: "MODULE_ERROR_NO_CONNECTION",
+	NETWORK_ERROR: "MODULE_ERROR_UNSPECIFIED",
 	UNKNOWN_ERROR: "MODULE_ERROR_UNSPECIFIED"
 };
+
+// Error codes meaning the device is offline, as opposed to a single server being unreachable
+const OFFLINE_ERROR_CODES = new Set(["EAI_AGAIN", "ENETDOWN", "ENETUNREACH"]);
 
 /**
  * HTTPFetcher - Centralized HTTP fetching with intelligent error handling
@@ -357,7 +360,9 @@ class HTTPFetcher extends EventEmitter {
 			}
 		} catch (error) {
 			const isTimeout = error.name === "AbortError";
-			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${error.message}`;
+			// fetch only says "fetch failed", the actual reason (e.g. ENOTFOUND) is in the cause
+			const reason = error.cause?.code ?? error.message;
+			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${reason}`;
 
 			this.networkErrorCount = Math.min(this.networkErrorCount + 1, this.maxRetries);
 			const exhausted = this.networkErrorCount >= this.maxRetries;
@@ -385,6 +390,9 @@ class HTTPFetcher extends EventEmitter {
 				error,
 				requestUrl
 			);
+			if (OFFLINE_ERROR_CODES.has(error.cause?.code)) {
+				errorInfo.translationKey = "MODULE_ERROR_NO_CONNECTION";
+			}
 			this.emit("error", errorInfo);
 		} finally {
 			clearTimeout(timeoutId);
