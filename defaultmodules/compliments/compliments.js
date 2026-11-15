@@ -46,7 +46,7 @@ Module.register("compliments", {
 			this.updateDom();
 			if (this.config.remoteFileRefreshInterval !== 0) {
 				if ((this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay) || window.mmTestMode === "true") {
-					setInterval(async () => {
+					const refreshRemoteCompliments = async () => {
 						const response = await this.loadComplimentFile();
 						if (response) {
 							this.compliments_new = JSON.parse(response);
@@ -54,8 +54,8 @@ Module.register("compliments", {
 						else {
 							Log.error(`[compliments] ${this.name} remoteFile refresh failed`);
 						}
-					},
-					this.config.remoteFileRefreshInterval);
+					};
+					setInterval(refreshRemoteCompliments, this.config.remoteFileRefreshInterval);
 				} else {
 					Log.error(`[compliments] ${this.name} remoteFileRefreshInterval less than minimum`);
 				}
@@ -72,12 +72,13 @@ Module.register("compliments", {
 			}
 		}
 		// Schedule update timer. sync to the minute start (if needed), so minute based events happen on the minute start
-		setTimeout(() => {
-			setInterval(() => {
-				this.updateDom(this.config.fadeSpeed);
-			}, this.config.updateInterval);
-		},
-		minute_sync_delay);
+		const updateCompliments = () => {
+			this.updateDom(this.config.fadeSpeed);
+		};
+		const startUpdateInterval = () => {
+			setInterval(updateCompliments, this.config.updateInterval);
+		};
+		setTimeout(startUpdateInterval, minute_sync_delay);
 	},
 
 	// check to see if this entry could be a cron entry which contains spaces

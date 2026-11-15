@@ -1,5 +1,5 @@
-import {defineConfig} from "vitest/config";
-import {fileURLToPath} from "node:url";
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "vitest/config";
 
 // MagicMirror aliases that js/alias-resolver.js provides at runtime.
 const alias = [
@@ -53,7 +53,7 @@ export default defineConfig({
 		// Projects with specific configurations per test type
 		projects: [
 			{
-				resolve: {alias},
+				resolve: { alias },
 				test: {
 					name: "unit",
 					globals: true,

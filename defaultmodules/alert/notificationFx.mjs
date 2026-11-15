@@ -102,12 +102,12 @@ export class NotificationFx {
 
 		// dismiss after [options.ttl]ms
 		if (this.options.ttl) {
-			this.dismissttl = setTimeout(() => {
+			const dismissOnTimeout = () => {
 				if (this.active) {
 					this.dismiss();
 				}
-			},
-			this.options.ttl);
+			};
+			this.dismissttl = setTimeout(dismissOnTimeout, this.options.ttl);
 		}
 
 		// init events
@@ -142,15 +142,15 @@ export class NotificationFx {
 		this.active = false;
 		clearTimeout(this.dismissttl);
 		this.ntf.classList.remove("ns-show");
-		setTimeout(() => {
+		const finishDismissal = () => {
 			this.ntf.classList.add("ns-hide");
 
 			// Callback
 			if (close) {
 				this.options.onClose();
 			}
-		},
-		25);
+		};
+		setTimeout(finishDismissal, 25);
 
 		// after animation ends remove ntf from the DOM
 		const onEndAnimationFn = (ev) => {
