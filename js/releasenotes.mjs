@@ -145,13 +145,10 @@ const createReleaseNotes = async () => {
 		}
 	}
 
-	// function to remove duplicates
-	const sortedArr = (arr) => {
-		return arr.filter((item,
-			index) => (arr.indexOf(item) === index && item !== "@dependabot[bot]")).sort((a, b) => {
-			return a.toLowerCase().localeCompare(b.toLowerCase());
-		});
-	};
+	// Remove duplicate contributors and the bot account, then sort them.
+	const sortedContributors = (contributors) => [...new Set(contributors)]
+		.filter((contributor) => contributor !== "@dependabot[bot]")
+		.sort((first, second) => first.toLowerCase().localeCompare(second.toLowerCase()));
 
 	// Get Contributors logins
 	for (const ref of sha) {
@@ -163,7 +160,7 @@ const createReleaseNotes = async () => {
 	// Build Markdown content
 	let markdown = "## Release Notes\n";
 
-	markdown += `Thanks to: ${sortedArr(contrib).join(", ")}\n`;
+	markdown += `Thanks to: ${sortedContributors(contrib).join(", ")}\n`;
 	markdown += `> ⚠️ This release needs nodejs version ${nodeVersion}\n`;
 	markdown += "\n";
 	markdown += `[Compare to previous Release ${lastTag}](https://github.com/${repoName}/compare/${lastTag}...develop)\n\n`;

@@ -1,13 +1,13 @@
-import "../js/alias-resolver.js";
-import {getConfigFilePath, getServerPort} from "#server_functions";
-import Log from "../js/logger.js";
-import {createRequire} from "node:module";
-import {fileURLToPath} from "node:url";
+import { spawn } from "node:child_process";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 import http from "node:http";
 import net from "node:net";
 import path from "node:path";
-import {spawn} from "node:child_process";
+import "../js/alias-resolver.js";
+import Log from "../js/logger.js";
+import { getConfigFilePath, getServerPort } from "#server_functions";
 
 const require = createRequire(import.meta.url);
 
@@ -40,8 +40,7 @@ const getServerConfig = () => {
 			address: config.address || "localhost"
 		};
 	} catch {
-		serverConfig = {port: 8080,
-			address: "localhost"};
+		serverConfig = { port: 8080, address: "localhost" };
 	}
 
 	return serverConfig;
@@ -65,7 +64,7 @@ const isPortAvailable = (port) => new Promise((resolve) => {
 	});
 
 	// Use the same address as the actual server will bind to
-	const {address} = getServerConfig();
+	const { address } = getServerConfig();
 	server.listen(port, address);
 });
 
@@ -77,12 +76,12 @@ const isPortAvailable = (port) => new Promise((resolve) => {
  */
 const waitForPort = async (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) => {
 	for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
-		// eslint-disable-next-line no-await-in-loop -- Each attempt depends on the preceding port check.
+		// Each attempt depends on the preceding port check.
 		if (await isPortAvailable(port)) {
 			Log.info(`Port ${port} is now available`);
 			return;
 		}
-		// eslint-disable-next-line no-await-in-loop -- Delay before the next sequential check.
+		// Delay before the next sequential check.
 		await new Promise((resolve) => {
 			setTimeout(resolve, PORT_CHECK_INTERVAL_MS);
 		});
@@ -126,7 +125,7 @@ const startServer = () => {
  * Send reload notification to all connected clients
  */
 const notifyClientsToReload = () => {
-	const {port, address} = getServerConfig();
+	const { port, address } = getServerConfig();
 	const options = {
 		hostname: address,
 		port,
@@ -164,7 +163,7 @@ const restartServer = (reason) => {
 			isRestarting = true;
 
 			// Get the actual port being used
-			const {port} = getServerConfig();
+			const { port } = getServerConfig();
 
 			// Notify clients to reload before restart
 			notifyClientsToReload();

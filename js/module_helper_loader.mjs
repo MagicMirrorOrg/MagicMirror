@@ -1,4 +1,4 @@
-import {pathToFileURL} from "node:url";
+import { pathToFileURL } from "node:url";
 
 /**
  * Load and instantiate a CommonJS or ESM module helper.
