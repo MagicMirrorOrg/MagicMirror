@@ -259,6 +259,88 @@ const CalendarUtils = {
 	},
 
 	/**
+	 * Builds the date text for `timeFormat: "absolute"` when times are hidden.
+	 * @param {object} event The calendar event.
+	 * @param {moment.Moment} eventStartDateMoment The event start.
+	 * @param {moment.Moment} eventEndDateMoment The event end.
+	 * @param {moment.Moment} now The current moment.
+	 * @param {object} config The calendar module config.
+	 * @param {(key: string, variables?: object) => string} translate The module translate function.
+	 * @returns {string} The date text.
+	 */
+	buildAbsoluteDateText (event, eventStartDateMoment, eventEndDateMoment, now, config, translate) {
+		if (!event.fullDayEvent) {
+			return CalendarUtils.capFirst(eventStartDateMoment.format(config.dateFormat));
+		}
+
+		const adjustedEndMoment = CalendarUtils.getAdjustedFullDayEndMoment(eventEndDateMoment);
+		let dateText = CalendarUtils.capFirst(eventStartDateMoment.format(config.fullDayEventDateFormat));
+
+		if (config.showEnd && !config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
+			dateText += `-${CalendarUtils.capFirst(adjustedEndMoment.format(config.fullDayEventDateFormat))}`;
+		} else if (!eventStartDateMoment.isSame(adjustedEndMoment, "d") && eventStartDateMoment.isBefore(now)) {
+			dateText = CalendarUtils.capFirst(now.format(config.fullDayEventDateFormat));
+		}
+
+		if (config.nextDaysRelative) {
+			let relativeLabel = false;
+			if (event.today) {
+				dateText = CalendarUtils.capFirst(translate("TODAY"));
+				relativeLabel = true;
+			} else if (event.yesterday) {
+				dateText = CalendarUtils.capFirst(translate("YESTERDAY"));
+				relativeLabel = true;
+			} else if (event.tomorrow) {
+				dateText = CalendarUtils.capFirst(translate("TOMORROW"));
+				relativeLabel = true;
+			} else if (event.dayAfterTomorrow && translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
+				dateText = CalendarUtils.capFirst(translate("DAYAFTERTOMORROW"));
+				relativeLabel = true;
+			}
+
+			if (relativeLabel && config.showEnd && !config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
+				dateText += `-${CalendarUtils.capFirst(adjustedEndMoment.format(config.fullDayEventDateFormat))}`;
+			}
+		}
+
+		return dateText;
+	},
+
+	/**
+	 * Builds clock-time text for `timeFormat: "absolute"` when dates are hidden.
+	 * @param {object} event The calendar event.
+	 * @param {moment.Moment} eventStartDateMoment The event start.
+	 * @param {moment.Moment} eventEndDateMoment The event end.
+	 * @param {moment.Moment} now The current moment.
+	 * @param {object} config The calendar module config.
+	 * @param {(key: string, variables?: object) => string} translate The module translate function.
+	 * @returns {string} The time text.
+	 */
+	buildAbsoluteClockText (event, eventStartDateMoment, eventEndDateMoment, now, config, translate) {
+		if (event.fullDayEvent) return "";
+
+		if (config.getRelative > 0 && eventStartDateMoment.isBefore(now)) {
+			return CalendarUtils.capFirst(
+				translate("RUNNING", {
+					fallback: `${translate("RUNNING")} {timeUntilEnd}`,
+					timeUntilEnd: eventEndDateMoment.fromNow(true)
+				})
+			);
+		}
+
+		if (config.urgency > 0 && eventStartDateMoment.diff(now, "d") < config.urgency) {
+			return CalendarUtils.capFirst(eventStartDateMoment.fromNow());
+		}
+
+		let timeText = eventStartDateMoment.format("LT");
+		if (config.showEnd && (!config.showEndsOnlyWithDuration || CalendarUtils.hasEventDuration(event))) {
+			timeText += `-${CalendarUtils.capFirst(eventEndDateMoment.format("LT"))}`;
+		}
+
+		return timeText;
+	},
+
+	/**
 	 * Builds the time text for `timeFormat: "relative"`.
 	 * @param {object} event The calendar event.
 	 * @param {moment.Moment} eventStartDateMoment The event start.
@@ -334,6 +416,89 @@ const CalendarUtils = {
 				timeUntilEnd: eventEndDateMoment.fromNow(true)
 			})
 		);
+	},
+
+	/**
+	 * Builds the date text for `timeFormat: "relative"` when times are hidden.
+	 * @param {object} event The calendar event.
+	 * @param {moment.Moment} eventStartDateMoment The event start.
+	 * @param {moment.Moment} eventEndDateMoment The event end.
+	 * @param {moment.Moment} now The current moment.
+	 * @param {object} config The calendar module config.
+	 * @param {(key: string, variables?: object) => string} translate The module translate function.
+	 * @returns {string} The date text.
+	 */
+	buildRelativeDateText (event, eventStartDateMoment, eventEndDateMoment, now, config, translate) {
+		if (event.fullDayEvent) {
+			let dateText = CalendarUtils.capFirst(eventStartDateMoment.format(config.fullDayEventDateFormat));
+			if (event.today || eventEndDateMoment.diff(now, "days") === 0) {
+				dateText = CalendarUtils.capFirst(translate("TODAY"));
+			} else if (event.dayBeforeYesterday && translate("DAYBEFOREYESTERDAY") !== "DAYBEFOREYESTERDAY") {
+				dateText = CalendarUtils.capFirst(translate("DAYBEFOREYESTERDAY"));
+			} else if (event.yesterday) {
+				dateText = CalendarUtils.capFirst(translate("YESTERDAY"));
+			} else if (event.tomorrow) {
+				dateText = CalendarUtils.capFirst(translate("TOMORROW"));
+			} else if (event.dayAfterTomorrow && translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
+				dateText = CalendarUtils.capFirst(translate("DAYAFTERTOMORROW"));
+			}
+
+			if (config.showEnd && !config.showEndsOnlyWithDuration) {
+				const adjustedEndMoment = CalendarUtils.getAdjustedFullDayEndMoment(eventEndDateMoment);
+				if (!eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
+					dateText += `-${CalendarUtils.capFirst(adjustedEndMoment.format(config.fullDayEventDateFormat))}`;
+				}
+			}
+			return dateText;
+		}
+
+		return CalendarUtils.capFirst(eventStartDateMoment.calendar(null, {
+			sameDay: `[${translate("TODAY")}]`,
+			nextDay: `[${translate("TOMORROW")}]`,
+			nextWeek: "dddd",
+			lastDay: `[${translate("YESTERDAY")}]`,
+			lastWeek: "dddd",
+			sameElse: config.dateFormat
+		}));
+	},
+
+	/**
+	 * Builds clock-time text for `timeFormat: "relative"` when dates are hidden.
+	 * @param {object} event The calendar event.
+	 * @param {moment.Moment} eventStartDateMoment The event start.
+	 * @param {moment.Moment} eventEndDateMoment The event end.
+	 * @param {moment.Moment} now The current moment.
+	 * @param {object} config The calendar module config.
+	 * @param {(key: string, variables?: object) => string} translate The module translate function.
+	 * @returns {string} The time text.
+	 */
+	buildRelativeClockText (event, eventStartDateMoment, eventEndDateMoment, now, config, translate) {
+		if (event.fullDayEvent) return "";
+
+		if (eventStartDateMoment.isBefore(now)) {
+			return CalendarUtils.capFirst(
+				translate("RUNNING", {
+					fallback: `${translate("RUNNING")} {timeUntilEnd}`,
+					timeUntilEnd: eventEndDateMoment.fromNow(true)
+				})
+			);
+		}
+
+		if (config.hideTime) {
+			return config.showTimeToday && eventStartDateMoment.isSame(now, "d")
+				? eventStartDateMoment.format("LT")
+				: "";
+		}
+
+		if (eventStartDateMoment.diff(now, "h") < config.getRelative) {
+			return CalendarUtils.capFirst(eventStartDateMoment.fromNow());
+		}
+
+		let timeText = eventStartDateMoment.format("LT");
+		if (config.showEnd && (!config.showEndsOnlyWithDuration || CalendarUtils.hasEventDuration(event))) {
+			timeText += `-${eventEndDateMoment.format("LT")}`;
+		}
+		return timeText;
 	}
 };
 
