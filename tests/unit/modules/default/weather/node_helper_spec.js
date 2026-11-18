@@ -1,57 +1,23 @@
-import Module from "node:module";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-/**
- * Creates a fresh weather node helper instance with isolated mocks.
- * @returns {Promise<object>} The mocked weather node helper.
- */
-const loadWeatherNodeHelper = async () => {
-	vi.resetModules();
+vi.mock("node_helper", () => ({
+	default: { create: (definition) => definition }
+}));
 
-	const loggerMock = {
-		log: vi.fn(),
-		warn: vi.fn(),
-		error: vi.fn()
-	};
-	const originalRequire = Module.prototype.require;
+vi.mock("logger", () => ({
+	default: { log: vi.fn(), warn: vi.fn(), error: vi.fn() }
+}));
 
-	Module.prototype.require = function (id) {
-		if (id === "node_helper") {
-			return {
-				create: vi.fn((definition) => definition)
-			};
-		}
+import helper from "../../../../../defaultmodules/weather/node_helper.js";
 
-		if (id === "logger") {
-			return loggerMock;
-		}
-
-		return originalRequire.apply(this, arguments);
-	};
-
-	let helper;
-	try {
-		const helperModule = await import("../../../../../defaultmodules/weather/node_helper");
-		helper = helperModule.default || helperModule;
-	} finally {
-		Module.prototype.require = originalRequire;
-	}
-
+beforeEach(() => {
 	helper.providers = {};
 	helper.lastData = {};
 	helper.sendSocketNotification = vi.fn();
-
-	return helper;
-};
-
-afterEach(() => {
-	vi.resetAllMocks();
-	vi.resetModules();
 });
 
 describe("weather node_helper reconnect handling", () => {
 	it("re-sends cached weather data when a client reconnects", async () => {
-		const helper = await loadWeatherNodeHelper();
 		const instanceId = "weather-current";
 		const cachedPayload = {
 			instanceId,
@@ -77,7 +43,6 @@ describe("weather node_helper reconnect handling", () => {
 	});
 
 	it("does not send WEATHER_DATA on reconnect when no cached payload exists", async () => {
-		const helper = await loadWeatherNodeHelper();
 		const instanceId = "weather-current";
 
 		helper.providers[instanceId] = { locationName: "Munich, BY" };
@@ -96,8 +61,6 @@ describe("weather node_helper reconnect handling", () => {
 	});
 
 	it("rejects unsupported weather providers before loading a module", async () => {
-		const helper = await loadWeatherNodeHelper();
-
 		await helper.initWeatherProvider({
 			weatherProvider: "../../calendar/node_helper",
 			instanceId: "weather-current",
@@ -110,8 +73,7 @@ describe("weather node_helper reconnect handling", () => {
 		});
 	});
 
-	it("cleans up provider and cached data when stopping an instance", async () => {
-		const helper = await loadWeatherNodeHelper();
+	it("cleans up provider and cached data when stopping an instance", () => {
 		const instanceId = "weather-current";
 		const stop = vi.fn();
 

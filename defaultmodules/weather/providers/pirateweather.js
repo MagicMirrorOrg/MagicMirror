@@ -1,5 +1,5 @@
-const Log = require("logger");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import WeatherProvider from "../weatherprovider.js";
 
 class PirateweatherProvider extends WeatherProvider {
 	constructor (config) {
@@ -229,4 +229,4 @@ class PirateweatherProvider extends WeatherProvider {
 
 }
 
-module.exports = PirateweatherProvider;
+export default PirateweatherProvider;

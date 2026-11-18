@@ -1,10 +1,11 @@
-const path = require("node:path");
-const NodeHelper = require("node_helper");
-const Log = require("logger");
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+import NodeHelper from "node_helper";
+import Log from "logger";
 
-const providersDir = path.join(__dirname, "providers");
+const providersDir = path.join(import.meta.dirname, "providers");
 
-module.exports = NodeHelper.create({
+export default NodeHelper.create({
 	providers: {},
 	lastData: {},
 
@@ -56,7 +57,7 @@ module.exports = NodeHelper.create({
 
 			// Dynamically load the provider module
 			Log.log(`Loading provider from: ${providerPath}`);
-			const ProviderClass = require(providerPath);
+			const { default: ProviderClass } = await import(pathToFileURL(providerPath).href);
 
 			// Create provider instance
 			const provider = new ProviderClass(config);

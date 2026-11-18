@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { getSunTimes, isDayTime, validateCoordinates } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import { getSunTimes, isDayTime, validateCoordinates } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
 
 /**
  * Server-side weather provider for SMHI (Swedish Meteorological and Hydrological Institute)
@@ -461,4 +461,4 @@ class SMHIProvider extends WeatherProvider {
 	}
 }
 
-module.exports = SMHIProvider;
+export default SMHIProvider;

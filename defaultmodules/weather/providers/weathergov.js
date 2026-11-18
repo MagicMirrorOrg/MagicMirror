@@ -1,7 +1,7 @@
-const Log = require("logger");
-const { getSunTimes, isDayTime, getDateString, convertKmhToMs, cardinalToDegrees } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { getSunTimes, isDayTime, getDateString, convertKmhToMs, cardinalToDegrees } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
+import HTTPFetcher from "../../../js/http_fetcher.mjs";
 
 /**
  * Server-side weather provider for Weather.gov (US National Weather Service)
@@ -376,4 +376,4 @@ class WeatherGovProvider extends WeatherProvider {
 	}
 }
 
-module.exports = WeatherGovProvider;
+export default WeatherGovProvider;

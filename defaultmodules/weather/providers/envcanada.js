@@ -1,7 +1,7 @@
-const Log = require("logger");
-const { convertKmhToMs } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { convertKmhToMs } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
+import HTTPFetcher from "../../../js/http_fetcher.mjs";
 
 /**
  * Server-side weather provider for Environment Canada MSC Datamart
@@ -423,4 +423,4 @@ class EnvCanadaProvider extends WeatherProvider {
 	}
 }
 
-module.exports = EnvCanadaProvider;
+export default EnvCanadaProvider;

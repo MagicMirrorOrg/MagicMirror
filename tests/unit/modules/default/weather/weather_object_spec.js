@@ -1,11 +1,9 @@
-const defaults = require("../../../../../js/defaults");
+import moment from "moment-timezone";
+import { getTimes } from "suncalc";
+import WeatherObject from "../../../../../defaultmodules/weather/weatherobject.mjs";
 
-const WeatherObject = require(`../../../../../${defaults.defaultModulesDir}/weather/weatherobject`);
-
-global.moment = require("moment-timezone");
-global.SunCalc = require("suncalc");
-
-global.WeatherUtils = require(`../../../../../${defaults.defaultModulesDir}/weather/weatherutils`);
+globalThis.moment = moment;
+globalThis.SunCalc = { getTimes };
 
 describe("WeatherObject", () => {
 	let originalTimeZone;

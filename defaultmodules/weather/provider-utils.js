@@ -2,7 +2,7 @@
  * Shared utility functions for weather providers
  */
 
-const SunCalc = require("suncalc");
+import { getTimes } from "suncalc";
 
 /**
  * Convert OpenWeatherMap icon codes to internal weather types
@@ -70,7 +70,7 @@ const limitDecimals = (value, decimals) => {
  * @returns {object} Object with sunrise and sunset Date objects
  */
 const getSunTimes = (date, lat, lon) => {
-	const sunTimes = SunCalc.getTimes(date, lat, lon);
+	const sunTimes = getTimes(date, lat, lon);
 	return {
 		sunrise: sunTimes.sunrise,
 		sunset: sunTimes.sunset
@@ -167,7 +167,7 @@ const validateCoordinates = (config, maxDecimals = 4) => {
 	config.lon = limitDecimals(config.lon, maxDecimals);
 };
 
-module.exports = {
+export {
 	convertWeatherType,
 	applyTimezoneOffset,
 	limitDecimals,

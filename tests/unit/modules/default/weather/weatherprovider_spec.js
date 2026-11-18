@@ -32,7 +32,7 @@ let WeatherProvider;
 
 beforeAll(async () => {
 	server.listen({ onUnhandledRequest: "error" });
-	const module = await import("../../../../../defaultmodules/weather/weatherprovider");
+	const module = await import("../../../../../defaultmodules/weather/weatherprovider.js");
 	WeatherProvider = module.default || module;
 });
 

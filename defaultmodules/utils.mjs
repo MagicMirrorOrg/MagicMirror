@@ -28,6 +28,4 @@ const formatTime = (config, time) => {
 
 globalThis.formatTime = formatTime;
 
-if (typeof module !== "undefined") module.exports = {
-	formatTime
-};
+export { formatTime };

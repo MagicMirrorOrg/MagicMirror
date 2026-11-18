@@ -1,5 +1,5 @@
-const Log = require("logger");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import WeatherProvider from "../weatherprovider.js";
 
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
@@ -470,4 +470,4 @@ class OpenMeteoProvider extends WeatherProvider {
 	}
 }
 
-module.exports = OpenMeteoProvider;
+export default OpenMeteoProvider;

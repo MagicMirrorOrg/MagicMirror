@@ -1,7 +1,7 @@
 // Ensure Module global bridge is initialized before main bootstrap logic runs.
 import "./module.js";
 // Ensure formatTime is available as a global bridge before default modules (e.g. clock, weather) load.
-import "../defaultmodules/utils.js";
+import "../defaultmodules/utils.mjs";
 // positions.js is generated at server startup and provides globalThis.modulePositions.
 import "./positions.js";
 import { AnimateCSSIn, AnimateCSSOut, addAnimateCSS, removeAnimateCSS } from "./animateCSS.js";
