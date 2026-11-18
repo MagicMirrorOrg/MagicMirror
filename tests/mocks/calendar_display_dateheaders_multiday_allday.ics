@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//MagicMirror//Calendar display options tests//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:calendar-display-dateheaders-multiday-allday@example.test
+DTSTAMP:20261117T100000Z
+DTSTART;VALUE=DATE:20300101
+DTEND;VALUE=DATE:20300103
+SUMMARY:Multi-day all-day test event
+END:VEVENT
+END:VCALENDAR
