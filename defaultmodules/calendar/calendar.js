@@ -57,6 +57,7 @@ Module.register("calendar", {
 		excludedEvents: [],
 		sliceMultiDayEvents: false,
 		broadcastPastEvents: false,
+		keepEventsOnError: false, // keep showing the last known events if a later fetch fails (the error is hidden unless there are no events)
 		nextDaysRelative: false,
 		selfSignedCert: false,
 		coloredText: false,
@@ -112,6 +113,9 @@ Module.register("calendar", {
 
 		// indicate no data available yet
 		this.loaded = false;
+
+		// current fetch errors, keyed by calendar url
+		this.errors = {};
 
 		// data holder of calendar url. Avoid fade out/in on updateDom (one for each calendar update)
 		this.calendarDisplayer = {};
@@ -189,21 +193,24 @@ Module.register("calendar", {
 			// save the event list
 			this.calendarData[payload.url].events = payload.events;
 
-			this.error = null;
+			// a successful fetch clears the error of this calendar; the UI must then be redrawn
+			// even if the events did not change, otherwise the error stays visible
+			const recovered = payload.url in this.errors;
+			delete this.errors[payload.url];
 			this.loaded = true;
 
 			if (this.config.broadcastEvents) {
 				this.broadcastEvents();
 			}
 			// if the checksum is the same
-			if (this.calendarData[payload.url].checksum === payload.checksum) {
+			if (!recovered && this.calendarData[payload.url].checksum === payload.checksum) {
 				// then don't update the UI
 				return;
 			}
 			// haven't seen or the checksum is different
 			this.calendarData[payload.url].checksum = payload.checksum;
 
-			if (!this.config.updateOnFetch) {
+			if (!this.config.updateOnFetch && !recovered) {
 				if (this.calendarDisplayer[payload.url] === undefined) {
 					// calendar will never displayed, so display it
 					this.updateDom(this.config.animationSpeed);
@@ -216,11 +223,22 @@ Module.register("calendar", {
 			}
 		} else if (notification === "CALENDAR_ERROR") {
 			const error_message = this.translate(payload.error_type);
-			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: error_message });
+			// errors without url (e.g. malformed url) cannot be attributed to a calendar
+			this.errors[payload.url ?? ""] = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: error_message });
 			this.loaded = true;
 		}
 
 		this.updateDom(this.config.animationSpeed);
+	},
+
+	/**
+	 * Whether the fetch error should replace the calendar content.
+	 * @param {object[]} events the events that would be displayed
+	 * @returns {boolean} true if the error should be shown
+	 */
+	shouldShowError (events) {
+		if (Object.keys(this.errors).length === 0) return false;
+		return !(this.config.keepEventsOnError && events.length > 0);
 	},
 
 	// Override dom generator.
@@ -229,8 +247,8 @@ Module.register("calendar", {
 		const wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
 
-		if (this.error) {
-			wrapper.innerHTML = this.error;
+		if (this.shouldShowError(events)) {
+			wrapper.innerHTML = Object.values(this.errors)[0];
 			wrapper.className = `${this.config.tableClass} dimmed`;
 			return wrapper;
 		}
