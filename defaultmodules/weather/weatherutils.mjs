@@ -198,6 +198,6 @@ const WeatherUtils = {
 	}
 };
 
-if (typeof module !== "undefined") {
-	module.exports = WeatherUtils;
-}
+globalThis.WeatherUtils = WeatherUtils;
+
+export default WeatherUtils;

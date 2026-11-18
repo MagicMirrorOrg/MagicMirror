@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { convertKmhToMs, cardinalToDegrees } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import { convertKmhToMs, cardinalToDegrees } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
 
 const WEATHER_API_BASE = "https://api.weatherapi.com/v1";
 
@@ -456,4 +456,4 @@ class WeatherAPIProvider extends WeatherProvider {
 	}
 }
 
-module.exports = WeatherAPIProvider;
+export default WeatherAPIProvider;

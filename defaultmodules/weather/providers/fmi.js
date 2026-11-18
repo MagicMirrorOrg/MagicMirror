@@ -1,10 +1,10 @@
-const Log = require("logger");
-const { validateCoordinates } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import { validateCoordinates } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
 
 const FMI_WFS_URL = "https://opendata.fmi.fi/wfs";
 const OBSERVATION_QUERY = "fmi::observations::weather::timevaluepair";
-const HTTPFetcher = require("#http_fetcher");
+import HTTPFetcher from "../../../js/http_fetcher.mjs";
 
 const OBSERVATION_PARAMETERS = [
 	"t2m",
@@ -669,4 +669,4 @@ class FMIProvider extends WeatherProvider {
 	}
 }
 
-module.exports = FMIProvider;
+export default FMIProvider;

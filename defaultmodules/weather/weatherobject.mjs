@@ -1,4 +1,6 @@
-/* global SunCalc, WeatherUtils */
+/* global SunCalc */
+
+import WeatherUtils from "./weatherutils.mjs";
 
 /**
  * @external Moment
@@ -127,7 +129,6 @@ class WeatherObject {
 	}
 }
 
-/*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {
-	module.exports = WeatherObject;
-}
+globalThis.WeatherObject = WeatherObject;
+
+export default WeatherObject;

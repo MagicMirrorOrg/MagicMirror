@@ -1,7 +1,7 @@
-global.moment = require("moment-timezone");
-const defaults = require("../../../../js/defaults");
+import moment from "moment-timezone";
+import { formatTime } from "../../../../defaultmodules/utils.mjs";
 
-const { formatTime } = require(`../../../../${defaults.defaultModulesDir}/utils`);
+globalThis.moment = moment;
 
 describe("Default modules utils tests", () => {
 	describe("formatTime", () => {

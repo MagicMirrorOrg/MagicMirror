@@ -1,5 +1,5 @@
-const Log = require("logger");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import WeatherProvider from "../weatherprovider.js";
 
 /**
  * Weatherbit weather provider
@@ -250,4 +250,4 @@ class WeatherbitProvider extends WeatherProvider {
 
 }
 
-module.exports = WeatherbitProvider;
+export default WeatherbitProvider;

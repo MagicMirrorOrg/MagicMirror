@@ -1,5 +1,5 @@
-const Log = require("logger");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import WeatherProvider from "../weatherprovider.js";
 
 const BUIENRADAR_API_BASE = "https://forecast.buienradar.nl/2.0/forecast";
 const ERROR_TRANSLATION_KEY = "MODULE_ERROR_UNSPECIFIED";
@@ -310,4 +310,4 @@ class BuienradarProvider extends WeatherProvider {
 	}
 }
 
-module.exports = BuienradarProvider;
+export default BuienradarProvider;

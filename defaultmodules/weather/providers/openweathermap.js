@@ -1,6 +1,6 @@
-const Log = require("logger");
-const weatherUtils = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import * as weatherUtils from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
 
 /**
  * Server-side weather provider for OpenWeatherMap
@@ -363,4 +363,4 @@ class OpenWeatherMapProvider extends WeatherProvider {
 	}
 }
 
-module.exports = OpenWeatherMapProvider;
+export default OpenWeatherMapProvider;
