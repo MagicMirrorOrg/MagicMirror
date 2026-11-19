@@ -6,47 +6,47 @@ import vm from "node:vm";
 const FILE = new URL("../../../../../defaultmodules/calendar/calendar.js", import.meta.url);
 const TODAY = Date.UTC(2026, 10, 19, 8);
 
-function fakeMoment(value = TODAY) {
+const fakeMoment = function (value = TODAY) {
 	const date = new Date(Number(value));
 	return {
 		date,
-		clone() { return fakeMoment(this.date.valueOf()); },
-		tz() { return this; },
-		startOf(kind) {
+		clone () { return fakeMoment(this.date.valueOf()); },
+		tz () { return this; },
+		startOf (kind) {
 			if (kind === "day") this.date.setUTCHours(0, 0, 0, 0);
 			return this;
 		},
-		add(n, kind) {
+		add (n, kind) {
 			if (kind.startsWith("day")) this.date.setUTCDate(this.date.getUTCDate() + n);
 			else if (kind === "millisecond") this.date.setTime(this.date.getTime() + n);
 			return this;
 		},
-		subtract(n, kind) { return this.add(-n, kind); },
-		format(kind) {
+		subtract (n, kind) { return this.add(-n, kind); },
+		format (kind) {
 			if (kind === "YYYY-MM-DD") return this.date.toISOString().slice(0, 10);
 			if (kind === "x") return String(this.date.valueOf());
-			throw new Error("unexpected moment format " + kind);
+			throw new Error(`unexpected moment format ${kind}`);
 		},
-		diff(other, kind) {
+		diff (other, kind) {
 			if (kind === "days") return Math.trunc((this.date - other.date) / 86400000);
 			throw new Error(kind);
 		},
-		isSame(other, kind) {
+		isSame (other, kind) {
 			return kind === "d" ? this.format("YYYY-MM-DD") === other.format("YYYY-MM-DD") : +this.date === +other.date;
 		},
-		isAfter(other) { return this.date > other.date; },
-		isBefore(other) { return this.date < other.date; },
-		isSameOrBefore(other) { return this.date <= other.date; }
+		isAfter (other) { return this.date > other.date; },
+		isBefore (other) { return this.date < other.date; },
+		isSameOrBefore (other) { return this.date <= other.date; }
 	};
-}
+};
 fakeMoment.tz = { guess: () => "UTC" };
 
-function calendarWithoutGroupBy(config, events) {
+const calendarWithoutGroupBy = function (config, events) {
 	let definition;
 	const context = vm.createContext({
-		Module: { register(name, module) { expect(name).toBe("calendar"); definition = module; } },
+		Module: { register (name, module) { expect(name).toBe("calendar"); definition = module; } },
 		moment: fakeMoment,
-		Log: { debug() {}, info() {} }
+		Log: { debug () {}, info () {} }
 	});
 	vm.runInContext("Object.groupBy = undefined", context);
 	vm.runInContext(readFileSync(FILE, "utf8"), context, { filename: "defaultmodules/calendar/calendar.js" });
@@ -63,12 +63,12 @@ function calendarWithoutGroupBy(config, events) {
 		},
 		calendarData: { "fixture://test": { events } }
 	});
-}
+};
 
-function event(title, day, hour = 9, duration = 1) {
+const event = function (title, day, hour = 9, duration = 1) {
 	const start = TODAY + day * 86400000 + (hour - 8) * 3600000;
 	return { title, startDate: String(start), endDate: String(start + duration * 3600000) };
-}
+};
 const titles = (events) => Array.from(events, (e) => e.title);
 
 describe("calendar date limiting without Object.groupBy (Safari 15)", () => {
