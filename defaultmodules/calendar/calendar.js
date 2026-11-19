@@ -584,7 +584,11 @@ Module.register("calendar", {
 		 */
 		if (this.config.limitDays > 0 && events.length > 0) { // watch out for initial display before events arrive from helper
 			// Group all events by date, events on the same date will be in a list with the key being the date.
-			const eventsByDate = Object.groupBy(events, (ev) => this.timestampToMoment(ev.startDate).format("YYYY-MM-DD"));
+			const eventsByDate = Object.create(null);
+			for (const event of events) {
+				const day = this.timestampToMoment(event.startDate).format("YYYY-MM-DD");
+				(eventsByDate[day] ??= []).push(event);
+			}
 			const newEvents = [];
 			const currentDate = moment();
 			let daysCollected = 0;
