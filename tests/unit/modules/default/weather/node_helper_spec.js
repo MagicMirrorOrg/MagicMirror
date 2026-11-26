@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import helper from "../../../../../defaultmodules/weather/node_helper.js";
 
 vi.mock("node_helper", () => ({
 	default: { create: (definition) => definition }
@@ -7,8 +8,6 @@ vi.mock("node_helper", () => ({
 vi.mock("logger", () => ({
 	default: { log: vi.fn(), warn: vi.fn(), error: vi.fn() }
 }));
-
-import helper from "../../../../../defaultmodules/weather/node_helper.js";
 
 beforeEach(() => {
 	helper.providers = {};

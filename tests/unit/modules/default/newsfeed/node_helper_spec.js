@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import helper from "../../../../../defaultmodules/newsfeed/node_helper.js";
 
 const mocks = vi.hoisted(() => {
 	const fetcherInstances = [];
@@ -38,8 +39,6 @@ vi.mock("logger", () => ({ default: mocks.loggerMock }));
 vi.mock("../../../../../defaultmodules/newsfeed/newsfeedfetcher.js", () => ({
 	default: mocks.MockNewsfeedFetcher
 }));
-
-import helper from "../../../../../defaultmodules/newsfeed/node_helper.js";
 
 const loadNewsfeedNodeHelper = () => {
 	mocks.fetcherInstances.length = 0;

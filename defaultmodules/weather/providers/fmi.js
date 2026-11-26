@@ -1,10 +1,10 @@
 import Log from "logger";
 import { validateCoordinates } from "../provider-utils.js";
 import WeatherProvider from "../weatherprovider.js";
+import HTTPFetcher from "../../../js/http_fetcher.mjs";
 
 const FMI_WFS_URL = "https://opendata.fmi.fi/wfs";
 const OBSERVATION_QUERY = "fmi::observations::weather::timevaluepair";
-import HTTPFetcher from "../../../js/http_fetcher.mjs";
 
 const OBSERVATION_PARAMETERS = [
 	"t2m",

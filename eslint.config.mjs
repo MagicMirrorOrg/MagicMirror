@@ -68,6 +68,7 @@ export default defineConfig([
 			eqeqeq: ["error", "always", { null: "ignore" }],
 			"func-style": ["error", "expression"],
 			"import-x/newline-after-import": "error",
+			"import-x/first": "error",
 			"import-x/order": "error",
 			"max-lines-per-function": ["warn", 400],
 			"no-global-assign": "off",
