@@ -1,6 +1,4 @@
-const defaults = require("../../../../../js/defaults");
-
-const providerUtils = require(`../../../../../${defaults.defaultModulesDir}/weather/provider-utils`);
+import * as providerUtils from "../../../../../defaultmodules/weather/provider-utils.js";
 
 describe("Weather provider utils tests", () => {
 	describe("convertWeatherType", () => {

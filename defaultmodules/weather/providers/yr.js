@@ -1,7 +1,7 @@
-const Log = require("logger");
-const { formatTimezoneOffset, getDateString, validateCoordinates } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { formatTimezoneOffset, getDateString, validateCoordinates } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
+import HTTPFetcher from "../../../js/http_fetcher.mjs";
 
 /**
  * Server-side weather provider for Yr.no (Norwegian Meteorological Institute)
@@ -448,4 +448,4 @@ class YrProvider extends WeatherProvider {
 	}
 }
 
-module.exports = YrProvider;
+export default YrProvider;

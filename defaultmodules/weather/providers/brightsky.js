@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { convertKmhToMs, getDateString, getSunTimes, isDayTime, validateCoordinates } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import { convertKmhToMs, getDateString, getSunTimes, isDayTime, validateCoordinates } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
 
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
@@ -265,4 +265,4 @@ class BrightSkyProvider extends WeatherProvider {
 	}
 }
 
-module.exports = BrightSkyProvider;
+export default BrightSkyProvider;

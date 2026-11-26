@@ -1,7 +1,4 @@
-const defaults = require("../../../../../js/defaults");
-
-const weather = require(`../../../../../${defaults.defaultModulesDir}/weather/weatherutils`);
-const WeatherUtils = require(`../../../../../${defaults.defaultModulesDir}/weather/weatherutils`);
+import WeatherUtils from "../../../../../defaultmodules/weather/weatherutils.mjs";
 
 describe("Weather utils tests", () => {
 	describe("temperature conversion to imperial", () => {
@@ -68,7 +65,7 @@ describe("Weather utils tests", () => {
 			const units = ["mm", "cm"];
 
 			for (let i = 0; i < values.length; i++) {
-				const result = weather.convertPrecipitationUnit(values[i], units[i], undefined);
+				const result = WeatherUtils.convertPrecipitationUnit(values[i], units[i], undefined);
 				expect(result).toBe(`${values[i].toFixed(2)} ${units[i]}`);
 			}
 		});
@@ -78,7 +75,7 @@ describe("Weather utils tests", () => {
 			const units = ["mm", "cm"];
 
 			for (let i = 0; i < values.length; i++) {
-				const result = weather.convertPrecipitationUnit(values[i], units[i], "metric");
+				const result = WeatherUtils.convertPrecipitationUnit(values[i], units[i], "metric");
 				expect(result).toBe(`${values[i].toFixed(2)} ${units[i]}`);
 			}
 		});
@@ -87,7 +84,7 @@ describe("Weather utils tests", () => {
 			const values = [1, 2];
 
 			for (let i = 0; i < values.length; i++) {
-				const result = weather.convertPrecipitationUnit(values[i], undefined, "metric");
+				const result = WeatherUtils.convertPrecipitationUnit(values[i], undefined, "metric");
 				expect(result).toBe(`${values[i].toFixed(2)} mm`);
 			}
 		});
@@ -98,7 +95,7 @@ describe("Weather utils tests", () => {
 			const expectedValues = [0.04, 0.79];
 
 			for (let i = 0; i < values.length; i++) {
-				const result = weather.convertPrecipitationUnit(values[i], units[i], "imperial");
+				const result = WeatherUtils.convertPrecipitationUnit(values[i], units[i], "imperial");
 				expect(result).toBe(`${expectedValues[i]} in`);
 			}
 		});
@@ -109,7 +106,7 @@ describe("Weather utils tests", () => {
 			const result = ["0 %", "2 %", "10 %"];
 
 			for (let i = 0; i < values.length; i++) {
-				expect(weather.convertPrecipitationUnit(values[i], "%", output[i])).toBe(result[i]);
+				expect(WeatherUtils.convertPrecipitationUnit(values[i], "%", output[i])).toBe(result[i]);
 			}
 		});
 	});

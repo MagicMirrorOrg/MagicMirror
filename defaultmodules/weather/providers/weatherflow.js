@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { convertKmhToMs } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import { convertKmhToMs } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
 
 /**
  * WeatherFlow weather provider
@@ -253,4 +253,4 @@ class WeatherFlowProvider extends WeatherProvider {
 
 }
 
-module.exports = WeatherFlowProvider;
+export default WeatherFlowProvider;

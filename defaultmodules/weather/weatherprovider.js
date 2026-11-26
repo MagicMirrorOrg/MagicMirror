@@ -1,5 +1,5 @@
-const Log = require("logger");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import HTTPFetcher from "../../js/http_fetcher.mjs";
 
 /**
  * Base class for server-side weather providers.
@@ -88,4 +88,4 @@ class WeatherProvider {
 	}
 }
 
-module.exports = WeatherProvider;
+export default WeatherProvider;

@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { getSunTimes } = require("../provider-utils");
-const WeatherProvider = require("../weatherprovider");
+import Log from "logger";
+import { getSunTimes } from "../provider-utils.js";
+import WeatherProvider from "../weatherprovider.js";
 
 /**
  * UK Met Office Data Hub provider
@@ -287,4 +287,4 @@ class UkMetOfficeDataHubProvider extends WeatherProvider {
 
 }
 
-module.exports = UkMetOfficeDataHubProvider;
+export default UkMetOfficeDataHubProvider;

@@ -75,7 +75,7 @@ Module.register("weather", {
 	getScripts () {
 		// Only load client-side dependencies for rendering
 		// All providers run server-side via node_helper
-		const resArr = ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
+		const resArr = ["moment.js", "weatherutils.mjs", "weatherobject.mjs", "suncalc.js"];
 		this.config.themeCustomScripts.forEach((element) => {
 			resArr.push(`${this.getThemeDir()}${element}`);
 		});
