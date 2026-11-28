@@ -91,12 +91,13 @@ export default defineConfig({
 		// Coverage configuration
 		coverage: {
 			provider: "v8",
+			autoAttachSubprocess: true,
 			reporter: ["lcov", "text"],
 			include: [
-				"clientonly/**/*.js",
-				"js/**/*.js",
-				"defaultmodules/**/*.js",
-				"serveronly/**/*.js"
+				"clientonly/**/*.{js,mjs}",
+				"js/**/*.{js,mjs}",
+				"defaultmodules/**/*.{js,mjs}",
+				"serveronly/**/*.{js,mjs}"
 			],
 			exclude: [
 				"**/node_modules/**",
