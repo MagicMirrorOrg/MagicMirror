@@ -58,7 +58,13 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [22.x, 24.x, 26.x]
+        include:
+          - node-version: 22.x
+            test-script: test
+          - node-version: 24.x
+            test-script: test
+          - node-version: 26.x
+            test-script: test:coverage
     steps:
       - name: Install electron dependencies and labwc
         timeout-minutes: 10
@@ -89,4 +95,4 @@ jobs:
       - name: "Run tests"
         run: |
           export WAYLAND_DISPLAY=wayland-0
-          node --run test
+          node --run ${{ matrix.test-script }}
