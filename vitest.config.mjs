@@ -93,10 +93,10 @@ export default defineConfig({
 			provider: "v8",
 			reporter: ["lcov", "text"],
 			include: [
-				"clientonly/**/*.js",
-				"js/**/*.js",
-				"defaultmodules/**/*.js",
-				"serveronly/**/*.js"
+				"clientonly/**/*.{js,mjs}",
+				"js/**/*.{js,mjs}",
+				"defaultmodules/**/*.{js,mjs}",
+				"serveronly/**/*.{js,mjs}"
 			],
 			exclude: [
 				"**/node_modules/**",
