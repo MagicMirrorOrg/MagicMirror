@@ -1,6 +1,7 @@
 const path = require("node:path");
 const os = require("node:os");
 const fs = require("node:fs");
+const { pathToFileURL } = require("node:url");
 const { chromium } = require("playwright");
 
 // global absolute root path
@@ -36,8 +37,7 @@ const ensureContext = async () => {
 				"--disable-dev-shm-usage", // Overcome limited resource problems in Docker/CI
 				"--disable-gpu", // Disable GPU hardware acceleration
 				"--no-sandbox", // Required for running as root in some CI environments
-				"--disable-setuid-sandbox",
-				"--single-process" // Run in single process mode for better stability in CI
+				"--disable-setuid-sandbox"
 			]
 		};
 		browser = await chromium.launch(launchOptions);
@@ -118,13 +118,15 @@ exports.startApplication = async (configFilename) => {
 	}
 
 	process.env.MM_CONFIG_FILE = configPath;
+	delete global.configuration_file;
 
 	// Ensure MM_PORT is set before app loads
 	process.env.MM_PORT = port.toString();
 
 	process.env.mmTestMode = "true";
 	process.setMaxListeners(0);
-	global.app = (await import(`${global.root_path}/js/app.mjs`)).default;
+	const appUrl = pathToFileURL(path.join(global.root_path, "js", "app.mjs")).href;
+	global.app = (await import(appUrl)).default;
 
 	return global.app.start();
 };

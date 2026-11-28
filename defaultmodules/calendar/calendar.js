@@ -7,6 +7,8 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		limitDays: 0, // Limit the number of days shown, 0 = no limit
 		pastDaysCount: 0,
+		displayEventDate: true,
+		displayEventTime: true,
 		displaySymbol: true,
 		defaultSymbol: "calendar-days", // Fontawesome Symbol see https://fontawesome.com/search?ic=free&o=r
 		defaultSymbolClassName: "fas fa-fw fa-",
@@ -260,7 +262,7 @@ Module.register("calendar", {
 			const eventEndDateMoment = this.timestampToMoment(event.endDate);
 			const dateAsString = eventStartDateMoment.format(this.config.dateFormat);
 			if (this.config.timeFormat === "dateheaders") {
-				if (lastSeenDate !== dateAsString) {
+				if (this.config.displayEventDate && lastSeenDate !== dateAsString) {
 					const dateRow = document.createElement("tr");
 					dateRow.className = "dateheader normal";
 					if (event.today) dateRow.className += " today";
@@ -386,19 +388,37 @@ Module.register("calendar", {
 			if (this.config.timeFormat === "dateheaders") {
 				this.renderDateHeadersEventTime(eventWrapper, titleWrapper, event, eventStartDateMoment, eventEndDateMoment);
 			} else {
-				const timeWrapper = document.createElement("td");
-
 				eventWrapper.appendChild(titleWrapper);
-				const now = moment();
+				const { displayEventDate, displayEventTime } = this.config;
+				let text = "";
 
-				if (this.config.timeFormat === "absolute") {
-					timeWrapper.innerHTML = CalendarUtils.buildAbsoluteTimeText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, this.translate.bind(this));
-				} else {
-					timeWrapper.innerHTML = CalendarUtils.buildRelativeTimeText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, this.translate.bind(this));
+				if (displayEventDate && displayEventTime) {
+					const now = moment();
+					text = this.config.timeFormat === "absolute"
+						? CalendarUtils.buildAbsoluteTimeText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, this.translate.bind(this))
+						: CalendarUtils.buildRelativeTimeText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, this.translate.bind(this));
+				} else if (displayEventDate || displayEventTime) {
+					const now = moment();
+					const translate = this.translate.bind(this);
+					if (this.config.timeFormat === "absolute") {
+						text = displayEventDate
+							? CalendarUtils.buildAbsoluteDateText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, translate)
+							: CalendarUtils.buildAbsoluteClockText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, translate);
+					} else {
+						text = displayEventDate
+							? CalendarUtils.buildRelativeDateText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, translate)
+							: CalendarUtils.buildRelativeClockText(event, eventStartDateMoment, eventEndDateMoment, now, this.config, translate);
+					}
 				}
 
-				timeWrapper.className = `time light ${this.timeClassForUrl(event.url)}`;
-				eventWrapper.appendChild(timeWrapper);
+				if (text) {
+					const timeWrapper = document.createElement("td");
+					timeWrapper.innerHTML = text;
+					timeWrapper.className = `time light ${this.timeClassForUrl(event.url)}`;
+					eventWrapper.appendChild(timeWrapper);
+				} else {
+					titleWrapper.colSpan = "2";
+				}
 			}
 
 			// Create fade effect.
@@ -695,18 +715,18 @@ Module.register("calendar", {
 	renderDateHeadersEventTime (eventWrapper, titleWrapper, event, eventStartDateMoment, eventEndDateMoment) {
 		if (this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
 
+		let showValueCell = false;
+
 		if (event.fullDayEvent) {
 			const adjustedEndMoment = CalendarUtils.getAdjustedFullDayEndMoment(eventEndDateMoment);
-			if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
+			if (this.config.displayEventDate && this.config.showEnd && !this.config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(adjustedEndMoment, "d")) {
 				const timeWrapper = this.createDateHeadersTimeWrapper(event.url);
 				timeWrapper.innerHTML = `-${CalendarUtils.capFirst(adjustedEndMoment.format(this.config.fullDayEventDateFormat))}`;
 				eventWrapper.appendChild(timeWrapper);
+				showValueCell = true;
 				if (!this.config.flipDateHeaderTitle) titleWrapper.classList.add("align-right");
-			} else {
-				titleWrapper.colSpan = "2";
-				titleWrapper.classList.add("align-left");
 			}
-		} else {
+		} else if (this.config.displayEventTime) {
 			const timeWrapper = this.createDateHeadersTimeWrapper(event.url);
 			timeWrapper.innerHTML = eventStartDateMoment.format("LT");
 
@@ -716,7 +736,13 @@ Module.register("calendar", {
 			}
 
 			eventWrapper.appendChild(timeWrapper);
+			showValueCell = true;
 			if (!this.config.flipDateHeaderTitle) titleWrapper.classList.add("align-right");
+		}
+
+		if (!showValueCell) {
+			titleWrapper.colSpan = "2";
+			titleWrapper.classList.add("align-left");
 		}
 
 		if (!this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
