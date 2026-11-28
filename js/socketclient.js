@@ -2,8 +2,10 @@ import "./logger.js";
 // basepath.js is generated from the active config before the browser is served.
 import "../config/basepath.js";
 
-// eslint-disable-next-line import-x/no-unresolved -- Socket.IO serves this module at runtime.
-const socketIo = await import(/* @vite-ignore */ "/socket.io/socket.io.esm.min.js");
+// The Socket.IO client bundle is served under the configured base path, e.g.
+// behind a reverse proxy that mounts MagicMirror at a sub-path.
+const basePath = globalThis.config?.basePath ?? "/";
+const socketIo = await import(/* @vite-ignore */ `${basePath}socket.io/socket.io.esm.min.js`);
 const { io } = socketIo;
 
 if (typeof io !== "function") {
