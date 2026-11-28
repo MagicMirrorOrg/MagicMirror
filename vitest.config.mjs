@@ -91,6 +91,7 @@ export default defineConfig({
 		// Coverage configuration
 		coverage: {
 			provider: "v8",
+			autoAttachSubprocess: true,
 			reporter: ["lcov", "text"],
 			include: [
 				"clientonly/**/*.{js,mjs}",

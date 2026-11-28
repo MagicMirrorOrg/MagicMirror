@@ -15,6 +15,7 @@ const runClientOnly = (args = [], env = {}) => {
 	const testEnv = {
 		PATH: process.env.PATH,
 		NODE_PATH: process.env.NODE_PATH,
+		NODE_V8_COVERAGE: process.env.NODE_V8_COVERAGE,
 		...env
 	};
 	const result = spawnSync("node", ["clientonly/index.js", ...args], {
